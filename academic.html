@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Projects - Abhik Naskar</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0f0f0f;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        .line-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.15;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            background: rgba(15, 15, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(15, 15, 15, 0.95);
+            padding: 1rem 5%;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            color: #a0a0a0;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-btn:hover {
+            color: #ffffff;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            padding: 140px 5% 60px;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            animation: fadeSlideIn 1s ease both;
+        }
+
+        .section-label {
+            color: #606060;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            letter-spacing: -2px;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            color: #909090;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            max-width: 900px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 900px;
+            margin-bottom: 4rem;
+        }
+
+        .stat-card {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #808080;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Projects Section */
+        .projects-section {
+            position: relative;
+            padding: 40px 5% 100px;
+            z-index: 1;
+        }
+
+        .projects-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .projects-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        /* Project Card */
+        .project-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            animation: fadeSlideIn 0.8s ease both;
+        }
+
+        .project-card:nth-child(1) { animation-delay: 0.1s; }
+        .project-card:nth-child(2) { animation-delay: 0.15s; }
+        .project-card:nth-child(3) { animation-delay: 0.2s; }
+        .project-card:nth-child(4) { animation-delay: 0.25s; }
+        .project-card:nth-child(5) { animation-delay: 0.3s; }
+        .project-card:nth-child(6) { animation-delay: 0.35s; }
+        .project-card:nth-child(7) { animation-delay: 0.4s; }
+
+        .project-card:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .project-header {
+            padding: 2.5rem 3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            transition: border-color 0.3s ease;
+        }
+
+        .project-card.expanded .project-header {
+            border-bottom-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            gap: 2rem;
+        }
+
+        .project-number {
+            font-size: 0.75rem;
+            color: #606060;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .expand-icon {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #a0a0a0;
+            transition: all 0.4s ease;
+            flex-shrink: 0;
+            background: transparent;
+        }
+
+        .project-card:hover .expand-icon {
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: rotate(90deg);
+            color: #ffffff;
+        }
+
+        .project-card.expanded .expand-icon {
+            transform: rotate(180deg);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .project-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+            color: #ffffff;
+        }
+
+        .project-subtitle {
+            font-size: 1rem;
+            color: #909090;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .tag {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: #a0a0a0;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .tag:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+        }
+
+        /* Expandable Details */
+        .project-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .project-card.expanded .project-details {
+            max-height: 8000px;
+        }
+
+        .project-content {
+            padding: 3rem;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .content-section {
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .project-card.expanded .content-section {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-card.expanded .content-section:nth-child(1) { transition-delay: 0.1s; }
+        .project-card.expanded .content-section:nth-child(2) { transition-delay: 0.2s; }
+        .project-card.expanded .content-section:nth-child(3) { transition-delay: 0.3s; }
+        .project-card.expanded .content-section:nth-child(4) { transition-delay: 0.4s; }
+        .project-card.expanded .content-section:nth-child(5) { transition-delay: 0.5s; }
+        .project-card.expanded .content-section:nth-child(6) { transition-delay: 0.6s; }
+
+        .section-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .content-text {
+            font-size: 1rem;
+            color: #a0a0a0;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .content-list {
+            list-style: none;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .content-list li {
+            position: relative;
+            padding-left: 2rem;
+            font-size: 0.95rem;
+            color: #a0a0a0;
+            line-height: 1.7;
+        }
+
+        .content-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .data-item {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .data-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .data-label {
+            font-size: 0.75rem;
+            color: #707070;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .data-value {
+            font-size: 0.95rem;
+            color: #d0d0d0;
+            line-height: 1.6;
+        }
+
+        .timeline-wrapper {
+            padding-left: 2rem;
+            border-left: 2px solid rgba(255, 255, 255, 0.1);
+            margin-top: 1.5rem;
+        }
+
+        .timeline-item {
+            padding: 1.2rem 0 1.2rem 2rem;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.5rem;
+            top: 1.5rem;
+            width: 10px;
+            height: 10px;
+            background: #ffffff;
+            border: 2px solid #0f0f0f;
+            border-radius: 50%;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+        }
+
+        .timeline-phase {
+            font-size: 0.85rem;
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .timeline-text {
+            font-size: 0.95rem;
+            color: #a0a0a0;
+            line-height: 1.7;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .metric-card {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: #707070;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .metric-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        @keyframes fadeSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero {
+                padding: 120px 5% 50px;
+            }
+
+            .projects-section {
+                padding: 30px 5% 80px;
+            }
+
+            .project-header,
+            .project-content {
+                padding: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .data-grid,
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .project-title {
+                font-size: 1.5rem;
+            }
+
+            .project-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f0f0f;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <canvas class="line-canvas" id="lineCanvas"></canvas>
+
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="back-btn">← Back to Home</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="section-label">Research & Innovation</div>
+            <h1 class="hero-title">Academic Projects</h1>
+            <p class="hero-description">
+                A comprehensive portfolio of research initiatives spanning remote sensing, geospatial analysis, 
+                and environmental monitoring. These projects showcase advanced methodologies in SAR processing, 
+                machine learning, and spatial modeling—demonstrating expertise across multiple domains of 
+                geoinformatics and data science.
+            </p>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">10+</span>
+                    <span class="stat-label">Projects Completed</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">15+</span>
+                    <span class="stat-label">Technologies Used</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">5+</span>
+                    <span class="stat-label">Research Areas</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="projects-section">
+        <div class="projects-container">
+            <div class="projects-grid">
+                
+                <!-- Project 1 -->
+                <div class="project-card" onclick="toggleProject(this)">
+                    <div class="project-header">
+                        <div class="project-meta">
+                            <div class="project-number">PROJECT 01</div>
+                            <div class="expand-icon">+</div>
+                        </div>
+                        <h2 class="project-title">Soil Moisture Retrieval using Sentinel-1</h2>
+                        <p class="project-subtitle">Paschim Bardhaman District · SAR-based Environmental Monitoring</p>
+                        <div class="project-tags">
+                            <span class="tag">Sentinel-1 SAR</span>
+                            <span class="tag">ESA SNAP</span>
+                            <span class="tag">Python</span>
+                            <span class="tag">ArcGIS Pro</span>
+                            <span class="tag">Machine Learning</span>
+                        </div>
+                    </div>
+                    <div class="project-details">
+                        <div class="project-content">
+                            <div class="content-section">
+                                <h3 class="section-title">Objective</h3>
+                                <p class="content-text">
+                                    Retrieve and map soil moisture distribution across Bardhaman district using Synthetic Aperture Radar data 
+                                    from Sentinel-1. Validate satellite-derived estimates with in-situ observations to establish robust methodology 
+                                    for agricultural water management and drought monitoring applications.
+                                </p>
+                            </div>
+
+                            <div class="content-section">
+                                <h3 class="section-title">Data & Tools</h3>
+                                <div class="data-grid">
+                                    <div class="data-item">
+                                        <div class="data-label">Satellite Data</div>
+                                        <div class="data-value">Sentinel-1 GRD (VV/VH polarization) time series</div>
+                                    </div>
+                                    <div class="data-item">
+                                        <div class="data-label">Ancillary Data</div>
+                                        <div class="data-value">SRTM/AWS DEM, in-situ soil moisture samples</div>
+                                    </div>
+                                    <div class="data-item">
+                                        <div class="data-label">Processing Tools</div>
+                                        <div class="data-value">SNAP, Python (rasterio, numpy, sklearn), ArcGIS Pro/QGIS</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="content-section">
+                                <h3 class="section-title">Methodology</h3>
+                                <div class="timeline-wrapper">
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Data Acquisition</div>
+                                        <div class="timeline-text">Downloaded Sentinel-1 GRD for study period, subset to district AOI, applied orbit files and thermal noise removal</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">SAR Processing</div>
+                                        <div class="timeline-text">Radiometric calibration to sigma0, Refined Lee speckle filtering, Range-Doppler terrain correction using DEM</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Feature Extraction</div>
+                                        <div class="timeline-text">Converted to backscatter decibel (dB), derived VV/VH polarization ratios, integrated NDVI as ancillary data</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Model Development</div>
+                                        <div class="timeline-text">Implemented soil moisture retrieval using empirical linear/ML models and tau-omega inversion with ancillary data</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Validation</div>
+                                        <div class="timeline-text">Collocated in-situ measurements, split dataset for training/validation, created final soil moisture maps in ArcGIS</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="content-section">
+                                <h3 class="section-title">Validation Metrics</h3>
+                                <div class="metrics-grid">
+                                    <div class="metric-card">
+                                        <div class="metric-label">RMSE Analysis</div>
+                                        <div class="metric-value">Bias & R²</div>
+                                    </div>
+                                    <div class="metric-card">
+                                        <div class="metric-label">Classification</div>
+                                        <div class="metric-value">Confusion Matrix</div>
+                                    </div>
+                                    <div class="metric-card">
+                                        <div class="metric-label">Uncertainty</div>
+                                        <div class="metric-value">Error Maps</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="content-section">
+                                <h3 class="section-title">Deliverables</h3>
+                                <ul class="content-list">
+                                    <li>Time-series soil moisture rasters with multi-temporal coverage</li>
+                                    <li>District-level soil moisture distribution maps</li>
+                                    <li>Comprehensive validation report with statistical analysis</li>
+                                    <li>Automated processing scripts (SNAP graph XML + Python workflows)</li>
+                                </ul>
+                            </div>
+
+                            <div class="content-section">
+                                <h3 class="section-title">Challenges & Solutions</h3>
+                                <ul class="content-list">
+                                    <li>Sparse in-situ data → Implemented temporal matching and bootstrapping techniques</li>
+                                    <li>Vegetation cover signal interference → Utilized VH/VV ratio and incorporated NDVI</li>
+                                    <li>Model uncertainty → Developed comprehensive error propagation framework</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card" onclick="toggleProject(this)">
+                    <div class="project-header">
+                        <div class="project-meta">
+                            <div class="project-number">PROJECT 02</div>
+                            <div class="expand-icon">+</div>
+                        </div>
+                        <h2 class="project-title">Advanced Flood Hazard Mapping</h2>
+                        <p class="project-subtitle">Kamrup Metropolitan · Multi-sensor Integration & Impact Assessment</p>
+                        <div class="project-tags">
+                            <span class="tag">Google Earth Engine</span>
+                            <span class="tag">Sentinel-1 & 2</span>
+                            <span class="tag">SAR/Optical Fusion</span>
+                            <span class="tag">Population Analysis</span>
+                            <span class="tag">Night-time Lights</span>
+                        </div>
+                    </div>
+                    <div class="project-details">
+                        <div class="project-content">
+                            <div class="content-section">
+                                <h3 class="section-title">Objective</h3>
+                                <p class="content-text">
+                                    Generate high temporal-resolution flood hazard maps using multi-sensor satellite data, refine detection 
+                                    accuracy with spectral indices, and assess socio-environmental impacts including population displacement 
+                                    and settlement pattern changes through integrated spatial analysis.
+                                </p>
+                            </div>
+
+                            <div class="content-section">
+                                <h3 class="section-title">Data Sources</h3>
+                                <div class="data-grid">
+                                    <div class="data-item">
+                                        <div class="data-label">SAR Data</div>
+                                        <div class="data-value">Sentinel-1 C-band (VV & VH polarization)</div>
+                                    </div>
+                                    <div class="data-item">
+                                        <div class="data-label">Optical Data</div>
+                                        <div class="data-value">Sentinel-2 multispectral imagery</div>
+                                    </div>
+                                    <div class="data-item">
+                                        <div class="data-label">Socio-economic</div>
+                                        <div class="data-value">Night-time lights, population density, census layers</div>
+                                    </div>
+                                    <div class="data-item">
+                                        <div class="data-label">Platform</div>
+                                        <div class="data-value">Google Earth Engine, QGIS/ArcGIS</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="content-section">
+                                <h3 class="section-title">Processing Workflow</h3>
+                                <div class="timeline-wrapper">
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Data Preparation</div>
+                                        <div class="timeline-text">Ingested AOI and temporal window in GEE, created Sentinel-1 time series with speckle reduction</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Flood Detection</div>
+                                        <div class="timeline-text">Applied threshold-based and change detection on SAR backscatter comparing pre-flood baseline with flood imagery</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Optical Refinement</div>
+                                        <div class="timeline-text">Computed NDWI, MNDWI, and SWIR thresholds from Sentinel-2 to mask false positives (shadows, built-up)</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Severity Analysis</div>
+                                        <div class="timeline-text">Classified flood severity (transient, sustained) using duration and recurrence frequency patterns</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Impact Assessment</div>
+                                        <div class="timeline-text">Overlaid flood maps with settlement/census for exposure analysis, analyzed night-time lights for displacement trends</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="content-section">
+                                <h3 class="section-title">Key Outputs</h3>
+                                <ul class="content-list">
+                                    <li>Multi-temporal flood extent maps with daily to weekly resolution</li>
+                                    <li>Flood severity classification maps (transient vs. sustained flooding)</li>
+                                    <li>Population exposure statistics and vulnerability assessment</li>
+                                    <li>Migration/displacement hotspot identification maps</li>
+                                    <li>Complete Google Earth Engine processing scripts</li>
+                                </ul>
+                            </div>
+
+                            <div class="content-section">
+                                <h3 class="section-title">Validation</h3>
+                                <ul class="content-list">
+                                    <li>Cross-validation with documented flood events and local reports</li>
+                                    <li>Comparison against high-resolution imagery for spatial accuracy</li>
+                                    <li>Precision/recall analysis for flood detection performance</li>
+                                    <li>Temporal consistency checks across multiple flood events</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card" onclick="toggleProject(this)">
+                    <div class="project-header">
+                        <div class="project-meta">
+                            <div class="project-number">PROJECT 03</div>
+                            <div class="expand-icon">+</div>
+                        </div>
+                        <h2 class="project-title">Asset Mapping of Symbiosis Lavale Campus</h2>
+                        <p class="project-subtitle">UAV Photogrammetry · Infrastructure Inventory & 3D Modeling</p>
+                        <div class="project-tags">
+                            <span class="tag">UAV Mapping</span>
+                            <span class="tag">Drone2Map</span>
+                            <span class="tag">Photogrammetry</span>
+                            <span class="tag">ArcGIS Pro</span>
+                            <span class="tag">3D Modeling</span>
+                        </div>
+                    </div>
+                    <div class="project-details">
+                        <div class="project-content">
+                            <div class="content-section">
+                                <h3 class="section-title">Objective</h3>
+                                <p class="content-text">
+                                    Create comprehensive asset inventory for Symbiosis Lavale Campus through high-resolution UAV imagery 
+                                    and advanced photogrammetric processing. Catalog buildings, roads, vegetation, and utilities with 
+                                    precise geospatial attributes and 3D characteristics for facility management and planning.
+                                </p>
+                            </div>
+
+                            <div class="content-section">
+                                <h3 class="section-title">Technology Stack</h3>
+                                <div class="data-grid">
+                                    <div class="data-item">
+                                        <div class="data-label">Data Acquisition</div>
+                                        <div class="data-value">UAV imagery (RGB, multispectral)</div>
+                                    </div>
+                                    <div class="data-item">
+                                        <div class="data-label">Processing</div>
+                                        <div class="data-value">Drone2Map / Pix4D</div>
+                                    </div>
+                                    <div class="data-item">
+                                        <div class="data-label">GIS Platform</div>
+                                        <div class="data-value">ArcGIS Pro, QGIS</div>
+                                    </div>
+                                    <div class="data-item">
+                                        <div class="data-label">Outputs</div>
+                                        <div class="data-value">Orthomosaic, DSM/DTM, Point Cloud</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="content-section">
+                                <h3 class="section-title">Workflow</h3>
+                                <div class="timeline-wrapper">
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Flight Planning</div>
+                                        <div class="timeline-text">Designed mission with full campus coverage and 70% overlap for optimal reconstruction quality</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Processing</div>
+                                        <div class="timeline-text">Image alignment → orthomosaic generation → DSM/DTM extraction → dense point cloud creation</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Digitization</div>
+                                        <div class="timeline-text">Digitized assets on orthomosaic, extracted height from DSM-DTM for 3D attributes</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Delivery</div>
+                                        <div class="timeline-text">Exported geodatabase, created printable maps, published web map layer on ArcGIS Online</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="content-section">
+                                <h3 class="section-title">Deliverables</h3>
+                                <ul class="content-list">
+                                    <li>High-resolution orthomosaic (cm-level resolution)</li>
+                                    <li>Digital Surface Model (DSM) and Digital Terrain Model (DTM)</li>
+                                    <li>Asset feature classes and comprehensive geodatabase</li>
+                                    <li>Detailed inventory spreadsheet with all asset attributes</li>
+                                    <li>Interactive web map for facility management</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card" onclick="toggleProject(this)">
+                    <div class="project-header">
+                        <div class="project-meta">
+                            <div class="project-number">PROJECT 04</div>
+                            <div class="expand-icon">+</div>
+                        </div>
+                        <h2 class="project-title">Comparative Analysis of ML Algorithms for LULC</h2>
+                        <p class="project-subtitle">Decision Tree · Random Forest · SVM · Performance Benchmarking</p>
+                        <div class="project-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">Scikit-learn</span>
+                            <span class="tag">Sentinel-2</span>
+                            <span class="tag">Machine Learning</span>
+                            <span class="tag">Classification</span>
+                        </div>
+                    </div>
+                    <div class="project-details">
+                        <div class="project-content">
+                            <div class="content-section">
+                                <h3 class="section-title">Research Objective</h3>
+                                <p class="content-text">
+                                    Conduct comprehensive comparative analysis of machine learning algorithms—Decision Trees, Random Forests, 
+                                    Support Vector Machines, and optionally CNNs—for Land Use Land Cover classification. Identify optimal 
+                                    algorithms for different dataset characteristics and provide actionable recommendations.
+                                </p>
+                            </div>
+
+                            <div class="content-section">
+                                <h3 class="section-title">Experimental Design</h3>
+                                <div class="timeline-wrapper">
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Dataset Preparation</div>
+                                        <div class="timeline-text">Prepared labeled training dataset with stratified sampling across all LULC classes</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Preprocessing</div>
+                                        <div class="timeline-text">Atmospheric correction, band stacking, computed spectral indices (NDVI, NDBI, NDWI)</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Model Training</div>
+                                        <div class="timeline-text">Trained DT, RF, and SVM models with systematic hyperparameter tuning via cross-validation</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Evaluation</div>
+                                        <div class="timeline-text">Generated classified maps, conducted comprehensive accuracy assessment using multiple metrics</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="content-section">
+                                <h3 class="section-title">Evaluation Metrics</h3>
+                                <div class="metrics-grid">
+                                    <div class="metric-card">
+                                        <div class="metric-label">Overall Accuracy</div>
+                                        <div class="metric-value">Primary</div>
+                                    </div>
+                                    <div class="metric-card">
+                                        <div class="metric-label">Kappa</div>
+                                        <div class="metric-value">Agreement</div>
+                                    </div>
+                                    <div class="metric-card">
+                                        <div class="metric-label">Per-class F1</div>
+                                        <div class="metric-value">Balance</div>
+                                    </div>
+                                    <div class="metric-card">
+                                        <div class="metric-label">Efficiency</div>
+                                        <div class="metric-value">Time</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="content-section">
+                                <h3 class="section-title">Deliverables</h3>
+                                <ul class="content-list">
+                                    <li>Comparative accuracy table with statistical significance testing</li>
+                                    <li>Classified LULC maps for each algorithm</li>
+                                    <li>Complete Python notebooks with reproducible workflows</li>
+                                    <li>Algorithm selection recommendations</li>
+                                    <li>Best practices guide for LULC classification</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 5 -->
+                <div class="project-card" onclick="toggleProject(this)">
+                    <div class="project-header">
+                        <div class="project-meta">
+                            <div class="project-number">PROJECT 05</div>
+                            <div class="expand-icon">+</div>
+                        </div>
+                        <h2 class="project-title">Forest Cover Change & Climate Variability</h2>
+                        <p class="project-subtitle">Western Ghats · 2001-2015 Time Series Analysis</p>
+                        <div class="project-tags">
+                            <span class="tag">Landsat/Sentinel</span>
+                            <span class="tag">MODIS Fire</span>
+                            <span class="tag">Climate Data</span>
+                            <span class="tag">Time Series</span>
+                            <span class="tag">Google Earth Engine</span>
+                        </div>
+                    </div>
+                    <div class="project-details">
+                        <div class="project-content">
+                            <div class="content-section">
+                                <h3 class="section-title">Research Focus</h3>
+                                <p class="content-text">
+                                    Quantify forest cover change in the Western Ghats biodiversity hotspot and establish relationships 
+                                    with climatic variability and fire dynamics over 15-year period. Integrated multi-source satellite data, 
+                                    climate records, and fire occurrence to understand complex interactions driving forest transformation.
+                                </p>
+                            </div>
+
+                            <div class="content-section">
+                                <h3 class="section-title">Multi-source Data</h3>
+                                <div class="data-grid">
+                                    <div class="data-item">
+                                        <div class="data-label">Land Cover</div>
+                                        <div class="data-value">Multi-temporal Landsat/Sentinel imagery</div>
+                                    </div>
+                                    <div class="data-item">
+                                        <div class="data-label">Fire Data</div>
+                                        <div class="data-value">MODIS active fire & burned area products</div>
+                                    </div>
+                                    <div class="data-item">
+                                        <div class="data-label">Climate</div>
+                                        <div class="data-value">ERA5/IMD rainfall & temperature datasets</div>
+                                    </div>
+                                    <div class="data-item">
+                                        <div class="data-label">Platform</div>
+                                        <div class="data-value">Google Earth Engine, R/Python</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="content-section">
+                                <h3 class="section-title">Analytical Framework</h3>
+                                <div class="timeline-wrapper">
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Land Cover Mapping</div>
+                                        <div class="timeline-text">Compiled annual/seasonal landcover maps using supervised classification</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Change Detection</div>
+                                        <div class="timeline-text">Detected forest loss/gain using post-classification comparison and CCDC algorithms</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Fire Integration</div>
+                                        <div class="timeline-text">Integrated MODIS fire records with forest change maps to identify fire-driven patterns</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Climate Attribution</div>
+                                        <div class="timeline-text">Correlated forest loss with climatic anomalies, performed lagged time-series analysis</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="content-section">
+                                <h3 class="section-title">Outputs</h3>
+                                <ul class="content-list">
+                                    <li>Annual forest change maps (2001-2015) with loss/gain quantification</li>
+                                    <li>Time-series plots showing forest area dynamics and climate variables</li>
+                                    <li>Hotspot maps of critical forest loss zones and fire frequency</li>
+                                    <li>Statistical relationships report linking climate drivers to forest change</li>
+                                    <li>Policy recommendations for forest conservation priorities</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 6 -->
+                <div class="project-card" onclick="toggleProject(this)">
+                    <div class="project-header">
+                        <div class="project-meta">
+                            <div class="project-number">PROJECT 06</div>
+                            <div class="expand-icon">+</div>
+                        </div>
+                        <h2 class="project-title">Urban Encroachment — Eastern Kolkata Wetlands</h2>
+                        <p class="project-subtitle">LULC Change Modeling · Conservation Planning</p>
+                        <div class="project-tags">
+                            <span class="tag">MOLUSCE</span>
+                            <span class="tag">Landsat/Sentinel</span>
+                            <span class="tag">QGIS/ArcGIS</span>
+                            <span class="tag">Future Scenarios</span>
+                            <span class="tag">Urban Planning</span>
+                        </div>
+                    </div>
+                    <div class="project-details">
+                        <div class="project-content">
+                            <div class="content-section">
+                                <h3 class="section-title">Project Overview</h3>
+                                <p class="content-text">
+                                    Quantify and model urban encroachment patterns in the Ramsar-designated Eastern Kolkata Wetlands. 
+                                    Employed land cover transition modeling to simulate future wetland loss scenarios under different 
+                                    urban growth pressures, informing conservation strategies and policy interventions.
+                                </p>
+                            </div>
+
+                            <div class="content-section">
+                                <h3 class="section-title">Methodology</h3>
+                                <div class="timeline-wrapper">
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">LULC Classification</div>
+                                        <div class="timeline-text">Produced consistent LULC maps for key years (2000, 2010, 2020) using harmonized methodology</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Change Analysis</div>
+                                        <div class="timeline-text">Computed area statistics and transition matrices to quantify wetland loss patterns</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Driver Analysis</div>
+                                        <div class="timeline-text">Analyzed spatial drivers including proximity to roads, urban centers, development corridors</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Modeling</div>
+                                        <div class="timeline-text">Calibrated land cover transition models using neural networks and cellular automata in MOLUSCE</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Scenarios</div>
+                                        <div class="timeline-text">Simulated future scenarios (2030, 2040) under different urban growth trajectories</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="content-section">
+                                <h3 class="section-title">Key Deliverables</h3>
+                                <ul class="content-list">
+                                    <li>Multi-temporal LULC change maps (2000-2020)</li>
+                                    <li>Transition matrices quantifying land cover conversion pathways</li>
+                                    <li>Future scenario maps (2030, 2040) under different trajectories</li>
+                                    <li>Priority conservation area maps</li>
+                                    <li>Policy recommendations for sustainable urban planning</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 7 -->
+                <div class="project-card" onclick="toggleProject(this)">
+                    <div class="project-header">
+                        <div class="project-meta">
+                            <div class="project-number">PROJECT 07</div>
+                            <div class="expand-icon">+</div>
+                        </div>
+                        <h2 class="project-title">Land Subsidence Visualization — Coal Mining Areas</h2>
+                        <p class="project-subtitle">Paschim Bardhaman · InSAR Time Series Analysis</p>
+                        <div class="project-tags">
+                            <span class="tag">Sentinel-1 InSAR</span>
+                            <span class="tag">ESA SNAP</span>
+                            <span class="tag">SBAS/PSInSAR</span>
+                            <span class="tag">Geodetic Analysis</span>
+                            <span class="tag">Hazard Mapping</span>
+                        </div>
+                    </div>
+                    <div class="project-details">
+                        <div class="project-content">
+                            <div class="content-section">
+                                <h3 class="section-title">Project Objective</h3>
+                                <p class="content-text">
+                                    Detect, quantify, and visualize land subsidence caused by underground coal mining using advanced 
+                                    Interferometric Synthetic Aperture Radar techniques. Employed Persistent Scatterer and Small Baseline 
+                                    Subset InSAR methodologies to generate high-precision displacement maps for infrastructure risk assessment.
+                                </p>
+                            </div>
+
+                            <div class="content-section">
+                                <h3 class="section-title">Technical Infrastructure</h3>
+                                <div class="data-grid">
+                                    <div class="data-item">
+                                        <div class="data-label">SAR Data</div>
+                                        <div class="data-value">Sentinel-1 IW SLC time series (C-band)</div>
+                                    </div>
+                                    <div class="data-item">
+                                        <div class="data-label">Ancillary</div>
+                                        <div class="data-value">High-resolution DEM, mining lease boundaries</div>
+                                    </div>
+                                    <div class="data-item">
+                                        <div class="data-label">Software</div>
+                                        <div class="data-value">SNAP, GMTSAR/ISCE/StaMPS, SARscape</div>
+                                    </div>
+                                    <div class="data-item">
+                                        <div class="data-label">Visualization</div>
+                                        <div class="data-value">ArcGIS Pro, Python (matplotlib, plotly)</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="content-section">
+                                <h3 class="section-title">InSAR Processing Workflow</h3>
+                                <div class="timeline-wrapper">
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Data Stack Preparation</div>
+                                        <div class="timeline-text">Collected comprehensive time series of Sentinel-1 SLC acquisitions (30+ scenes)</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Coregistration</div>
+                                        <div class="timeline-text">Performed precise image coregistration, generated interferogram stack</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Phase Processing</div>
+                                        <div class="timeline-text">Removed topographic phase using DEM, applied adaptive filtering</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">PS/SBAS Analysis</div>
+                                        <div class="timeline-text">Identified persistent scatterers, applied SBAS inversion, estimated atmospheric contributions</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Phase Unwrapping</div>
+                                        <div class="timeline-text">Applied network flow unwrapping, quality-controlled using coherence thresholds</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Time Series Inversion</div>
+                                        <div class="timeline-text">Estimated displacement velocity and time-dependent deformation, filtered outliers</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-phase">Visualization</div>
+                                        <div class="timeline-text">Geocoded results, generated subsidence rate maps, animated time series</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="content-section">
+                                <h3 class="section-title">Visualization Outputs</h3>
+                                <ul class="content-list">
+                                    <li>Subsidence velocity maps (mm/year) with color-coded deformation rates</li>
+                                    <li>Cumulative displacement time series for critical zones</li>
+                                    <li>Cross-sectional profiles showing subsidence bowls</li>
+                                    <li>Animated time-lapse showing temporal evolution</li>
+                                    <li>Hazard zonation maps identifying critical subsidence areas</li>
+                                    <li>3D terrain visualization with overlaid subsidence magnitude</li>
+                                    <li>Infrastructure risk overlay (buildings, roads, mining boundaries)</li>
+                                </ul>
+                            </div>
+
+                            <div class="content-section">
+                                <h3 class="section-title">Validation</h3>
+                                <div class="metrics-grid">
+                                    <div class="metric-card">
+                                        <div class="metric-label">Precision</div>
+                                        <div class="metric-value">mm-level</div>
+                                    </div>
+                                    <div class="metric-card">
+                                        <div class="metric-label">Temporal Res.</div>
+                                        <div class="metric-value">12-day</div>
+                                    </div>
+                                    <div class="metric-card">
+                                        <div class="metric-label">Coverage</div>
+                                        <div class="metric-value">District-wide</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="content-section">
+                                <h3 class="section-title">Challenges</h3>
+                                <ul class="content-list">
+                                    <li>Atmospheric phase delays → Mitigated through multi-temporal stacking and tropospheric modeling</li>
+                                    <li>Decorrelation in vegetated areas → Focused on urban/bare earth persistent scatterers</li>
+                                    <li>Large displacement gradients → Applied enhanced unwrapping algorithms</li>
+                                    <li>Computational intensity → Implemented parallel processing and cloud computing</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Animated line canvas
+        const canvas = document.getElementById('lineCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const lines = [];
+        const lineCount = 40;
+
+        class Line {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.length = Math.random() * 150 + 50;
+                this.angle = Math.random() * Math.PI * 2;
+                this.speed = Math.random() * 0.3 + 0.1;
+                this.opacity = Math.random() * 0.3 + 0.1;
+            }
+
+            update() {
+                this.x += Math.cos(this.angle) * this.speed;
+                this.y += Math.sin(this.angle) * this.speed;
+
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(
+                    this.x + Math.cos(this.angle) * this.length,
+                    this.y + Math.sin(this.angle) * this.length
+                );
+                ctx.strokeStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+        }
+
+        for (let i = 0; i < lineCount; i++) {
+            lines.push(new Line());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            lines.forEach(line => {
+                line.update();
+                line.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Project toggle functionality
+        function toggleProject(card) {
+            const isExpanded = card.classList.contains('expanded');
+            
+            // Close all other cards
+            document.querySelectorAll('.project-card').forEach(c => {
+                if (c !== card) {
+                    c.classList.remove('expanded');
+                }
+            });
+            
+            // Toggle current card
+            card.classList.toggle('expanded');
+            
+            // Smooth scroll to card when expanding
+            if (!isExpanded) {
+                setTimeout(() => {
+                    const navHeight = document.getElementById('navbar').offsetHeight;
+                    const cardTop = card.getBoundingClientRect().top + window.scrollY - navHeight - 20;
+                    window.scrollTo({
+                        top: cardTop,
+                        behavior: 'smooth'
+                    });
+                }, 100);
+            }
+        }
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Close expanded card on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.project-card.expanded').forEach(card => {
+                    card.classList.remove('expanded');
+                });
+            }
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.project-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

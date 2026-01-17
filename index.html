@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abhik Naskar - Geospatial Strategist</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0f0f0f;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        /* Animated line canvas */
+        .line-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.15;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            background: rgba(15, 15, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(15, 15, 15, 0.95);
+            padding: 1rem 5%;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #a0a0a0;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #ffffff;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            z-index: 1;
+        }
+
+        .hero-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 5rem;
+            align-items: center;
+            margin-top: 80px;
+        }
+
+        .hero-content {
+            animation: fadeSlideIn 1s ease both;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 7vw, 5.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            letter-spacing: -2px;
+        }
+
+        .hero-role {
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            color: #b0b0b0;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: #909090;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            max-width: 600px;
+        }
+
+        .social-connect {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: #a0a0a0;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .social-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-3px);
+            color: #ffffff;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: #ffffff;
+            color: #0f0f0f;
+        }
+
+        .btn-primary:hover {
+            background: #e0e0e0;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-3px);
+        }
+
+        /* Photo Section */
+        .hero-visual {
+            position: relative;
+            animation: fadeSlideIn 1s ease 0.3s both;
+        }
+
+        .photo-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        .photo-frame {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .photo-inner {
+            border-radius: 22px;
+            overflow: hidden;
+            background: #1a1a1a;
+            aspect-ratio: 3/4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1rem;
+            color: #606060;
+            font-size: 4rem;
+        }
+
+        .photo-placeholder-text {
+            font-size: 1rem;
+            color: #707070;
+        }
+
+        /* Sections Navigation */
+        .sections-nav {
+            position: relative;
+            padding: 6rem 5% 8rem;
+            z-index: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #909090;
+        }
+
+        .sections-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .section-card {
+            position: relative;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .section-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .section-card:hover::before {
+            opacity: 1;
+        }
+
+        .section-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.2rem;
+            display: inline-block;
+            transition: transform 0.4s ease;
+            filter: grayscale(0.5);
+        }
+
+        .section-card:hover .card-icon {
+            transform: scale(1.1);
+            filter: grayscale(0);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.7rem;
+            color: #ffffff;
+        }
+
+        .card-description {
+            font-size: 0.9rem;
+            color: #909090;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            position: relative;
+            padding: 3rem 5%;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 1;
+            text-align: center;
+        }
+
+        .footer-text {
+            color: #606060;
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Menu */
+        @media (max-width: 968px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: rgba(15, 15, 15, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding: 3rem 0;
+                gap: 2rem;
+                transition: left 0.3s ease;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .photo-container {
+                max-width: 350px;
+            }
+
+            .hero-content {
+                text-align: center;
+            }
+
+            .hero-description {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .social-connect {
+                justify-content: center;
+            }
+
+            .cta-buttons {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .sections-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .hero {
+                padding: 0 4%;
+            }
+
+            .sections-nav {
+                padding: 4rem 4% 6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated line canvas -->
+    <canvas class="line-canvas" id="lineCanvas"></canvas>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="about.html">About</a></li>
+                <li><a href="#work">Work</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="connect.html">Connect</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-grid">
+            <div class="hero-content">
+                <h1 class="hero-title">Abhik Naskar</h1>
+                <p class="hero-role">Geospatial Strategist × Business Developer</p>
+                <p class="hero-description">
+                    Transforming spatial intelligence into business growth. I bridge the gap between 
+                    cutting-edge geospatial technology and strategic market expansion, driving innovation 
+                    in data-driven decision making.
+                </p>
+
+                <div class="social-connect">
+                    <a href="https://linkedin.com/in/abhik-naskar-134b691b2" target="_blank" class="social-btn" title="LinkedIn">in</a>
+                    <a href="https://github.com/abhiknaskar" target="_blank" class="social-btn" title="GitHub">{ }</a>
+                    <a href="mailto:abhiknaskar1000@gmail.com" class="social-btn" title="Email">@</a>
+                    <a href="tel:9123690150" class="social-btn" title="Phone">☎</a>
+                    <a href="https://www.instagram.com/abhikofficial_1?igsh=d25jcWFwZjZwejM5" target="_blank" class="social-btn" title="Instagram">In</a>
+                    <a href="" target="_blank" class="social-btn" title="facebook">f</a>
+
+                </div>
+
+                <div class="cta-buttons">
+                    <a href="connect.html" class="btn btn-primary">Let's Collaborate →</a>
+                    <a href="#work" class="btn btn-secondary">View My Work</a>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="photo-container">
+                    <div class="photo-frame">
+                        <div class="photo-inner">
+                            <img src="1762880733661.jpg" alt="My Professional Photo" class="profile-photo">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sections Navigation -->
+    <section class="sections-nav">
+        <div class="section-header">
+            <h2 class="section-title">Explore My Portfolio</h2>
+            <p class="section-subtitle">Navigate through my professional journey and expertise</p>
+        </div>
+
+        <div class="sections-grid">
+            <a href="about.html" class="section-card">
+                <div class="card-content">
+                    <div class="card-icon">👋</div>
+                    <h3 class="card-title">About Me</h3>
+                    <p class="card-description">My journey from GIS enthusiast to Business Strategist</p>
+                </div>
+            </a>
+
+            <a href="skill.html" class="section-card">
+                <div class="card-content">
+                    <div class="card-icon">⚡</div>
+                    <h3 class="card-title">Skills</h3>
+                    <p class="card-description">Technical expertise and business capabilities</p>
+                </div>
+            </a>
+
+            <a href="education.html" class="section-card">
+                <div class="card-content">
+                    <div class="card-icon">🎓</div>
+                    <h3 class="card-title">Education</h3>
+                    <p class="card-description">Academic background in Geoinformatics</p>
+                </div>
+            </a>
+
+            <a href="corporate.html" class="section-card">
+                <div class="card-content">
+                    <div class="card-icon">💼</div>
+                    <h3 class="card-title">Corporate Journey</h3>
+                    <p class="card-description">Professional evolution and career milestones</p>
+                </div>
+            </a>
+
+            <a href="#flagship" class="section-card">
+                <div class="card-content">
+                    <div class="card-icon">🌟</div>
+                    <h3 class="card-title">Flagship Projects</h3>
+                    <p class="card-description">High-impact GIS systems and spatial intelligence platforms</p>
+                </div>
+            </a>
+
+            <a href="academic.html" class="section-card">
+                <div class="card-content">
+                    <div class="card-icon">📚</div>
+                    <h3 class="card-title">Academic Projects</h3>
+                    <p class="card-description">Research-driven GIS analysis and geospatial modeling work</p>
+                </div>
+            </a>
+
+            <a href="#achievements" class="section-card">
+                <div class="card-content">
+                    <div class="card-icon">🏆</div>
+                    <h3 class="card-title">Achievements</h3>
+                    <p class="card-description">Awards, milestones, and professional recognition</p>
+                </div>
+            </a>
+
+            <a href="certificate.html" class="section-card">
+                <div class="card-content">
+                    <div class="card-icon">📜</div>
+                    <h3 class="card-title">Certifications</h3>
+                    <p class="card-description">Verified credentials and industry qualifications</p>
+                </div>
+            </a>
+
+            <a href="#blog" class="section-card">
+                <div class="card-content">
+                    <div class="card-icon">✍️</div>
+                    <h3 class="card-title">Blog</h3>
+                    <p class="card-description">Insights on geospatial tech and market trends</p>
+                </div>
+            </a>
+
+            <a href="#testimonials" class="section-card">
+                <div class="card-content">
+                    <div class="card-icon">💬</div>
+                    <h3 class="card-title">Testimonials</h3>
+                    <p class="card-description">What colleagues and clients say about me</p>
+                </div>
+            </a>
+
+            <a href="#raw" class="section-card">
+                <div class="card-content">
+                    <div class="card-icon">🎭</div>
+                    <h3 class="card-title">Raw Abhik</h3>
+                    <p class="card-description">Hobbies, passions, and life beyond work</p>
+                </div>
+            </a>
+
+            <a href="#resume" class="section-card">
+                <div class="card-content">
+                    <div class="card-icon">📄</div>
+                    <h3 class="card-title">Resume</h3>
+                    <p class="card-description">Download my complete professional resume</p>
+                </div>
+            </a>
+
+            <a href="connect.html" class="section-card">
+                <div class="card-content">
+                    <div class="card-icon">🤝</div>
+                    <h3 class="card-title">Let's Connect</h3>
+                    <p class="card-description">Get in touch for collaborations and opportunities</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p class="footer-text">© 2025 Abhik Naskar · Built with passion for innovation</p>
+    </footer>
+
+    <script>
+        // Animated line canvas
+        const canvas = document.getElementById('lineCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const lines = [];
+        const lineCount = 40;
+
+        class Line {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.length = Math.random() * 150 + 50;
+                this.angle = Math.random() * Math.PI * 2;
+                this.speed = Math.random() * 0.3 + 0.1;
+                this.opacity = Math.random() * 0.3 + 0.1;
+            }
+
+            update() {
+                this.x += Math.cos(this.angle) * this.speed;
+                this.y += Math.sin(this.angle) * this.speed;
+
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(
+                    this.x + Math.cos(this.angle) * this.length,
+                    this.y + Math.sin(this.angle) * this.length
+                );
+                ctx.strokeStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+        }
+
+        for (let i = 0; i < lineCount; i++) {
+            lines.push(new Line());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            lines.forEach(line => {
+                line.update();
+                line.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+        });
+
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.textContent = '☰';
+            });
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Intersection Observer for cards
+        const cards = document.querySelectorAll('.section-card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeSlideIn 0.6s ease both';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        cards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.05}s`;
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

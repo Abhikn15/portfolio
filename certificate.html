@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certifications - Abhik Naskar</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0f0f0f;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            background: rgba(15, 15, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            color: #a0a0a0;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-btn:hover {
+            color: #ffffff;
+        }
+
+        .certifications-section {
+            position: relative;
+            min-height: 100vh;
+            padding: 120px 5% 80px;
+        }
+
+        .certifications-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            margin-bottom: 3rem;
+            animation: fadeSlideIn 0.8s ease both;
+        }
+
+        .section-label {
+            color: #606060;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #b0b0b0;
+            max-width: 700px;
+        }
+
+        .certifications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            animation: fadeSlideIn 0.8s ease 0.2s both;
+        }
+
+        .cert-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .cert-image {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .cert-image:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+            transform: translateY(-3px);
+        }
+
+        .cert-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .cert-name {
+            font-size: 0.95rem;
+            color: #b0b0b0;
+            font-weight: 500;
+            line-height: 1.4;
+            text-align: center;
+        }
+
+        @keyframes fadeSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .certifications-section {
+                padding: 100px 4% 60px;
+            }
+
+            .certifications-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="back-btn">← Back to Home</a>
+        </div>
+    </nav>
+
+    <section class="certifications-section">
+        <div class="certifications-container">
+            <div class="section-header">
+                <div class="section-label">Professional Credentials</div>
+                <h1 class="section-title">Certifications</h1>
+                <p class="section-subtitle">Specialized training in geospatial technologies and remote sensing from leading institutions.</p>
+            </div>
+
+            <div class="certifications-grid">
+                <div class="cert-item">
+                    <div class="cert-image">
+                        <img src="cer1.png" alt="Diploma Course Certificate">
+                    </div>
+                    <p class="cert-name">Diploma Course in Computer Basic - Remote Sensing - GIS & GNSS</p>
+                </div>
+
+                <div class="cert-item">
+                    <div class="cert-image">
+                        <img src="cer2.jpg" alt="NASA Black Marble Certificate">
+                    </div>
+                    <p class="cert-name">Introduction to NASA's "Black Marble" Night Lights Data</p>
+                </div>
+
+                <div class="cert-item">
+                    <div class="cert-image">
+                        <img src="cer3.jpg" alt="NASA Mangroves Certificate">
+                    </div>
+                    <p class="cert-name">Remote Sensing for Mangroves in Support of UN SDGs</p>
+                </div>
+
+                <div class="cert-item">
+                    <div class="cert-image">
+                        <img src="cer4.jpg" alt="NASA Urban Heat Islands Certificate">
+                    </div>
+                    <p class="cert-name">Satellite Remote Sensing for Urban Heat Islands</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
