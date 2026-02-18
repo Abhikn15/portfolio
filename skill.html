@@ -7,11 +7,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -21,49 +17,49 @@
         }
 
         .line-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            opacity: 0.15;
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0; opacity: 0.15;
         }
 
+        /* ══ NAV ══ */
         nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
+            position: fixed; top: 0; width: 100%;
             padding: 1.5rem 5%;
-            background: rgba(15, 15, 15, 0.8);
+            background: rgba(15,15,15,0.8);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
             z-index: 1000;
+            transition: background 0.3s ease;
         }
-
         .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            max-width: 1400px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
         }
-
         .back-btn {
-            color: #a0a0a0;
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
+            color: #a0a0a0; text-decoration: none;
+            font-size: 0.95rem; font-weight: 500;
             transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            display: flex; align-items: center; gap: 0.5rem;
         }
-
-        .back-btn:hover {
-            color: #ffffff;
+        .back-btn:hover { color: #ffffff; }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a {
+            color: #a0a0a0; text-decoration: none;
+            font-size: 0.95rem; font-weight: 500;
+            transition: all 0.3s ease; position: relative;
         }
+        .nav-links a::after {
+            content: ''; position: absolute;
+            bottom: -5px; left: 0; width: 0; height: 1px;
+            background: #ffffff; transition: width 0.3s ease;
+        }
+        .nav-links a:hover { color: #ffffff; }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active { color: #ffffff; }
+        .nav-links a.active::after { width: 100%; }
 
+        /* ══ SKILLS ══ */
         .skills-section {
             position: relative;
             min-height: 100vh;
@@ -258,48 +254,80 @@
             transition: width 1s ease;
         }
 
-        @keyframes fadeSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* ══ FOOTER ══ */
+        footer { position: relative; z-index: 1; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 4rem; }
+        .footer-main {
+            padding: 3.5rem 5% 2rem; max-width: 1400px; margin: 0 auto;
+            display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 3rem;
         }
+        .footer-brand h3 { font-size: 1.3rem; font-weight: 800; color: #ffffff; margin-bottom: 0.6rem; letter-spacing: -0.5px; }
+        .footer-brand p { font-size: 0.88rem; color: #606060; line-height: 1.7; max-width: 300px; }
+        .footer-social { display: flex; gap: 0.6rem; margin-top: 1.2rem; }
+        .footer-social-btn {
+            width: 36px; height: 36px; border-radius: 8px;
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+            color: #707070; text-decoration: none; font-size: 0.85rem; font-weight: 600;
+            display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;
+        }
+        .footer-social-btn:hover {
+            background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.25);
+            color: #ffffff; transform: translateY(-2px);
+        }
+        .footer-nav h4 {
+            font-size: 0.78rem; font-weight: 700; color: #ffffff;
+            letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.2rem;
+        }
+        .footer-nav ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+        .footer-nav a { color: #606060; text-decoration: none; font-size: 0.88rem; transition: color 0.3s ease; }
+        .footer-nav a:hover { color: #d0d0d0; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding: 1.5rem 5%; }
+        .footer-bottom-inner {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+            gap: 1rem; flex-wrap: wrap;
+        }
+        .footer-copyright { font-size: 0.82rem; color: #454545; }
+        .footer-tagline { font-size: 0.82rem; color: #454545; display: flex; align-items: center; gap: 0.4rem; }
 
+        /* ══ ANIMATIONS ══ */
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
 
-        @media (max-width: 968px) {
-            .category-tabs {
-                overflow-x: auto;
-                flex-wrap: nowrap;
-                padding-bottom: 0.5rem;
-            }
+        /* ══ RESPONSIVE ══ */
+        @media (max-width: 1024px) {
+            .footer-main { grid-template-columns: 1fr; gap: 2rem; }
         }
-
+        @media (max-width: 968px) {
+            .category-tabs { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 0.5rem; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+        }
         @media (max-width: 640px) {
-            .skills-section {
-                padding: 100px 4% 60px;
-            }
-
-            .skills-grid,
-            .proficiency-grid {
-                grid-template-columns: 1fr;
-            }
+            .skills-section { padding: 100px 4% 60px; }
+            .skills-grid, .proficiency-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <canvas class="line-canvas" id="lineCanvas"></canvas>
 
-    <nav>
+    <!-- ══ NAV ══ -->
+    <nav id="mainNav">
         <div class="nav-container">
-            <a href="index.html" class="back-btn">← Back to Home</a>
+            <a href="index.html" class="back-btn">&larr; Back to Home</a>
+            <ul class="nav-links">
+                <li><a href="about.html">About</a></li>
+                <li><a href="corporate.html">Experience</a></li>
+                <li><a href="project.html">Projects</a></li>
+                <li><a href="connect.html">Connect</a></li>
+            </ul>
         </div>
     </nav>
 
@@ -335,7 +363,6 @@
                                 <span class="skill-tag">Time Series</span>
                             </div>
                         </div>
-
                         <div class="skill-card">
                             <div class="skill-header">
                                 <h3 class="skill-name">Flood Inundation Modelling</h3>
@@ -348,7 +375,6 @@
                                 <span class="skill-tag">Risk Mapping</span>
                             </div>
                         </div>
-
                         <div class="skill-card">
                             <div class="skill-header">
                                 <h3 class="skill-name">Spatial Analysis</h3>
@@ -362,7 +388,6 @@
                                 <span class="skill-tag">PostGIS</span>
                             </div>
                         </div>
-
                         <div class="skill-card">
                             <div class="skill-header">
                                 <h3 class="skill-name">Remote Sensing</h3>
@@ -376,7 +401,6 @@
                                 <span class="skill-tag">Image Classification</span>
                             </div>
                         </div>
-
                         <div class="skill-card">
                             <div class="skill-header">
                                 <h3 class="skill-name">WebGIS & Web Mapping</h3>
@@ -390,7 +414,6 @@
                                 <span class="skill-tag">Leaflet</span>
                             </div>
                         </div>
-
                         <div class="skill-card">
                             <div class="skill-header">
                                 <h3 class="skill-name">UAV Data Processing</h3>
@@ -403,7 +426,6 @@
                                 <span class="skill-tag">Photogrammetry</span>
                             </div>
                         </div>
-
                         <div class="skill-card">
                             <div class="skill-header">
                                 <h3 class="skill-name">GNSS & GPS</h3>
@@ -416,7 +438,6 @@
                                 <span class="skill-tag">Field Survey</span>
                             </div>
                         </div>
-
                         <div class="skill-card">
                             <div class="skill-header">
                                 <h3 class="skill-name">Cartography & Geovisualization</h3>
@@ -429,7 +450,6 @@
                                 <span class="skill-tag">Layout</span>
                             </div>
                         </div>
-
                         <div class="skill-card">
                             <div class="skill-header">
                                 <h3 class="skill-name">Land Use/Land Cover Analysis</h3>
@@ -463,7 +483,6 @@
                                 <span class="skill-tag">Matplotlib</span>
                             </div>
                         </div>
-
                         <div class="skill-card">
                             <div class="skill-header">
                                 <h3 class="skill-name">Database Management</h3>
@@ -477,7 +496,6 @@
                                 <span class="skill-tag">Spatial SQL</span>
                             </div>
                         </div>
-
                         <div class="skill-card">
                             <div class="skill-header">
                                 <h3 class="skill-name">Web Development</h3>
@@ -491,7 +509,6 @@
                                 <span class="skill-tag">Frontend Design</span>
                             </div>
                         </div>
-
                         <div class="skill-card">
                             <div class="skill-header">
                                 <h3 class="skill-name">Machine Learning</h3>
@@ -504,7 +521,6 @@
                                 <span class="skill-tag">Random Forest</span>
                             </div>
                         </div>
-
                         <div class="skill-card">
                             <div class="skill-header">
                                 <h3 class="skill-name">R Programming</h3>
@@ -517,7 +533,6 @@
                                 <span class="skill-tag">Visualization</span>
                             </div>
                         </div>
-
                         <div class="skill-card">
                             <div class="skill-header">
                                 <h3 class="skill-name">OOP & Scripting</h3>
@@ -541,129 +556,91 @@
                                 <span class="proficiency-name">ArcGIS Pro</span>
                                 <span class="proficiency-percent">90%</span>
                             </div>
-                            <div class="proficiency-bar">
-                                <div class="proficiency-fill" style="width: 90%;"></div>
-                            </div>
+                            <div class="proficiency-bar"><div class="proficiency-fill" style="width: 90%;"></div></div>
                         </div>
-
                         <div class="proficiency-item">
                             <div class="proficiency-header">
                                 <span class="proficiency-name">QGIS</span>
                                 <span class="proficiency-percent">88%</span>
                             </div>
-                            <div class="proficiency-bar">
-                                <div class="proficiency-fill" style="width: 88%;"></div>
-                            </div>
+                            <div class="proficiency-bar"><div class="proficiency-fill" style="width: 88%;"></div></div>
                         </div>
-
                         <div class="proficiency-item">
                             <div class="proficiency-header">
                                 <span class="proficiency-name">Google Earth Engine</span>
                                 <span class="proficiency-percent">92%</span>
                             </div>
-                            <div class="proficiency-bar">
-                                <div class="proficiency-fill" style="width: 92%;"></div>
-                            </div>
+                            <div class="proficiency-bar"><div class="proficiency-fill" style="width: 92%;"></div></div>
                         </div>
-
                         <div class="proficiency-item">
                             <div class="proficiency-header">
                                 <span class="proficiency-name">Python</span>
                                 <span class="proficiency-percent">85%</span>
                             </div>
-                            <div class="proficiency-bar">
-                                <div class="proficiency-fill" style="width: 85%;"></div>
-                            </div>
+                            <div class="proficiency-bar"><div class="proficiency-fill" style="width: 85%;"></div></div>
                         </div>
-
                         <div class="proficiency-item">
                             <div class="proficiency-header">
                                 <span class="proficiency-name">PostgreSQL/PostGIS</span>
                                 <span class="proficiency-percent">80%</span>
                             </div>
-                            <div class="proficiency-bar">
-                                <div class="proficiency-fill" style="width: 80%;"></div>
-                            </div>
+                            <div class="proficiency-bar"><div class="proficiency-fill" style="width: 80%;"></div></div>
                         </div>
-
                         <div class="proficiency-item">
                             <div class="proficiency-header">
                                 <span class="proficiency-name">ESA SNAP</span>
                                 <span class="proficiency-percent">75%</span>
                             </div>
-                            <div class="proficiency-bar">
-                                <div class="proficiency-fill" style="width: 75%;"></div>
-                            </div>
+                            <div class="proficiency-bar"><div class="proficiency-fill" style="width: 75%;"></div></div>
                         </div>
-
                         <div class="proficiency-item">
                             <div class="proficiency-header">
                                 <span class="proficiency-name">GeoServer</span>
                                 <span class="proficiency-percent">78%</span>
                             </div>
-                            <div class="proficiency-bar">
-                                <div class="proficiency-fill" style="width: 78%;"></div>
-                            </div>
+                            <div class="proficiency-bar"><div class="proficiency-fill" style="width: 78%;"></div></div>
                         </div>
-
                         <div class="proficiency-item">
                             <div class="proficiency-header">
                                 <span class="proficiency-name">ArcGIS Server</span>
                                 <span class="proficiency-percent">70%</span>
                             </div>
-                            <div class="proficiency-bar">
-                                <div class="proficiency-fill" style="width: 70%;"></div>
-                            </div>
+                            <div class="proficiency-bar"><div class="proficiency-fill" style="width: 70%;"></div></div>
                         </div>
-
                         <div class="proficiency-item">
                             <div class="proficiency-header">
                                 <span class="proficiency-name">ArcGIS Online</span>
                                 <span class="proficiency-percent">88%</span>
                             </div>
-                            <div class="proficiency-bar">
-                                <div class="proficiency-fill" style="width: 88%;"></div>
-                            </div>
+                            <div class="proficiency-bar"><div class="proficiency-fill" style="width: 88%;"></div></div>
                         </div>
-
                         <div class="proficiency-item">
                             <div class="proficiency-header">
                                 <span class="proficiency-name">Microsoft Office</span>
                                 <span class="proficiency-percent">90%</span>
                             </div>
-                            <div class="proficiency-bar">
-                                <div class="proficiency-fill" style="width: 90%;"></div>
-                            </div>
+                            <div class="proficiency-bar"><div class="proficiency-fill" style="width: 90%;"></div></div>
                         </div>
-
                         <div class="proficiency-item">
                             <div class="proficiency-header">
                                 <span class="proficiency-name">Power BI</span>
                                 <span class="proficiency-percent">75%</span>
                             </div>
-                            <div class="proficiency-bar">
-                                <div class="proficiency-fill" style="width: 75%;"></div>
-                            </div>
+                            <div class="proficiency-bar"><div class="proficiency-fill" style="width: 75%;"></div></div>
                         </div>
-
                         <div class="proficiency-item">
                             <div class="proficiency-header">
                                 <span class="proficiency-name">ERDAS Imagine</span>
                                 <span class="proficiency-percent">72%</span>
                             </div>
-                            <div class="proficiency-bar">
-                                <div class="proficiency-fill" style="width: 72%;"></div>
-                            </div>
+                            <div class="proficiency-bar"><div class="proficiency-fill" style="width: 72%;"></div></div>
                         </div>
-
                         <div class="proficiency-item">
                             <div class="proficiency-header">
                                 <span class="proficiency-name">Survey123</span>
                                 <span class="proficiency-percent">75%</span>
                             </div>
-                            <div class="proficiency-bar">
-                                <div class="proficiency-fill" style="width: 75%;"></div>
-                            </div>
+                            <div class="proficiency-bar"><div class="proficiency-fill" style="width: 75%;"></div></div>
                         </div>
                     </div>
                 </div>
@@ -683,7 +660,6 @@
                                 <span class="skill-tag">Pitching</span>
                             </div>
                         </div>
-
                         <div class="skill-card">
                             <div class="skill-header">
                                 <h3 class="skill-name">CRM Management</h3>
@@ -695,7 +671,6 @@
                                 <span class="skill-tag">Client Relations</span>
                             </div>
                         </div>
-
                         <div class="skill-card">
                             <div class="skill-header">
                                 <h3 class="skill-name">Market Research</h3>
@@ -707,7 +682,6 @@
                                 <span class="skill-tag">Strategy</span>
                             </div>
                         </div>
-
                         <div class="skill-card">
                             <div class="skill-header">
                                 <h3 class="skill-name">ERP Systems</h3>
@@ -719,7 +693,6 @@
                                 <span class="skill-tag">Workflow</span>
                             </div>
                         </div>
-
                         <div class="skill-card">
                             <div class="skill-header">
                                 <h3 class="skill-name">Corporate Communications</h3>
@@ -731,7 +704,6 @@
                                 <span class="skill-tag">Presentations</span>
                             </div>
                         </div>
-
                         <div class="skill-card">
                             <div class="skill-header">
                                 <h3 class="skill-name">Training Design</h3>
@@ -749,21 +721,56 @@
         </div>
     </section>
 
+    <!-- ══ FOOTER ══ -->
+    <footer>
+        <div class="footer-main">
+            <div class="footer-brand">
+                <h3>Abhik Naskar</h3>
+                <p>GeoSamurai &times; Business Growth Strategist. Transforming spatial intelligence into strategic business decisions.</p>
+                <div class="footer-social">
+                    <a href="https://linkedin.com/in/abhik-naskar-134b691b2" target="_blank" class="footer-social-btn" title="LinkedIn">in</a>
+                    <a href="https://github.com/abhiknaskar" target="_blank" class="footer-social-btn" title="GitHub">{ }</a>
+                    <a href="mailto:abhiknaskar1000@gmail.com" class="footer-social-btn" title="Email">@</a>
+                    <a href="https://www.instagram.com/abhikofficial_1" target="_blank" class="footer-social-btn" title="Instagram">&#128247;</a>
+                </div>
+            </div>
+            <div class="footer-nav">
+                <h4>Portfolio</h4>
+                <ul>
+                    <li><a href="about.html">About Me</a></li>
+                    <li><a href="skill.html">Skills</a></li>
+                    <li><a href="education.html">Education</a></li>
+                    <li><a href="corporate.html">Experience</a></li>
+                    <li><a href="certificate.html">Certifications</a></li>
+                </ul>
+            </div>
+            <div class="footer-nav">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="project.html">Projects</a></li>
+                    <li><a href="academic.html">Academic Work</a></li>
+                    <li><a href="connect.html">Contact</a></li>
+                    <li><a href="#resume">Download CV</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-bottom-inner">
+                <p class="footer-copyright">&copy; 2026 Abhik Naskar. All rights reserved.</p>
+                <p class="footer-tagline">Built with <span>&hearts;</span> &middot; Geospatial Intelligence meets Design</p>
+            </div>
+        </div>
+    </footer>
+
     <script>
         const canvas = document.getElementById('lineCanvas');
         const ctx = canvas.getContext('2d');
-
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-
         const lines = [];
-        const lineCount = 40;
 
         class Line {
-            constructor() {
-                this.reset();
-            }
-
+            constructor() { this.reset(); }
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
@@ -772,42 +779,28 @@
                 this.speed = Math.random() * 0.3 + 0.1;
                 this.opacity = Math.random() * 0.3 + 0.1;
             }
-
             update() {
                 this.x += Math.cos(this.angle) * this.speed;
                 this.y += Math.sin(this.angle) * this.speed;
-
-                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
-                    this.reset();
-                }
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
             }
-
             draw() {
                 ctx.beginPath();
                 ctx.moveTo(this.x, this.y);
-                ctx.lineTo(
-                    this.x + Math.cos(this.angle) * this.length,
-                    this.y + Math.sin(this.angle) * this.length
-                );
-                ctx.strokeStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.lineTo(this.x + Math.cos(this.angle) * this.length, this.y + Math.sin(this.angle) * this.length);
+                ctx.strokeStyle = `rgba(255,255,255,${this.opacity})`;
                 ctx.lineWidth = 1;
                 ctx.stroke();
             }
         }
 
-        for (let i = 0; i < lineCount; i++) {
-            lines.push(new Line());
-        }
+        for (let i = 0; i < 40; i++) lines.push(new Line());
 
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            lines.forEach(line => {
-                line.update();
-                line.draw();
-            });
+            lines.forEach(l => { l.update(); l.draw(); });
             requestAnimationFrame(animate);
         }
-
         animate();
 
         window.addEventListener('resize', () => {
@@ -815,6 +808,15 @@
             canvas.height = window.innerHeight;
         });
 
+        /* Nav scroll effect */
+        const navbar = document.getElementById('mainNav');
+        window.addEventListener('scroll', () => {
+            navbar.style.background = window.scrollY > 50
+                ? 'rgba(15,15,15,0.95)'
+                : 'rgba(15,15,15,0.8)';
+        });
+
+        /* Tab switching */
         const tabBtns = document.querySelectorAll('.tab-btn');
         const categorySections = document.querySelectorAll('.category-section');
 
@@ -822,10 +824,8 @@
             btn.addEventListener('click', () => {
                 tabBtns.forEach(b => b.classList.remove('active'));
                 categorySections.forEach(s => s.classList.remove('active'));
-
                 btn.classList.add('active');
-                const category = btn.getAttribute('data-category');
-                document.getElementById(category).classList.add('active');
+                document.getElementById(btn.getAttribute('data-category')).classList.add('active');
             });
         });
     </script>
