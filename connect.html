@@ -7,11 +7,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -20,402 +16,373 @@
             overflow-x: hidden;
         }
 
+        /* ══ NAV ══ */
         nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
+            position: fixed; top: 0; width: 100%;
             padding: 1.5rem 5%;
-            background: rgba(15, 15, 15, 0.8);
+            background: rgba(15,15,15,0.8);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
             z-index: 1000;
+            transition: background 0.3s ease;
         }
-
         .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            max-width: 1400px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
         }
-
         .back-btn {
-            color: #a0a0a0;
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
+            color: #a0a0a0; text-decoration: none;
+            font-size: 0.95rem; font-weight: 500;
             transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            display: flex; align-items: center; gap: 0.5rem;
         }
-
-        .back-btn:hover {
-            color: #ffffff;
+        .back-btn:hover { color: #ffffff; }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a {
+            color: #a0a0a0; text-decoration: none;
+            font-size: 0.95rem; font-weight: 500;
+            transition: all 0.3s ease; position: relative;
         }
+        .nav-links a::after {
+            content: ''; position: absolute;
+            bottom: -5px; left: 0; width: 0; height: 1px;
+            background: #ffffff; transition: width 0.3s ease;
+        }
+        .nav-links a:hover { color: #ffffff; }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active { color: #ffffff; }
+        .nav-links a.active::after { width: 100%; }
 
+        /* ══ CONNECT ══ */
         .connect-section {
             position: relative;
             min-height: 100vh;
             padding: 120px 5% 80px;
         }
-
-        .connect-container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+        .connect-container { max-width: 1000px; margin: 0 auto; }
 
         .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
+            text-align: center; margin-bottom: 4rem;
             animation: fadeSlideIn 0.8s ease both;
         }
-
         .section-label {
-            color: #606060;
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
+            color: #606060; font-size: 0.9rem;
+            letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1rem;
         }
-
         .section-title {
             font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 800;
-            color: #ffffff;
-            margin-bottom: 1rem;
-            letter-spacing: -1px;
+            font-weight: 800; color: #ffffff;
+            margin-bottom: 1rem; letter-spacing: -1px;
         }
-
         .section-subtitle {
-            font-size: 1.2rem;
-            color: #b0b0b0;
-            max-width: 600px;
-            margin: 0 auto;
+            font-size: 1.2rem; color: #b0b0b0;
+            max-width: 600px; margin: 0 auto;
         }
 
-        .connect-content {
-            animation: fadeSlideIn 0.8s ease 0.2s both;
-        }
+        .connect-content { animation: fadeSlideIn 0.8s ease 0.2s both; }
 
-        .contact-info {
-            display: grid;
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-
+        .contact-info { display: grid; gap: 1.5rem; margin-bottom: 3rem; }
         .contact-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px; padding: 2rem;
+            display: flex; align-items: center; gap: 1.5rem;
             transition: all 0.4s ease;
         }
-
         .contact-card:hover {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(255,255,255,0.2);
             transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
         }
-
         .contact-icon {
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.05);
+            width: 60px; height: 60px;
+            background: rgba(255,255,255,0.05);
             border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             font-size: 1.8rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            flex-shrink: 0;
+            border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0;
         }
-
-        .contact-details {
-            flex: 1;
-        }
-
+        .contact-details { flex: 1; }
         .contact-label {
-            font-size: 0.85rem;
-            color: #808080;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.5rem;
+            font-size: 0.85rem; color: #808080;
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem;
         }
+        .contact-value { font-size: 1.1rem; color: #ffffff; font-weight: 500; }
+        .contact-link { color: #ffffff; text-decoration: none; transition: color 0.3s ease; }
+        .contact-link:hover { color: #b0b0b0; }
 
-        .contact-value {
-            font-size: 1.1rem;
-            color: #ffffff;
-            font-weight: 500;
-        }
-
-        .contact-link {
-            color: #ffffff;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .contact-link:hover {
-            color: #b0b0b0;
-        }
-
-        .social-section {
-            margin-top: 4rem;
-            text-align: center;
-        }
-
-        .social-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 2rem;
-        }
-
+        .social-section { margin-top: 4rem; text-align: center; }
+        .social-title { font-size: 1.5rem; font-weight: 600; color: #ffffff; margin-bottom: 2rem; }
         .social-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1.5rem;
         }
-
         .social-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 2rem;
-            text-decoration: none;
-            color: inherit;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px; padding: 2rem;
+            text-decoration: none; color: inherit;
             transition: all 0.4s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
+            display: flex; flex-direction: column; align-items: center; gap: 1rem;
         }
-
         .social-card:hover {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(255,255,255,0.2);
             transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
         }
-
         .social-card-icon {
-            width: 50px;
-            height: 50px;
-            background: rgba(255, 255, 255, 0.05);
+            width: 50px; height: 50px;
+            background: rgba(255,255,255,0.05);
             border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             font-size: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255,255,255,0.1);
         }
-
-        .social-card-name {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #ffffff;
-        }
-
-        .social-card-handle {
-            font-size: 0.85rem;
-            color: #808080;
-        }
+        .social-card-name { font-size: 1rem; font-weight: 600; color: #ffffff; }
+        .social-card-handle { font-size: 0.85rem; color: #808080; }
 
         .cta-section {
-            margin-top: 4rem;
-            text-align: center;
-            padding: 3rem;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 4rem; text-align: center; padding: 3rem;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 20px;
+            margin-bottom: 6rem;
         }
-
-        .cta-text {
-            font-size: 1.3rem;
-            color: #b0b0b0;
-            margin-bottom: 2rem;
-        }
-
+        .cta-text { font-size: 1.3rem; color: #b0b0b0; margin-bottom: 2rem; }
         .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
+            display: flex; gap: 1rem;
+            justify-content: center; flex-wrap: wrap;
         }
-
         .btn {
-            padding: 1rem 2.5rem;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
+            padding: 1rem 2.5rem; border-radius: 12px;
+            text-decoration: none; font-weight: 600; font-size: 1rem;
+            transition: all 0.3s ease; cursor: pointer; border: none;
+            display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
         }
-
-        .btn-primary {
-            background: #ffffff;
-            color: #0f0f0f;
-        }
-
+        .btn-primary { background: #ffffff; color: #0f0f0f; }
         .btn-primary:hover {
-            background: #e0e0e0;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.15);
+            background: #e0e0e0; transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255,255,255,0.15);
         }
-
         .btn-secondary {
-            background: transparent;
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: transparent; color: #ffffff;
+            border: 1px solid rgba(255,255,255,0.3);
         }
-
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.5);
             transform: translateY(-3px);
         }
 
+        /* ══ FOOTER ══ */
+        footer { position: relative; z-index: 1; border-top: 1px solid rgba(255,255,255,0.08); }
+        .footer-main {
+            padding: 3.5rem 5% 2rem; max-width: 1400px; margin: 0 auto;
+            display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 3rem;
+        }
+        .footer-brand h3 { font-size: 1.3rem; font-weight: 800; color: #ffffff; margin-bottom: 0.6rem; letter-spacing: -0.5px; }
+        .footer-brand p { font-size: 0.88rem; color: #606060; line-height: 1.7; max-width: 300px; }
+        .footer-social { display: flex; gap: 0.6rem; margin-top: 1.2rem; }
+        .footer-social-btn {
+            width: 36px; height: 36px; border-radius: 8px;
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+            color: #707070; text-decoration: none; font-size: 0.85rem; font-weight: 600;
+            display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;
+        }
+        .footer-social-btn:hover {
+            background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.25);
+            color: #ffffff; transform: translateY(-2px);
+        }
+        .footer-nav h4 {
+            font-size: 0.78rem; font-weight: 700; color: #ffffff;
+            letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.2rem;
+        }
+        .footer-nav ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+        .footer-nav a { color: #606060; text-decoration: none; font-size: 0.88rem; transition: color 0.3s ease; }
+        .footer-nav a:hover { color: #d0d0d0; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding: 1.5rem 5%; }
+        .footer-bottom-inner {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+            gap: 1rem; flex-wrap: wrap;
+        }
+        .footer-copyright { font-size: 0.82rem; color: #454545; }
+        .footer-tagline { font-size: 0.82rem; color: #454545; display: flex; align-items: center; gap: 0.4rem; }
+
+        /* ══ ANIMATIONS ══ */
         @keyframes fadeSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
+        /* ══ RESPONSIVE ══ */
+        @media (max-width: 1024px) {
+            .footer-main { grid-template-columns: 1fr; gap: 2rem; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+        }
         @media (max-width: 640px) {
-            .connect-section {
-                padding: 100px 4% 60px;
-            }
-
-            .contact-card {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .social-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
-            }
+            .connect-section { padding: 100px 4% 60px; }
+            .contact-card { flex-direction: column; text-align: center; }
+            .social-grid { grid-template-columns: 1fr; }
+            .cta-buttons { flex-direction: column; }
+            .btn { width: 100%; }
         }
     </style>
 </head>
 <body>
-    <nav>
-        <div class="nav-container">
-            <a href="index.html" class="back-btn">← Back to Home</a>
+
+<!-- ══ NAV ══ -->
+<nav id="mainNav">
+    <div class="nav-container">
+        <a href="index.html" class="back-btn">&larr; Back to Home</a>
+        <ul class="nav-links">
+            <li><a href="about.html">About</a></li>
+            <li><a href="corporate.html">Experience</a></li>
+            <li><a href="project.html">Projects</a></li>
+            <li><a href="connect.html" class="active">Connect</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ══ CONNECT ══ -->
+<section class="connect-section">
+    <div class="connect-container">
+        <div class="section-header">
+            <div class="section-label">Get in Touch</div>
+            <h1 class="section-title">Let&rsquo;s Connect</h1>
+            <p class="section-subtitle">I&rsquo;m always open to discussing new projects, opportunities, and collaborations in geospatial technology and business development.</p>
         </div>
-    </nav>
 
-    <section class="connect-section">
-        <div class="connect-container">
-            <div class="section-header">
-                <div class="section-label">Get in Touch</div>
-                <h1 class="section-title">Let's Connect</h1>
-                <p class="section-subtitle">I'm always open to discussing new projects, opportunities, and collaborations in geospatial technology and business development.</p>
-            </div>
-
-            <div class="connect-content">
-                <div class="contact-info">
-                    <div class="contact-card">
-                        <div class="contact-icon">📧</div>
-                        <div class="contact-details">
-                            <div class="contact-label">Email</div>
-                            <div class="contact-value">
-                                <a href="mailto:abhiknaskar1000@gmail.com" class="contact-link">abhiknaskar1000@gmail.com</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="contact-card">
-                        <div class="contact-icon">📱</div>
-                        <div class="contact-details">
-                            <div class="contact-label">Phone</div>
-                            <div class="contact-value">
-                                <a href="tel:9123690150" class="contact-link">+91 9123690150</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="contact-card">
-                        <div class="contact-icon">📍</div>
-                        <div class="contact-details">
-                            <div class="contact-label">Location</div>
-                            <div class="contact-value">Bangalore, Karnataka, India</div>
+        <div class="connect-content">
+            <div class="contact-info">
+                <div class="contact-card">
+                    <div class="contact-icon">&#128231;</div>
+                    <div class="contact-details">
+                        <div class="contact-label">Email</div>
+                        <div class="contact-value">
+                            <a href="mailto:abhiknaskar1000@gmail.com" class="contact-link">abhiknaskar1000@gmail.com</a>
                         </div>
                     </div>
                 </div>
-
-                <div class="social-section">
-                    <h2 class="social-title">Connect on Social Media</h2>
-                    <div class="social-grid">
-                        <a href="https://linkedin.com/in/abhik-naskar-134b691b2" target="_blank" class="social-card">
-                            <div class="social-card-icon">in</div>
-                            <div class="social-card-name">LinkedIn</div>
-                            <div class="social-card-handle">Professional Network</div>
-                        </a>
-
-                        <a href="https://github.com/abhiknaskar" target="_blank" class="social-card">
-                            <div class="social-card-icon">{ }</div>
-                            <div class="social-card-name">GitHub</div>
-                            <div class="social-card-handle">Code Repository</div>
-                        </a>
-
-                        <a href="https://www.instagram.com/abhikofficial_1?igsh=d25jcWFwZjZwejM5" target="_blank" class="social-card">
-                            <div class="social-card-icon">📷</div>
-                            <div class="social-card-name">Instagram</div>
-                            <div class="social-card-handle">@abhikofficial_1</div>
-                        </a>
-
-                        <a href="https://facebook.com/your-facebook-profile" target="_blank" class="social-card">
-                            <div class="social-card-icon">f</div>
-                            <div class="social-card-name">Facebook</div>
-                            <div class="social-card-handle">Connect on Facebook</div>
-                        </a>
-
-                        <a href="mailto:abhiknaskar1000@gmail.com" class="social-card">
-                            <div class="social-card-icon">@</div>
-                            <div class="social-card-name">Email</div>
-                            <div class="social-card-handle">Direct Contact</div>
-                        </a>
-
-                        <a href="tel:9123690150" class="social-card">
-                            <div class="social-card-icon">☎</div>
-                            <div class="social-card-name">Phone</div>
-                            <div class="social-card-handle">Call or WhatsApp</div>
-                        </a>
+                <div class="contact-card">
+                    <div class="contact-icon">&#128241;</div>
+                    <div class="contact-details">
+                        <div class="contact-label">Phone</div>
+                        <div class="contact-value">
+                            <a href="tel:9123690150" class="contact-link">+91 9123690150</a>
+                        </div>
                     </div>
                 </div>
-
-                <div class="cta-section">
-                    <p class="cta-text">Ready to discuss your next geospatial project or explore collaboration opportunities?</p>
-                    <div class="cta-buttons">
-                        <a href="mailto:abhiknaskar1000@gmail.com" class="btn btn-primary">Send an Email →</a>
-                        <a href="https://linkedin.com/in/abhik-naskar-134b691b2" target="_blank" class="btn btn-secondary">Connect on LinkedIn</a>
+                <div class="contact-card">
+                    <div class="contact-icon">&#128205;</div>
+                    <div class="contact-details">
+                        <div class="contact-label">Location</div>
+                        <div class="contact-value">Bangalore, Karnataka, India</div>
                     </div>
                 </div>
             </div>
+
+            <div class="social-section">
+                <h2 class="social-title">Connect on Social Media</h2>
+                <div class="social-grid">
+                    <a href="https://linkedin.com/in/abhik-naskar-134b691b2" target="_blank" class="social-card">
+                        <div class="social-card-icon">in</div>
+                        <div class="social-card-name">LinkedIn</div>
+                        <div class="social-card-handle">Professional Network</div>
+                    </a>
+                    <a href="https://github.com/abhiknaskar" target="_blank" class="social-card">
+                        <div class="social-card-icon">{ }</div>
+                        <div class="social-card-name">GitHub</div>
+                        <div class="social-card-handle">Code Repository</div>
+                    </a>
+                    <a href="https://www.instagram.com/abhikofficial_1?igsh=d25jcWFwZjZwejM5" target="_blank" class="social-card">
+                        <div class="social-card-icon">&#128247;</div>
+                        <div class="social-card-name">Instagram</div>
+                        <div class="social-card-handle">@abhikofficial_1</div>
+                    </a>
+                    <a href="https://facebook.com/your-facebook-profile" target="_blank" class="social-card">
+                        <div class="social-card-icon">f</div>
+                        <div class="social-card-name">Facebook</div>
+                        <div class="social-card-handle">Connect on Facebook</div>
+                    </a>
+                    <a href="mailto:abhiknaskar1000@gmail.com" class="social-card">
+                        <div class="social-card-icon">@</div>
+                        <div class="social-card-name">Email</div>
+                        <div class="social-card-handle">Direct Contact</div>
+                    </a>
+                    <a href="tel:9123690150" class="social-card">
+                        <div class="social-card-icon">&#9742;</div>
+                        <div class="social-card-name">Phone</div>
+                        <div class="social-card-handle">Call or WhatsApp</div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <p class="cta-text">Ready to discuss your next geospatial project or explore collaboration opportunities?</p>
+                <div class="cta-buttons">
+                    <a href="mailto:abhiknaskar1000@gmail.com" class="btn btn-primary">Send an Email &rarr;</a>
+                    <a href="https://linkedin.com/in/abhik-naskar-134b691b2" target="_blank" class="btn btn-secondary">Connect on LinkedIn</a>
+                </div>
+            </div>
         </div>
-    </section>
+    </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+    <div class="footer-main">
+        <div class="footer-brand">
+            <h3>Abhik Naskar</h3>
+            <p>GeoSamurai &times; Business Growth Strategist. Transforming spatial intelligence into strategic business decisions.</p>
+            <div class="footer-social">
+                <a href="https://linkedin.com/in/abhik-naskar-134b691b2" target="_blank" class="footer-social-btn" title="LinkedIn">in</a>
+                <a href="https://github.com/abhiknaskar" target="_blank" class="footer-social-btn" title="GitHub">{ }</a>
+                <a href="mailto:abhiknaskar1000@gmail.com" class="footer-social-btn" title="Email">@</a>
+                <a href="https://www.instagram.com/abhikofficial_1" target="_blank" class="footer-social-btn" title="Instagram">&#128247;</a>
+            </div>
+        </div>
+        <div class="footer-nav">
+            <h4>Portfolio</h4>
+            <ul>
+                <li><a href="about.html">About Me</a></li>
+                <li><a href="skill.html">Skills</a></li>
+                <li><a href="education.html">Education</a></li>
+                <li><a href="corporate.html">Experience</a></li>
+                <li><a href="certificate.html">Certifications</a></li>
+            </ul>
+        </div>
+        <div class="footer-nav">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="project.html">Projects</a></li>
+                <li><a href="academic.html">Academic Work</a></li>
+                <li><a href="connect.html">Contact</a></li>
+                <li><a href="#resume">Download CV</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="footer-bottom-inner">
+            <p class="footer-copyright">&copy; 2026 Abhik Naskar. All rights reserved.</p>
+            <p class="footer-tagline">Built with <span>&hearts;</span> &middot; Geospatial Intelligence meets Design</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const navbar = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+        navbar.style.background = window.scrollY > 50
+            ? 'rgba(15,15,15,0.95)'
+            : 'rgba(15,15,15,0.8)';
+    });
+</script>
+
 </body>
 </html>
