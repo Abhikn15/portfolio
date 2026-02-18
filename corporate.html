@@ -7,11 +7,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -21,467 +17,339 @@
         }
 
         .line-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            opacity: 0.15;
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0; opacity: 0.15;
         }
 
+        /* ══ NAV ══ */
         nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
+            position: fixed; top: 0; width: 100%;
             padding: 1.5rem 5%;
-            background: rgba(15, 15, 15, 0.8);
+            background: rgba(15,15,15,0.8);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
             z-index: 1000;
+            transition: background 0.3s ease;
         }
-
         .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            max-width: 1400px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
         }
-
         .back-btn {
-            color: #a0a0a0;
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
+            color: #a0a0a0; text-decoration: none;
+            font-size: 0.95rem; font-weight: 500;
             transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            display: flex; align-items: center; gap: 0.5rem;
         }
-
-        .back-btn:hover {
-            color: #ffffff;
+        .back-btn:hover { color: #ffffff; }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a {
+            color: #a0a0a0; text-decoration: none;
+            font-size: 0.95rem; font-weight: 500;
+            transition: all 0.3s ease; position: relative;
         }
+        .nav-links a::after {
+            content: ''; position: absolute;
+            bottom: -5px; left: 0; width: 0; height: 1px;
+            background: #ffffff; transition: width 0.3s ease;
+        }
+        .nav-links a:hover { color: #ffffff; }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active { color: #ffffff; }
+        .nav-links a.active::after { width: 100%; }
 
+        /* ══ JOURNEY ══ */
         .journey-section {
             position: relative;
             min-height: 100vh;
             padding: 120px 5% 80px;
             z-index: 1;
         }
-
-        .journey-container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+        .journey-container { max-width: 1400px; margin: 0 auto; }
 
         .section-header {
             margin-bottom: 4rem;
             animation: fadeSlideIn 0.8s ease both;
         }
-
         .section-label {
-            color: #606060;
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
+            color: #606060; font-size: 0.9rem;
+            letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1rem;
         }
-
         .section-title {
             font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 800;
-            color: #ffffff;
-            margin-bottom: 1.5rem;
-            letter-spacing: -1px;
+            font-weight: 800; color: #ffffff;
+            margin-bottom: 1.5rem; letter-spacing: -1px;
         }
-
-        .section-subtitle {
-            font-size: 1.3rem;
-            color: #b0b0b0;
-            max-width: 800px;
-        }
+        .section-subtitle { font-size: 1.3rem; color: #b0b0b0; max-width: 800px; }
 
         .timeline {
-            position: relative;
-            padding-left: 3rem;
+            position: relative; padding-left: 3rem;
             animation: fadeSlideIn 0.8s ease 0.2s both;
         }
-
         .timeline::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: linear-gradient(to bottom, #ffffff 0%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.1) 100%);
+            content: ''; position: absolute;
+            left: 0; top: 0; bottom: 0; width: 3px;
+            background: linear-gradient(to bottom, #ffffff 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.1) 100%);
         }
 
         .timeline-item {
-            position: relative;
-            margin-bottom: 5rem;
-            padding-left: 2.5rem;
+            position: relative; margin-bottom: 5rem; padding-left: 2.5rem;
         }
-
         .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -3.75rem;
-            top: 0;
-            width: 20px;
-            height: 20px;
-            background: #ffffff;
-            border-radius: 50%;
+            content: ''; position: absolute;
+            left: -3.75rem; top: 0;
+            width: 20px; height: 20px;
+            background: #ffffff; border-radius: 50%;
             border: 4px solid #0f0f0f;
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.2);
             z-index: 2;
         }
-
         .timeline-item.current::before {
             background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
             animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0%, 100% {
-                box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2), 0 0 0 6px rgba(255, 255, 255, 0.1);
-            }
-            50% {
-                box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.2), 0 0 0 12px rgba(255, 255, 255, 0.05);
-            }
+            0%, 100% { box-shadow: 0 0 0 3px rgba(255,255,255,0.2), 0 0 0 6px rgba(255,255,255,0.1); }
+            50% { box-shadow: 0 0 0 6px rgba(255,255,255,0.2), 0 0 0 12px rgba(255,255,255,0.05); }
         }
 
         .experience-card {
             padding: 3rem;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 24px;
-            transition: all 0.4s ease;
+            transition: all 0.4s ease; cursor: pointer;
         }
-
         .experience-card:hover {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(255,255,255,0.2);
             transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
 
         .experience-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 2rem;
-            gap: 2rem;
+            display: flex; justify-content: space-between;
+            align-items: flex-start; gap: 2rem;
         }
-
-        .experience-title-group {
-            flex: 1;
-        }
-
+        .experience-title-group { flex: 1; }
         .job-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 0.8rem;
-            line-height: 1.3;
+            font-size: 1.8rem; font-weight: 700; color: #ffffff;
+            margin-bottom: 0.8rem; line-height: 1.3;
+            display: flex; align-items: center; gap: 1rem;
         }
-
-        .company-name {
-            font-size: 1.2rem;
-            color: #b0b0b0;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
+        .expand-icon {
+            font-size: 1.5rem; transition: all 0.3s ease;
+            color: #808080; font-weight: 300;
         }
+        .expand-icon::before { content: '+'; }
+        .experience-card.expanded .expand-icon::before { content: '\2212'; }
 
-        .job-meta {
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            margin-top: 1rem;
-        }
-
-        .meta-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            color: #808080;
-        }
-
-        .meta-icon {
-            font-size: 1rem;
-        }
-
+        .company-name { font-size: 1.2rem; color: #b0b0b0; margin-bottom: 0.5rem; font-weight: 500; }
+        .job-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 1rem; }
+        .meta-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: #808080; }
+        .meta-icon { font-size: 1rem; }
         .current-badge {
             padding: 0.5rem 1.2rem;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            font-size: 0.85rem;
-            color: #ffffff;
-            font-weight: 600;
-            letter-spacing: 0.5px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px; font-size: 0.85rem;
+            color: #ffffff; font-weight: 600; letter-spacing: 0.5px;
+        }
+        .company-logo {
+            width: 80px; height: 80px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0;
         }
 
-        .company-logo {
-            width: 80px;
-            height: 80px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            flex-shrink: 0;
+        .experience-details {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.5s ease, opacity 0.3s ease, margin-top 0.3s ease;
+            opacity: 0;
+        }
+        .experience-card.expanded .experience-details {
+            max-height: 3000px; opacity: 1; margin-top: 2rem;
         }
 
         .experience-description {
-            font-size: 1.05rem;
-            color: #a0a0a0;
-            line-height: 1.8;
-            margin-bottom: 2rem;
+            font-size: 1.05rem; color: #a0a0a0; line-height: 1.8; margin-bottom: 2rem;
         }
-
-        .responsibilities {
-            margin-top: 2rem;
-        }
-
+        .responsibilities { margin-top: 2rem; }
         .responsibilities-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-size: 1rem; font-weight: 600; color: #ffffff;
+            margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 1px;
         }
-
-        .responsibilities-list {
-            display: grid;
-            gap: 1rem;
-        }
-
+        .responsibilities-list { display: grid; gap: 1rem; }
         .responsibility-item {
-            display: flex;
-            gap: 1rem;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.02);
+            display: flex; gap: 1rem; padding: 1rem;
+            background: rgba(255,255,255,0.02);
             border-radius: 10px;
-            border-left: 3px solid rgba(255, 255, 255, 0.2);
+            border-left: 3px solid rgba(255,255,255,0.2);
             transition: all 0.3s ease;
         }
-
         .responsibility-item:hover {
-            background: rgba(255, 255, 255, 0.04);
-            border-left-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255,255,255,0.04);
+            border-left-color: rgba(255,255,255,0.4);
             transform: translateX(5px);
         }
+        .responsibility-bullet { color: #ffffff; font-size: 1.2rem; flex-shrink: 0; }
+        .responsibility-text { font-size: 0.95rem; color: #909090; line-height: 1.7; }
 
-        .responsibility-bullet {
-            color: #ffffff;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-
-        .responsibility-text {
-            font-size: 0.95rem;
-            color: #909090;
-            line-height: 1.7;
-        }
-
-        .skills-used {
-            margin-top: 2rem;
-        }
-
+        .skills-used { margin-top: 2rem; }
         .skills-title {
-            font-size: 0.85rem;
-            color: #707070;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
+            font-size: 0.85rem; color: #707070;
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;
         }
-
-        .skills-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-        }
-
+        .skills-tags { display: flex; flex-wrap: wrap; gap: 0.8rem; }
         .skill-tag {
             padding: 0.6rem 1.2rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            font-size: 0.85rem;
-            color: #a0a0a0;
-            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px; font-size: 0.85rem;
+            color: #a0a0a0; transition: all 0.3s ease;
         }
-
         .skill-tag:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.2);
-            color: #ffffff;
-            transform: translateY(-2px);
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.2);
+            color: #ffffff; transform: translateY(-2px);
         }
 
+        /* ══ FOOTER ══ */
+        footer { position: relative; z-index: 1; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 4rem; }
+        .footer-main {
+            padding: 3.5rem 5% 2rem; max-width: 1400px; margin: 0 auto;
+            display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 3rem;
+        }
+        .footer-brand h3 { font-size: 1.3rem; font-weight: 800; color: #ffffff; margin-bottom: 0.6rem; letter-spacing: -0.5px; }
+        .footer-brand p { font-size: 0.88rem; color: #606060; line-height: 1.7; max-width: 300px; }
+        .footer-social { display: flex; gap: 0.6rem; margin-top: 1.2rem; }
+        .footer-social-btn {
+            width: 36px; height: 36px; border-radius: 8px;
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+            color: #707070; text-decoration: none; font-size: 0.85rem; font-weight: 600;
+            display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;
+        }
+        .footer-social-btn:hover {
+            background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.25);
+            color: #ffffff; transform: translateY(-2px);
+        }
+        .footer-nav h4 {
+            font-size: 0.78rem; font-weight: 700; color: #ffffff;
+            letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.2rem;
+        }
+        .footer-nav ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+        .footer-nav a { color: #606060; text-decoration: none; font-size: 0.88rem; transition: color 0.3s ease; }
+        .footer-nav a:hover { color: #d0d0d0; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding: 1.5rem 5%; }
+        .footer-bottom-inner {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+            gap: 1rem; flex-wrap: wrap;
+        }
+        .footer-copyright { font-size: 0.82rem; color: #454545; }
+        .footer-tagline { font-size: 0.82rem; color: #454545; display: flex; align-items: center; gap: 0.4rem; }
+
+        /* ══ ANIMATIONS ══ */
         @keyframes fadeSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
+        /* ══ RESPONSIVE ══ */
+        @media (max-width: 1024px) {
+            .footer-main { grid-template-columns: 1fr; gap: 2rem; }
+        }
         @media (max-width: 968px) {
-            .timeline {
-                padding-left: 2rem;
-            }
-
-            .timeline-item {
-                padding-left: 2rem;
-            }
-
-            .timeline-item::before {
-                left: -2.75rem;
-            }
-
-            .experience-header {
-                flex-direction: column;
-                gap: 1.5rem;
-            }
-
-            .company-logo {
-                width: 60px;
-                height: 60px;
-                font-size: 1.5rem;
-            }
-
-            .job-meta {
-                flex-direction: column;
-                gap: 0.8rem;
-            }
+            .timeline { padding-left: 2rem; }
+            .timeline-item { padding-left: 2rem; }
+            .timeline-item::before { left: -2.75rem; }
+            .experience-header { flex-direction: column; gap: 1.5rem; }
+            .company-logo { width: 60px; height: 60px; font-size: 1.5rem; }
+            .job-meta { flex-direction: column; gap: 0.8rem; }
         }
-
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+        }
         @media (max-width: 640px) {
-            .journey-section {
-                padding: 100px 4% 60px;
-            }
-
-            .experience-card {
-                padding: 2rem;
-            }
+            .journey-section { padding: 100px 4% 60px; }
+            .experience-card { padding: 2rem; }
+            .job-title { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
-    <canvas class="line-canvas" id="lineCanvas"></canvas>
 
-    <nav>
-        <div class="nav-container">
-            <a href="index.html" class="back-btn">← Back to Home</a>
+<canvas class="line-canvas" id="lineCanvas"></canvas>
+
+<!-- ══ NAV ══ -->
+<nav id="mainNav">
+    <div class="nav-container">
+        <a href="index.html" class="back-btn">&larr; Back to Home</a>
+        <ul class="nav-links">
+            <li><a href="about.html">About</a></li>
+            <li><a href="corporate.html" class="active">Experience</a></li>
+            <li><a href="project.html">Projects</a></li>
+            <li><a href="connect.html">Connect</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ══ JOURNEY ══ -->
+<section class="journey-section">
+    <div class="journey-container">
+        <div class="section-header">
+            <div class="section-label">Professional Evolution</div>
+            <h1 class="section-title">Corporate Journey</h1>
+            <p class="section-subtitle">From technical expertise to business strategy&mdash;charting my professional growth across leading organizations. Click on any role to expand details.</p>
         </div>
-    </nav>
 
-    <section class="journey-section">
-        <div class="journey-container">
-            <div class="section-header">
-                <div class="section-label">Professional Evolution</div>
-                <h1 class="section-title">Corporate Journey</h1>
-                <p class="section-subtitle">From technical expertise to business strategy—charting my professional growth across leading organizations.</p>
-            </div>
+        <div class="timeline">
 
-            <div class="timeline">
-                <!-- Current Role - AGSRT -->
-                <div class="timeline-item current">
-                    <div class="experience-card">
-                        <div class="experience-header">
-                            <div class="experience-title-group">
-                                <h2 class="job-title">Business Development Executive</h2>
-                                <p class="company-name">AvakAza GeoScience Research Technologies (AGSRT)</p>
-                                <div class="job-meta">
-                                    <div class="meta-item">
-                                        <span class="meta-icon">📅</span>
-                                        <span>March 2025 - Present · 11 months</span>
-                                    </div>
-                                    <div class="meta-item">
-                                        <span class="meta-icon">📍</span>
-                                        <span>Bangalore, Karnataka, India · On-site</span>
-                                    </div>
-                                    <div class="meta-item">
-                                        <span class="meta-icon">💼</span>
-                                        <span>Full-time</span>
-                                    </div>
-                                </div>
-                                <div style="margin-top: 1rem;">
-                                    <span class="current-badge">CURRENT ROLE</span>
-                                </div>
+            <!-- Current Role - AGSRT -->
+            <div class="timeline-item current">
+                <div class="experience-card expanded">
+                    <div class="experience-header">
+                        <div class="experience-title-group">
+                            <h2 class="job-title">
+                                Business Development Executive
+                                <span class="expand-icon"></span>
+                            </h2>
+                            <p class="company-name">AvakAza GeoScience Research Technologies (AGSRT)</p>
+                            <div class="job-meta">
+                                <div class="meta-item"><span class="meta-icon">&#128197;</span><span>March 2025 &ndash; Present &middot; 1 year</span></div>
+                                <div class="meta-item"><span class="meta-icon">&#128205;</span><span>Bangalore Urban, Karnataka, India &middot; On-site</span></div>
+                                <div class="meta-item"><span class="meta-icon">&#128188;</span><span>Full-time</span></div>
                             </div>
-                            <div class="company-logo">🚀</div>
+                            <div style="margin-top: 1rem;">
+                                <span class="current-badge">CURRENT ROLE</span>
+                            </div>
                         </div>
-
-                        <p class="experience-description">
-                            Leading business development initiatives for geospatial solutions, bridging technical expertise with strategic market expansion. Managing the entire business development cycle from lead generation to project execution while contributing to technical GIS development and training program design.
-                        </p>
-
+                        <div class="company-logo">&#128640;</div>
+                    </div>
+                    <div class="experience-details">
+                        <p class="experience-description">Leading business development initiatives for geospatial solutions, bridging technical expertise with strategic market expansion. Managing the entire business development cycle from lead generation to project execution while contributing to technical GIS development and training program design.</p>
                         <div class="responsibilities">
                             <h3 class="responsibilities-title">Key Responsibilities</h3>
                             <div class="responsibilities-list">
-                                <div class="responsibility-item">
-                                    <span class="responsibility-bullet">●</span>
-                                    <span class="responsibility-text">Drive business development initiatives by identifying and building relationships with potential clients across industries</span>
-                                </div>
-                                <div class="responsibility-item">
-                                    <span class="responsibility-bullet">●</span>
-                                    <span class="responsibility-text">Generate qualified leads through strategic outreach, research, and engagement on professional platforms</span>
-                                </div>
-                                <div class="responsibility-item">
-                                    <span class="responsibility-bullet">●</span>
-                                    <span class="responsibility-text">Prepare and deliver customized business and technical proposals, presentations, and quotations aligned with client needs</span>
-                                </div>
-                                <div class="responsibility-item">
-                                    <span class="responsibility-bullet">●</span>
-                                    <span class="responsibility-text">Manage client communication and negotiations, ensuring clarity, trust, and long-term collaboration</span>
-                                </div>
-                                <div class="responsibility-item">
-                                    <span class="responsibility-bullet">●</span>
-                                    <span class="responsibility-text">Oversee pilot projects and coordinate with technical teams for on-time and successful execution</span>
-                                </div>
-                                <div class="responsibility-item">
-                                    <span class="responsibility-bullet">●</span>
-                                    <span class="responsibility-text">Conduct market analysis and competitor research to identify trends and growth opportunities</span>
-                                </div>
-                                <div class="responsibility-item">
-                                    <span class="responsibility-bullet">●</span>
-                                    <span class="responsibility-text">Plan and deliver seminars, tech talks, and training sessions to promote AGSRT's capabilities</span>
-                                </div>
-                                <div class="responsibility-item">
-                                    <span class="responsibility-bullet">●</span>
-                                    <span class="responsibility-text">Design training syllabi, course frameworks, and educational content for institutional needs</span>
-                                </div>
-                                <div class="responsibility-item">
-                                    <span class="responsibility-bullet">●</span>
-                                    <span class="responsibility-text">Create and publish blogs, articles, and case studies highlighting AGSRT's expertise</span>
-                                </div>
-                                <div class="responsibility-item">
-                                    <span class="responsibility-bullet">●</span>
-                                    <span class="responsibility-text">Maintain and manage ERP systems for smooth internal operations and process optimization</span>
-                                </div>
-                                <div class="responsibility-item">
-                                    <span class="responsibility-bullet">●</span>
-                                    <span class="responsibility-text">Contribute to GIS development tasks including mapping, data analysis, and spatial data management</span>
-                                </div>
-                                <div class="responsibility-item">
-                                    <span class="responsibility-bullet">●</span>
-                                    <span class="responsibility-text">Handle business development and client engagement across Eastern and North Eastern India regions</span>
-                                </div>
+                                <div class="responsibility-item"><span class="responsibility-bullet">&#9679;</span><span class="responsibility-text">Drive business development initiatives by identifying, connecting, and building relationships with potential clients and partners across industries</span></div>
+                                <div class="responsibility-item"><span class="responsibility-bullet">&#9679;</span><span class="responsibility-text">Generate qualified leads through strategic outreach, research, and engagement on professional platforms</span></div>
+                                <div class="responsibility-item"><span class="responsibility-bullet">&#9679;</span><span class="responsibility-text">Prepare and deliver customized business and technical proposals, presentations, and quotations aligned with client needs and project goals</span></div>
+                                <div class="responsibility-item"><span class="responsibility-bullet">&#9679;</span><span class="responsibility-text">Manage client communication and negotiations, ensuring clarity, trust, and long-term collaboration</span></div>
+                                <div class="responsibility-item"><span class="responsibility-bullet">&#9679;</span><span class="responsibility-text">Oversee pilot projects and coordinate with technical teams, management, and stakeholders for on-time and successful execution</span></div>
+                                <div class="responsibility-item"><span class="responsibility-bullet">&#9679;</span><span class="responsibility-text">Conduct market analysis and competitor research to identify trends, growth opportunities, and new service domains</span></div>
+                                <div class="responsibility-item"><span class="responsibility-bullet">&#9679;</span><span class="responsibility-text">Support strategic decision-making by preparing research reports, business insights, and partnership evaluations</span></div>
+                                <div class="responsibility-item"><span class="responsibility-bullet">&#9679;</span><span class="responsibility-text">Plan and deliver seminars, tech talks, and training sessions to promote AGSRT&rsquo;s geospatial and research capabilities</span></div>
+                                <div class="responsibility-item"><span class="responsibility-bullet">&#9679;</span><span class="responsibility-text">Design training syllabi, course frameworks, and educational content tailored to institutional and industry needs</span></div>
+                                <div class="responsibility-item"><span class="responsibility-bullet">&#9679;</span><span class="responsibility-text">Create and publish blogs, articles, case studies, and digital content highlighting AGSRT&rsquo;s expertise, innovation, and project success stories</span></div>
+                                <div class="responsibility-item"><span class="responsibility-bullet">&#9679;</span><span class="responsibility-text">Develop and manage advertising content, promotional creatives, and campaign strategies across digital platforms to enhance brand visibility and lead generation</span></div>
+                                <div class="responsibility-item"><span class="responsibility-bullet">&#9679;</span><span class="responsibility-text">Maintain and manage ERP systems to ensure smooth internal operations and process optimization</span></div>
+                                <div class="responsibility-item"><span class="responsibility-bullet">&#9679;</span><span class="responsibility-text">Contribute to GIS development tasks on a need basis, including mapping, data analysis, and spatial data management</span></div>
+                                <div class="responsibility-item"><span class="responsibility-bullet">&#9679;</span><span class="responsibility-text">Handle business development and client engagement across Eastern and North Eastern India regions</span></div>
                             </div>
                         </div>
-
                         <div class="skills-used">
                             <div class="skills-title">Skills Applied</div>
                             <div class="skills-tags">
@@ -500,54 +368,37 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- NielsenIQ -->
-                <div class="timeline-item">
-                    <div class="experience-card">
-                        <div class="experience-header">
-                            <div class="experience-title-group">
-                                <h2 class="job-title">Cartographer</h2>
-                                <p class="company-name">NielsenIQ</p>
-                                <div class="job-meta">
-                                    <div class="meta-item">
-                                        <span class="meta-icon">📅</span>
-                                        <span>July 2024 - January 2025 · 6 months(Contractual)</span>
-                                    </div>
-                                    <div class="meta-item">
-                                        <span class="meta-icon">📍</span>
-                                        <span>Vadodara, Gujarat, India · Remote</span>
-                                    </div>
-                                    <div class="meta-item">
-                                        <span class="meta-icon">💼</span>
-                                        <span>Full-time</span>
-                                    </div>
-                                </div>
+            <!-- NielsenIQ -->
+            <div class="timeline-item">
+                <div class="experience-card">
+                    <div class="experience-header">
+                        <div class="experience-title-group">
+                            <h2 class="job-title">
+                                GIS Cartographer
+                                <span class="expand-icon"></span>
+                            </h2>
+                            <p class="company-name">NielsenIQ</p>
+                            <div class="job-meta">
+                                <div class="meta-item"><span class="meta-icon">&#128197;</span><span>July 2024 &ndash; January 2025 &middot; 7 months (Contractual)</span></div>
+                                <div class="meta-item"><span class="meta-icon">&#128205;</span><span>Vadodara, Gujarat, India &middot; Remote</span></div>
+                                <div class="meta-item"><span class="meta-icon">&#128188;</span><span>Full-time</span></div>
                             </div>
-                            <div class="company-logo">🗺️</div>
                         </div>
-
-                        <p class="experience-description">
-                            Created and maintained high-quality geospatial datasets for analytical projects across multiple international markets. Ensured data accuracy and implemented cartographic standards while developing Primary and Secondary Sampling Units for global operations.
-                        </p>
-
+                        <div class="company-logo">&#128506;</div>
+                    </div>
+                    <div class="experience-details">
+                        <p class="experience-description">Engineered high-quality cartographic outputs for multi-country projects, establishing rigorous QA/QC protocols and collaborating with international teams to deliver precise spatial data products.</p>
                         <div class="responsibilities">
                             <h3 class="responsibilities-title">Key Responsibilities</h3>
                             <div class="responsibilities-list">
-                                <div class="responsibility-item">
-                                    <span class="responsibility-bullet">●</span>
-                                    <span class="responsibility-text">Created and updated maps for analytical projects using geospatial data</span>
-                                </div>
-                                <div class="responsibility-item">
-                                    <span class="responsibility-bullet">●</span>
-                                    <span class="responsibility-text">Ensured data accuracy and implemented cartographic standards across projects</span>
-                                </div>
-                                <div class="responsibility-item">
-                                    <span class="responsibility-bullet">●</span>
-                                    <span class="responsibility-text">Developed, conducted QA/QC, and maintained Primary Sampling Units (PSUs) and Secondary Sampling Units (SSUs) for Romania, Uzbekistan, Thailand, Tanzania, and India</span>
-                                </div>
+                                <div class="responsibility-item"><span class="responsibility-bullet">&#9679;</span><span class="responsibility-text">Engineered high-quality cartographic outputs for multi-country projects spanning Romania, Uzbekistan, Thailand, Tanzania, and India</span></div>
+                                <div class="responsibility-item"><span class="responsibility-bullet">&#9679;</span><span class="responsibility-text">Created and maintained Primary and Secondary Sampling Unit spatial datasets for statistical sampling methodologies</span></div>
+                                <div class="responsibility-item"><span class="responsibility-bullet">&#9679;</span><span class="responsibility-text">Established rigorous QA/QC protocols ensuring compliance with international project specifications</span></div>
+                                <div class="responsibility-item"><span class="responsibility-bullet">&#9679;</span><span class="responsibility-text">Collaborated with international team members across multiple time zones to deliver spatial data products</span></div>
                             </div>
                         </div>
-
                         <div class="skills-used">
                             <div class="skills-title">Skills Applied</div>
                             <div class="skills-tags">
@@ -556,194 +407,213 @@
                                 <div class="skill-tag">QGIS</div>
                                 <div class="skill-tag">Geoprocessing</div>
                                 <div class="skill-tag">Cartography</div>
+                                <div class="skill-tag">QA/QC</div>
+                                <div class="skill-tag">Statistical Sampling</div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Xpressbees -->
-                <div class="timeline-item">
-                    <div class="experience-card">
-                        <div class="experience-header">
-                            <div class="experience-title-group">
-                                <h2 class="job-title">Engineering Intern</h2>
-                                <p class="company-name">Xpressbees (BusyBees Logistics Solutions Pvt. Ltd.)</p>
-                                <div class="job-meta">
-                                    <div class="meta-item">
-                                        <span class="meta-icon">📅</span>
-                                        <span>February 2024 - July 2024 · 6 months</span>
-                                    </div>
-                                    <div class="meta-item">
-                                        <span class="meta-icon">📍</span>
-                                        <span>Pune, Maharashtra, India</span>
-                                    </div>
-                                    <div class="meta-item">
-                                        <span class="meta-icon">💼</span>
-                                        <span>Internship</span>
-                                    </div>
-                                </div>
+            <!-- Xpressbees -->
+            <div class="timeline-item">
+                <div class="experience-card">
+                    <div class="experience-header">
+                        <div class="experience-title-group">
+                            <h2 class="job-title">
+                                Engineering Intern, Data Science and GIS
+                                <span class="expand-icon"></span>
+                            </h2>
+                            <p class="company-name">Xpressbees (BusyBees Logistics Solutions Pvt. Ltd.)</p>
+                            <div class="job-meta">
+                                <div class="meta-item"><span class="meta-icon">&#128197;</span><span>February 2024 &ndash; July 2024 &middot; 6 months</span></div>
+                                <div class="meta-item"><span class="meta-icon">&#128205;</span><span>Pune, Maharashtra, India</span></div>
+                                <div class="meta-item"><span class="meta-icon">&#128188;</span><span>Internship</span></div>
                             </div>
-                            <div class="company-logo">📦</div>
                         </div>
-
-                        <p class="experience-description">
-                            Worked with the R&D team on service and network development, focusing on spatial database management, address parsing, and location-based data processing for major Indian cities.
-                        </p>
-
+                        <div class="company-logo">&#128230;</div>
+                    </div>
+                    <div class="experience-details">
+                        <p class="experience-description">Processed large-scale GPS trajectory datasets and built automated data pipelines for logistics optimization. Managed enterprise spatial databases and developed address parsing algorithms for improved geospatial accuracy.</p>
                         <div class="responsibilities">
                             <h3 class="responsibilities-title">Key Responsibilities</h3>
                             <div class="responsibilities-list">
-                                <div class="responsibility-item">
-                                    <span class="responsibility-bullet">●</span>
-                                    <span class="responsibility-text">Data cleaning using Python, database management with PostgreSQL (including spatial data) and Neo4j</span>
-                                </div>
-                                <div class="responsibility-item">
-                                    <span class="responsibility-bullet">●</span>
-                                    <span class="responsibility-text">Worked with GPS data from Pune, Bangalore, Chennai, and Kolkata as part of R&D team for service and network development</span>
-                                </div>
-                                <div class="responsibility-item">
-                                    <span class="responsibility-bullet">●</span>
-                                    <span class="responsibility-text">Performed address parsing using Python for structured and unstructured data</span>
-                                </div>
-                                <div class="responsibility-item">
-                                    <span class="responsibility-bullet">●</span>
-                                    <span class="responsibility-text">Utilized libraries for SL1, SL2, L, Lat, Lon etc. address standardization, geocoding, and component extraction</span>
-                                </div>
-                                <div class="responsibility-item">
-                                    <span class="responsibility-bullet">●</span>
-                                    <span class="responsibility-text">Processed and analyzed location-based data for improved accuracy in geospatial applications</span>
-                                </div>
+                                <div class="responsibility-item"><span class="responsibility-bullet">&#9679;</span><span class="responsibility-text">Processed and analyzed large-scale GPS trajectory datasets from logistics operations to optimize route efficiency</span></div>
+                                <div class="responsibility-item"><span class="responsibility-bullet">&#9679;</span><span class="responsibility-text">Built automated data cleaning pipelines using Python (Pandas, NumPy) to handle location records efficiently</span></div>
+                                <div class="responsibility-item"><span class="responsibility-bullet">&#9679;</span><span class="responsibility-text">Managed enterprise spatial database using PostgreSQL/PostGIS with optimized query performance</span></div>
+                                <div class="responsibility-item"><span class="responsibility-bullet">&#9679;</span><span class="responsibility-text">Leveraged Neo4j graph database for network analysis to identify route optimization opportunities</span></div>
+                                <div class="responsibility-item"><span class="responsibility-bullet">&#9679;</span><span class="responsibility-text">Designed address parsing algorithms for extracting structured components from diverse address formats</span></div>
                             </div>
                         </div>
-
                         <div class="skills-used">
                             <div class="skills-title">Skills Applied</div>
                             <div class="skills-tags">
                                 <div class="skill-tag">PostgreSQL</div>
+                                <div class="skill-tag">PostGIS</div>
                                 <div class="skill-tag">Machine Learning</div>
                                 <div class="skill-tag">OSM API</div>
                                 <div class="skill-tag">Address Parsing</div>
-                                <div class="skill-tag">Matplotlib</div>
-                                <div class="skill-tag">Database Queries</div>
+                                <div class="skill-tag">Pandas</div>
+                                <div class="skill-tag">NumPy</div>
                                 <div class="skill-tag">Neo4j</div>
                                 <div class="skill-tag">Python</div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- IIEST Shibpur -->
-                <div class="timeline-item">
-                    <div class="experience-card">
-                        <div class="experience-header">
-                            <div class="experience-title-group">
-                                <h2 class="job-title">Summer Intern</h2>
-                                <p class="company-name">Indian Institute of Engineering Science and Technology (IIEST), Shibpur</p>
-                                <div class="job-meta">
-                                    <div class="meta-item">
-                                        <span class="meta-icon">📅</span>
-                                        <span>March 2023 - May 2023 · 3 months</span>
-                                    </div>
-                                    <div class="meta-item">
-                                        <span class="meta-icon">📍</span>
-                                        <span>Howrah, West Bengal, India</span>
-                                    </div>
-                                    <div class="meta-item">
-                                        <span class="meta-icon">💼</span>
-                                        <span>Internship</span>
-                                    </div>
-                                </div>
+            <!-- IIEST Shibpur -->
+            <div class="timeline-item">
+                <div class="experience-card">
+                    <div class="experience-header">
+                        <div class="experience-title-group">
+                            <h2 class="job-title">
+                                Remote Sensing and Environmental GIS Intern
+                                <span class="expand-icon"></span>
+                            </h2>
+                            <p class="company-name">Indian Institute of Engineering Science and Technology (IIEST), Shibpur</p>
+                            <div class="job-meta">
+                                <div class="meta-item"><span class="meta-icon">&#128197;</span><span>March 2023 &ndash; May 2023 &middot; 3 months</span></div>
+                                <div class="meta-item"><span class="meta-icon">&#128205;</span><span>Howrah, West Bengal, India</span></div>
+                                <div class="meta-item"><span class="meta-icon">&#128188;</span><span>Internship</span></div>
                             </div>
-                            <div class="company-logo">🎓</div>
                         </div>
-
-                        <p class="experience-description">
-                            Academic internship focused on SAR data processing and soil moisture retrieval using Sentinel-1 data. Worked on advanced remote sensing techniques and geospatial analysis methodologies.
-                        </p>
-
+                        <div class="company-logo">&#127891;</div>
+                    </div>
+                    <div class="experience-details">
+                        <p class="experience-description">Executed soil moisture estimation research using Sentinel-1 SAR data processing and advanced image processing techniques, validating satellite-derived estimates for precision agriculture applications.</p>
+                        <div class="responsibilities">
+                            <h3 class="responsibilities-title">Key Responsibilities</h3>
+                            <div class="responsibilities-list">
+                                <div class="responsibility-item"><span class="responsibility-bullet">&#9679;</span><span class="responsibility-text">Executed soil moisture estimation research using Sentinel-1 SAR data processing</span></div>
+                                <div class="responsibility-item"><span class="responsibility-bullet">&#9679;</span><span class="responsibility-text">Employed advanced SAR image processing techniques including radiometric calibration and Lee filtering using ESA SNAP toolbox</span></div>
+                                <div class="responsibility-item"><span class="responsibility-bullet">&#9679;</span><span class="responsibility-text">Validated satellite-derived estimates against field measurements for precision agriculture applications</span></div>
+                            </div>
+                        </div>
                         <div class="skills-used">
                             <div class="skills-title">Skills Applied</div>
                             <div class="skills-tags">
                                 <div class="skill-tag">ArcGIS Pro</div>
                                 <div class="skill-tag">GPS</div>
-                                <div class="skill-tag">ArcGIS Server</div>
-                                <div class="skill-tag">ESRI</div>
                                 <div class="skill-tag">ESA SNAP</div>
                                 <div class="skill-tag">GIS Analysis</div>
                                 <div class="skill-tag">Synthetic Aperture Radar</div>
+                                <div class="skill-tag">Remote Sensing</div>
+                                <div class="skill-tag">Radiometric Calibration</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
-    </section>
+    </div>
+</section>
 
-    <script>
-        const canvas = document.getElementById('lineCanvas');
-        const ctx = canvas.getContext('2d');
+<!-- ══ FOOTER ══ -->
+<footer>
+    <div class="footer-main">
+        <div class="footer-brand">
+            <h3>Abhik Naskar</h3>
+            <p>GeoSamurai &times; Business Growth Strategist. Transforming spatial intelligence into strategic business decisions.</p>
+            <div class="footer-social">
+                <a href="https://linkedin.com/in/abhik-naskar-134b691b2" target="_blank" class="footer-social-btn" title="LinkedIn">in</a>
+                <a href="https://github.com/abhiknaskar" target="_blank" class="footer-social-btn" title="GitHub">{ }</a>
+                <a href="mailto:abhiknaskar1000@gmail.com" class="footer-social-btn" title="Email">@</a>
+                <a href="https://www.instagram.com/abhikofficial_1" target="_blank" class="footer-social-btn" title="Instagram">&#128247;</a>
+            </div>
+        </div>
+        <div class="footer-nav">
+            <h4>Portfolio</h4>
+            <ul>
+                <li><a href="about.html">About Me</a></li>
+                <li><a href="skill.html">Skills</a></li>
+                <li><a href="education.html">Education</a></li>
+                <li><a href="corporate.html">Experience</a></li>
+                <li><a href="certificate.html">Certifications</a></li>
+            </ul>
+        </div>
+        <div class="footer-nav">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="project.html">Projects</a></li>
+                <li><a href="academic.html">Academic Work</a></li>
+                <li><a href="connect.html">Contact</a></li>
+                <li><a href="#resume">Download CV</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="footer-bottom-inner">
+            <p class="footer-copyright">&copy; 2026 Abhik Naskar. All rights reserved.</p>
+            <p class="footer-tagline">Built with <span>&hearts;</span> &middot; Geospatial Intelligence meets Design</p>
+        </div>
+    </div>
+</footer>
 
+<script>
+    const canvas = document.getElementById('lineCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const lines = [];
+
+    class Line {
+        constructor() { this.reset(); }
+        reset() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.length = Math.random() * 150 + 50;
+            this.angle = Math.random() * Math.PI * 2;
+            this.speed = Math.random() * 0.3 + 0.1;
+            this.opacity = Math.random() * 0.3 + 0.1;
+        }
+        update() {
+            this.x += Math.cos(this.angle) * this.speed;
+            this.y += Math.sin(this.angle) * this.speed;
+            if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+        }
+        draw() {
+            ctx.beginPath();
+            ctx.moveTo(this.x, this.y);
+            ctx.lineTo(this.x + Math.cos(this.angle) * this.length, this.y + Math.sin(this.angle) * this.length);
+            ctx.strokeStyle = `rgba(255,255,255,${this.opacity})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+        }
+    }
+
+    for (let i = 0; i < 40; i++) lines.push(new Line());
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        lines.forEach(l => { l.update(); l.draw(); });
+        requestAnimationFrame(animate);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+    });
 
-        const lines = [];
-        const lineCount = 40;
+    /* Nav scroll effect */
+    const navbar = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+        navbar.style.background = window.scrollY > 50
+            ? 'rgba(15,15,15,0.95)'
+            : 'rgba(15,15,15,0.8)';
+    });
 
-        class Line {
-            constructor() {
-                this.reset();
-            }
-
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.length = Math.random() * 150 + 50;
-                this.angle = Math.random() * Math.PI * 2;
-                this.speed = Math.random() * 0.3 + 0.1;
-                this.opacity = Math.random() * 0.3 + 0.1;
-            }
-
-            update() {
-                this.x += Math.cos(this.angle) * this.speed;
-                this.y += Math.sin(this.angle) * this.speed;
-
-                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
-                    this.reset();
-                }
-            }
-
-            draw() {
-                ctx.beginPath();
-                ctx.moveTo(this.x, this.y);
-                ctx.lineTo(
-                    this.x + Math.cos(this.angle) * this.length,
-                    this.y + Math.sin(this.angle) * this.length
-                );
-                ctx.strokeStyle = `rgba(255, 255, 255, ${this.opacity})`;
-                ctx.lineWidth = 1;
-                ctx.stroke();
-            }
-        }
-
-        for (let i = 0; i < lineCount; i++) {
-            lines.push(new Line());
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            lines.forEach(line => {
-                line.update();
-                line.draw();
-            });
-            requestAnimationFrame(animate);
-        }
-
-        animate();
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+    /* Expand / collapse cards */
+    document.querySelectorAll('.experience-card').forEach(card => {
+        card.addEventListener('click', function(e) {
+            if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') return;
+            this.classList.toggle('expanded');
         });
-    </script>
+    });
+</script>
+
 </body>
 </html>
