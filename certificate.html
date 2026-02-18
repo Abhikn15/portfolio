@@ -7,11 +7,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -20,76 +16,67 @@
             overflow-x: hidden;
         }
 
+        /* ══ NAV ══ */
         nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
+            position: fixed; top: 0; width: 100%;
             padding: 1.5rem 5%;
-            background: rgba(15, 15, 15, 0.8);
+            background: rgba(15,15,15,0.8);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
             z-index: 1000;
+            transition: background 0.3s ease;
         }
-
         .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            max-width: 1400px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
         }
-
         .back-btn {
-            color: #a0a0a0;
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
+            color: #a0a0a0; text-decoration: none;
+            font-size: 0.95rem; font-weight: 500;
             transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            display: flex; align-items: center; gap: 0.5rem;
         }
-
-        .back-btn:hover {
-            color: #ffffff;
+        .back-btn:hover { color: #ffffff; }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a {
+            color: #a0a0a0; text-decoration: none;
+            font-size: 0.95rem; font-weight: 500;
+            transition: all 0.3s ease; position: relative;
         }
+        .nav-links a::after {
+            content: ''; position: absolute;
+            bottom: -5px; left: 0; width: 0; height: 1px;
+            background: #ffffff; transition: width 0.3s ease;
+        }
+        .nav-links a:hover { color: #ffffff; }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active { color: #ffffff; }
+        .nav-links a.active::after { width: 100%; }
 
+        /* ══ CERTIFICATIONS ══ */
         .certifications-section {
             position: relative;
             min-height: 100vh;
             padding: 120px 5% 80px;
         }
-
-        .certifications-container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+        .certifications-container { max-width: 1400px; margin: 0 auto; }
 
         .section-header {
             margin-bottom: 3rem;
             animation: fadeSlideIn 0.8s ease both;
         }
-
         .section-label {
-            color: #606060;
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+            color: #606060; font-size: 0.9rem;
+            letter-spacing: 2px; text-transform: uppercase;
             margin-bottom: 1rem;
         }
-
         .section-title {
             font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 800;
-            color: #ffffff;
-            margin-bottom: 1rem;
-            letter-spacing: -1px;
+            font-weight: 800; color: #ffffff;
+            margin-bottom: 1rem; letter-spacing: -1px;
         }
-
         .section-subtitle {
-            font-size: 1.1rem;
-            color: #b0b0b0;
-            max-width: 700px;
+            font-size: 1.1rem; color: #b0b0b0; max-width: 700px;
         }
 
         .certifications-grid {
@@ -97,110 +84,185 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
             animation: fadeSlideIn 0.8s ease 0.2s both;
+            margin-bottom: 6rem;
         }
 
         .cert-item {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
+            display: flex; flex-direction: column; gap: 0.8rem;
         }
-
         .cert-image {
-            width: 100%;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            width: 100%; border-radius: 12px; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
             transition: all 0.3s ease;
         }
-
         .cert-image:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+            border-color: rgba(255,255,255,0.2);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.7);
             transform: translateY(-3px);
         }
-
-        .cert-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
+        .cert-image img { width: 100%; height: auto; display: block; }
         .cert-name {
-            font-size: 0.95rem;
-            color: #b0b0b0;
-            font-weight: 500;
-            line-height: 1.4;
-            text-align: center;
+            font-size: 0.95rem; color: #b0b0b0;
+            font-weight: 500; line-height: 1.4; text-align: center;
         }
 
+        /* ══ FOOTER ══ */
+        footer { position: relative; z-index: 1; border-top: 1px solid rgba(255,255,255,0.08); }
+        .footer-main {
+            padding: 3.5rem 5% 2rem; max-width: 1400px; margin: 0 auto;
+            display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 3rem;
+        }
+        .footer-brand h3 { font-size: 1.3rem; font-weight: 800; color: #ffffff; margin-bottom: 0.6rem; letter-spacing: -0.5px; }
+        .footer-brand p { font-size: 0.88rem; color: #606060; line-height: 1.7; max-width: 300px; }
+        .footer-social { display: flex; gap: 0.6rem; margin-top: 1.2rem; }
+        .footer-social-btn {
+            width: 36px; height: 36px; border-radius: 8px;
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+            color: #707070; text-decoration: none; font-size: 0.85rem; font-weight: 600;
+            display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;
+        }
+        .footer-social-btn:hover {
+            background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.25);
+            color: #ffffff; transform: translateY(-2px);
+        }
+        .footer-nav h4 {
+            font-size: 0.78rem; font-weight: 700; color: #ffffff;
+            letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.2rem;
+        }
+        .footer-nav ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+        .footer-nav a { color: #606060; text-decoration: none; font-size: 0.88rem; transition: color 0.3s ease; }
+        .footer-nav a:hover { color: #d0d0d0; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding: 1.5rem 5%; }
+        .footer-bottom-inner {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+            gap: 1rem; flex-wrap: wrap;
+        }
+        .footer-copyright { font-size: 0.82rem; color: #454545; }
+        .footer-tagline { font-size: 0.82rem; color: #454545; display: flex; align-items: center; gap: 0.4rem; }
+
+        /* ══ ANIMATIONS ══ */
         @keyframes fadeSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
+        /* ══ RESPONSIVE ══ */
+        @media (max-width: 1024px) {
+            .footer-main { grid-template-columns: 1fr; gap: 2rem; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+        }
         @media (max-width: 640px) {
-            .certifications-section {
-                padding: 100px 4% 60px;
-            }
-
-            .certifications-grid {
-                grid-template-columns: 1fr;
-            }
+            .certifications-section { padding: 100px 4% 60px; }
+            .certifications-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <nav>
-        <div class="nav-container">
-            <a href="index.html" class="back-btn">← Back to Home</a>
+
+<!-- ══ NAV ══ -->
+<nav id="mainNav">
+    <div class="nav-container">
+        <a href="index.html" class="back-btn">&larr; Back to Home</a>
+        <ul class="nav-links">
+            <li><a href="about.html">About</a></li>
+            <li><a href="corporate.html">Experience</a></li>
+            <li><a href="project.html">Projects</a></li>
+            <li><a href="connect.html">Connect</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ══ CERTIFICATIONS ══ -->
+<section class="certifications-section">
+    <div class="certifications-container">
+        <div class="section-header">
+            <div class="section-label">Professional Credentials</div>
+            <h1 class="section-title">Certifications</h1>
+            <p class="section-subtitle">Specialized training in geospatial technologies and remote sensing from leading institutions.</p>
         </div>
-    </nav>
 
-    <section class="certifications-section">
-        <div class="certifications-container">
-            <div class="section-header">
-                <div class="section-label">Professional Credentials</div>
-                <h1 class="section-title">Certifications</h1>
-                <p class="section-subtitle">Specialized training in geospatial technologies and remote sensing from leading institutions.</p>
+        <div class="certifications-grid">
+            <div class="cert-item">
+                <div class="cert-image">
+                    <img src="cer1.png" alt="Diploma Course Certificate">
+                </div>
+                <p class="cert-name">Diploma Course in Computer Basic &mdash; Remote Sensing &mdash; GIS &amp; GNSS</p>
             </div>
-
-            <div class="certifications-grid">
-                <div class="cert-item">
-                    <div class="cert-image">
-                        <img src="cer1.png" alt="Diploma Course Certificate">
-                    </div>
-                    <p class="cert-name">Diploma Course in Computer Basic - Remote Sensing - GIS & GNSS</p>
+            <div class="cert-item">
+                <div class="cert-image">
+                    <img src="cer2.jpg" alt="NASA Black Marble Certificate">
                 </div>
-
-                <div class="cert-item">
-                    <div class="cert-image">
-                        <img src="cer2.jpg" alt="NASA Black Marble Certificate">
-                    </div>
-                    <p class="cert-name">Introduction to NASA's "Black Marble" Night Lights Data</p>
+                <p class="cert-name">Introduction to NASA&rsquo;s &ldquo;Black Marble&rdquo; Night Lights Data</p>
+            </div>
+            <div class="cert-item">
+                <div class="cert-image">
+                    <img src="cer3.jpg" alt="NASA Mangroves Certificate">
                 </div>
-
-                <div class="cert-item">
-                    <div class="cert-image">
-                        <img src="cer3.jpg" alt="NASA Mangroves Certificate">
-                    </div>
-                    <p class="cert-name">Remote Sensing for Mangroves in Support of UN SDGs</p>
+                <p class="cert-name">Remote Sensing for Mangroves in Support of UN SDGs</p>
+            </div>
+            <div class="cert-item">
+                <div class="cert-image">
+                    <img src="cer4.jpg" alt="NASA Urban Heat Islands Certificate">
                 </div>
-
-                <div class="cert-item">
-                    <div class="cert-image">
-                        <img src="cer4.jpg" alt="NASA Urban Heat Islands Certificate">
-                    </div>
-                    <p class="cert-name">Satellite Remote Sensing for Urban Heat Islands</p>
-                </div>
+                <p class="cert-name">Satellite Remote Sensing for Urban Heat Islands</p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+    <div class="footer-main">
+        <div class="footer-brand">
+            <h3>Abhik Naskar</h3>
+            <p>GeoSamurai &times; Business Growth Strategist. Transforming spatial intelligence into strategic business decisions.</p>
+            <div class="footer-social">
+                <a href="https://linkedin.com/in/abhik-naskar-134b691b2" target="_blank" class="footer-social-btn" title="LinkedIn">in</a>
+                <a href="https://github.com/abhiknaskar" target="_blank" class="footer-social-btn" title="GitHub">{ }</a>
+                <a href="mailto:abhiknaskar1000@gmail.com" class="footer-social-btn" title="Email">@</a>
+                <a href="https://www.instagram.com/abhikofficial_1" target="_blank" class="footer-social-btn" title="Instagram">&#128247;</a>
+            </div>
+        </div>
+        <div class="footer-nav">
+            <h4>Portfolio</h4>
+            <ul>
+                <li><a href="about.html">About Me</a></li>
+                <li><a href="skill.html">Skills</a></li>
+                <li><a href="education.html">Education</a></li>
+                <li><a href="corporate.html">Experience</a></li>
+                <li><a href="certificate.html">Certifications</a></li>
+            </ul>
+        </div>
+        <div class="footer-nav">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="project.html">Projects</a></li>
+                <li><a href="academic.html">Academic Work</a></li>
+                <li><a href="connect.html">Contact</a></li>
+                <li><a href="#resume">Download CV</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="footer-bottom-inner">
+            <p class="footer-copyright">&copy; 2026 Abhik Naskar. All rights reserved.</p>
+            <p class="footer-tagline">Built with <span>&hearts;</span> &middot; Geospatial Intelligence meets Design</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const navbar = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+        navbar.style.background = window.scrollY > 50
+            ? 'rgba(15,15,15,0.95)'
+            : 'rgba(15,15,15,0.8)';
+    });
+</script>
+
 </body>
 </html>
