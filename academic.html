@@ -22,7 +22,6 @@
             z-index: 0; opacity: 0.15;
         }
 
-        /* ══ NAV ══ */
         nav {
             position: fixed; top: 0; width: 100%;
             padding: 1.5rem 5%;
@@ -61,10 +60,7 @@
         }
         .nav-links a:hover { color: #ffffff; }
         .nav-links a:hover::after { width: 100%; }
-        .nav-links a.active { color: #ffffff; }
-        .nav-links a.active::after { width: 100%; }
 
-        /* ══ HERO ══ */
         .hero {
             position: relative;
             min-height: 50vh;
@@ -115,7 +111,6 @@
             text-transform: uppercase; letter-spacing: 1px;
         }
 
-        /* ══ PROJECTS ══ */
         .projects-section {
             position: relative; padding: 40px 5% 60px; z-index: 1;
         }
@@ -156,18 +151,16 @@
             display: flex; justify-content: space-between;
             align-items: flex-start; margin-bottom: 1.5rem; gap: 2rem;
         }
-        .project-meta-left { display: flex; flex-direction: column; gap: 0.4rem; }
+        .project-meta-left { display: flex; flex-direction: column; gap: 0.35rem; }
         .project-number {
             font-size: 0.75rem; color: #606060;
             letter-spacing: 2px; text-transform: uppercase; font-weight: 600;
         }
         .project-association {
-            font-size: 0.78rem; color: #505050;
-            font-weight: 500; letter-spacing: 0.3px;
+            font-size: 0.78rem; color: #555555; font-weight: 500;
         }
         .project-period {
-            font-size: 0.78rem; color: #484848;
-            font-weight: 400; font-style: italic;
+            font-size: 0.75rem; color: #484848; font-style: italic;
         }
         .expand-icon {
             width: 40px; height: 40px;
@@ -217,94 +210,18 @@
             padding: 3rem; background: rgba(0,0,0,0.2);
         }
         .content-section {
-            margin-bottom: 3rem; opacity: 0;
+            opacity: 0;
             transform: translateY(20px); transition: all 0.5s ease;
         }
-        .project-card.expanded .content-section { opacity: 1; transform: translateY(0); }
-        .project-card.expanded .content-section:nth-child(1) { transition-delay: 0.1s; }
-        .project-card.expanded .content-section:nth-child(2) { transition-delay: 0.2s; }
-        .project-card.expanded .content-section:nth-child(3) { transition-delay: 0.3s; }
-        .project-card.expanded .content-section:nth-child(4) { transition-delay: 0.4s; }
-        .project-card.expanded .content-section:nth-child(5) { transition-delay: 0.5s; }
-        .project-card.expanded .content-section:nth-child(6) { transition-delay: 0.6s; }
+        .project-card.expanded .content-section { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
 
-        .section-title {
-            font-size: 0.9rem; font-weight: 700; color: #ffffff;
-            text-transform: uppercase; letter-spacing: 1.5px;
-            margin-bottom: 1.5rem; padding-bottom: 0.8rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .content-text { font-size: 1rem; color: #a0a0a0; line-height: 1.8; margin-bottom: 1rem; }
-        .content-list { list-style: none; display: grid; gap: 1rem; }
+        .content-list { list-style: none; display: grid; gap: 1.2rem; }
         .content-list li {
             position: relative; padding-left: 2rem;
-            font-size: 0.95rem; color: #a0a0a0; line-height: 1.7;
+            font-size: 0.97rem; color: #a0a0a0; line-height: 1.8;
         }
         .content-list li::before { content: '\2192'; position: absolute; left: 0; color: #ffffff; font-weight: 600; }
 
-        .data-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
-            gap: 1.5rem; margin-top: 1.5rem;
-        }
-        .data-item {
-            padding: 1.5rem;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px; transition: all 0.3s ease;
-        }
-        .data-item:hover {
-            background: rgba(255,255,255,0.05);
-            border-color: rgba(255,255,255,0.2); transform: translateY(-3px);
-        }
-        .data-label {
-            font-size: 0.75rem; color: #707070;
-            text-transform: uppercase; letter-spacing: 1px;
-            margin-bottom: 0.5rem; font-weight: 600;
-        }
-        .data-value { font-size: 0.95rem; color: #d0d0d0; line-height: 1.6; }
-
-        .timeline-wrapper {
-            padding-left: 2rem;
-            border-left: 2px solid rgba(255,255,255,0.1);
-            margin-top: 1.5rem;
-        }
-        .timeline-item { padding: 1.2rem 0 1.2rem 2rem; position: relative; }
-        .timeline-item::before {
-            content: ''; position: absolute;
-            left: -2.5rem; top: 1.5rem;
-            width: 10px; height: 10px;
-            background: #ffffff; border: 2px solid #0f0f0f;
-            border-radius: 50%;
-            box-shadow: 0 0 0 3px rgba(255,255,255,0.1);
-        }
-        .timeline-phase {
-            font-size: 0.85rem; color: #ffffff; font-weight: 600;
-            margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px;
-        }
-        .timeline-text { font-size: 0.95rem; color: #a0a0a0; line-height: 1.7; }
-
-        .metrics-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
-            gap: 1.5rem; margin-top: 2rem;
-        }
-        .metric-card {
-            padding: 1.5rem;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px; text-align: center; transition: all 0.3s ease;
-        }
-        .metric-card:hover {
-            background: rgba(255,255,255,0.05);
-            border-color: rgba(255,255,255,0.2); transform: translateY(-3px);
-        }
-        .metric-label {
-            font-size: 0.75rem; color: #707070;
-            text-transform: uppercase; letter-spacing: 1px;
-            margin-bottom: 0.8rem; font-weight: 600;
-        }
-        .metric-value { font-size: 1.3rem; font-weight: 700; color: #ffffff; }
-
-        /* ══ FOOTER ══ */
         footer { position: relative; z-index: 1; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 60px; }
         .footer-main {
             padding: 3.5rem 5% 2rem; max-width: 1400px; margin: 0 auto;
@@ -339,32 +256,24 @@
         .footer-copyright { font-size: 0.82rem; color: #454545; }
         .footer-tagline { font-size: 0.82rem; color: #454545; display: flex; align-items: center; gap: 0.4rem; }
 
-        /* ══ ANIMATIONS ══ */
         @keyframes fadeSlideIn {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ══ SCROLLBAR ══ */
         ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: #0f0f0f; }
         ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 5px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.3); }
 
-        /* ══ RESPONSIVE ══ */
-        @media (max-width: 1024px) {
-            .footer-main { grid-template-columns: 1fr; gap: 2rem; }
-        }
+        @media (max-width: 1024px) { .footer-main { grid-template-columns: 1fr; gap: 2rem; } }
         @media (max-width: 968px) {
             .hero { padding: 120px 5% 50px; }
             .projects-section { padding: 30px 5% 60px; }
             .project-header, .project-content { padding: 2rem; }
             .stats-grid { grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 1.5rem; }
-            .data-grid, .metrics-grid { grid-template-columns: 1fr; }
         }
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-        }
+        @media (max-width: 768px) { .nav-links { display: none; } }
         @media (max-width: 640px) {
             .hero-title { font-size: 2.5rem; }
             .project-title { font-size: 1.5rem; }
@@ -376,7 +285,6 @@
 
 <canvas class="line-canvas" id="lineCanvas"></canvas>
 
-<!-- ══ NAV ══ -->
 <nav id="navbar">
     <div class="nav-container">
         <a href="index.html" class="back-btn">&larr; Back to Home</a>
@@ -389,20 +297,18 @@
     </div>
 </nav>
 
-<!-- ══ HERO ══ -->
 <section class="hero">
     <div class="hero-content">
         <div class="section-label">Research &amp; Innovation</div>
         <h1 class="hero-title">Academic Projects</h1>
         <p class="hero-description">
-            A comprehensive portfolio of research initiatives spanning remote sensing, geospatial analysis,
-            and environmental monitoring. These projects showcase advanced methodologies in SAR processing,
-            machine learning, and spatial modeling&mdash;demonstrating expertise across multiple domains of
+            A portfolio of research initiatives spanning remote sensing, geospatial analysis,
+            and environmental monitoring — demonstrating expertise across multiple domains of
             geoinformatics and data science.
         </p>
         <div class="stats-grid">
             <div class="stat-card">
-                <span class="stat-number">10+</span>
+                <span class="stat-number">7</span>
                 <span class="stat-label">Projects Completed</span>
             </div>
             <div class="stat-card">
@@ -417,12 +323,11 @@
     </div>
 </section>
 
-<!-- ══ PROJECTS ══ -->
 <section class="projects-section">
     <div class="projects-container">
         <div class="projects-grid">
 
-            <!-- ══ PROJECT 01 ══ -->
+            <!-- PROJECT 01 -->
             <div class="project-card" onclick="toggleProject(this)">
                 <div class="project-header">
                     <div class="project-meta">
@@ -433,96 +338,28 @@
                         </div>
                         <div class="expand-icon">+</div>
                     </div>
-                    <h2 class="project-title">Soil Moisture Retrieval Using Sentinel-1 SAR Data</h2>
-                    <p class="project-subtitle">Bardhaman District &middot; SAR Backscatter Processing &amp; In-situ Validation</p>
+                    <h2 class="project-title">Soil Moisture Retrieval Using Sentinel-1 Data of Bardhaman District</h2>
+                    <p class="project-subtitle">SAR Backscatter Processing &middot; Calibration &middot; Speckle Filtering &middot; In-situ Validation</p>
                     <div class="project-tags">
                         <span class="tag">Sentinel-1 SAR</span>
                         <span class="tag">ESA SNAP</span>
-                        <span class="tag">ArcGIS Pro</span>
+                        <span class="tag">ArcGIS</span>
                         <span class="tag">Soil Moisture Retrieval</span>
-                        <span class="tag">SAR Backscatter</span>
                     </div>
                 </div>
                 <div class="project-details">
                     <div class="project-content">
-
                         <div class="content-section">
-                            <h3 class="section-title">Overview</h3>
-                            <p class="content-text">This project focuses on retrieving and mapping soil moisture across Bardhaman district using Sentinel-1 Synthetic Aperture Radar (SAR) data. The objective is to generate reliable soil moisture estimates by applying SAR backscatter processing, calibration, speckle filtering, terrain correction, and moisture retrieval algorithms within SNAP and ArcGIS environments.</p>
-                            <p class="content-text">A secondary goal is to assess the accuracy of the satellite-derived soil moisture by comparing it with available in-situ field observations, thereby evaluating the reliability and applicability of Sentinel-1 data for operational soil moisture monitoring in the region.</p>
-                        </div>
-
-                        <div class="content-section">
-                            <h3 class="section-title">Data &amp; Tools</h3>
-                            <div class="data-grid">
-                                <div class="data-item"><div class="data-label">Satellite Data</div><div class="data-value">Sentinel-1 GRD &mdash; VV &amp; VH polarization</div></div>
-                                <div class="data-item"><div class="data-label">Ancillary Data</div><div class="data-value">SRTM DEM, in-situ soil moisture field observations</div></div>
-                                <div class="data-item"><div class="data-label">Processing Platform</div><div class="data-value">ESA SNAP, ArcGIS Pro</div></div>
-                                <div class="data-item"><div class="data-label">Study Area</div><div class="data-value">Paschim &amp; Purba Bardhaman District, West Bengal</div></div>
-                            </div>
-                        </div>
-
-                        <div class="content-section">
-                            <h3 class="section-title">Methodology</h3>
-                            <div class="timeline-wrapper">
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Data Acquisition &amp; Subsetting</div>
-                                    <div class="timeline-text">Downloaded Sentinel-1 GRD products for the study period, applied orbit files, performed thermal noise removal, and subset to the Bardhaman district AOI.</div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">SAR Pre-processing</div>
-                                    <div class="timeline-text">Radiometric calibration to sigma-naught (σ°), Refined Lee speckle filtering to reduce noise, and Range-Doppler terrain correction using SRTM DEM for geometric accuracy.</div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Feature Extraction</div>
-                                    <div class="timeline-text">Converted backscatter values to decibel (dB) scale, derived VV/VH polarization ratios, and integrated NDVI as an ancillary vegetation descriptor to account for canopy effects.</div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Soil Moisture Retrieval</div>
-                                    <div class="timeline-text">Applied empirical soil moisture retrieval models relating SAR backscatter intensity to volumetric soil moisture content with ancillary data integration for improved accuracy.</div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Validation &amp; Mapping</div>
-                                    <div class="timeline-text">Collocated satellite-derived estimates with in-situ field measurements, performed statistical validation using RMSE and R², and produced final district-level soil moisture maps in ArcGIS.</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="content-section">
-                            <h3 class="section-title">Validation Metrics</h3>
-                            <div class="metrics-grid">
-                                <div class="metric-card"><div class="metric-label">Statistical Fit</div><div class="metric-value">RMSE &amp; R²</div></div>
-                                <div class="metric-card"><div class="metric-label">Classification</div><div class="metric-value">Confusion Matrix</div></div>
-                                <div class="metric-card"><div class="metric-label">Uncertainty</div><div class="metric-value">Error Maps</div></div>
-                                <div class="metric-card"><div class="metric-label">Bias Analysis</div><div class="metric-value">Systematic Offset</div></div>
-                            </div>
-                        </div>
-
-                        <div class="content-section">
-                            <h3 class="section-title">Key Deliverables</h3>
                             <ul class="content-list">
-                                <li>Calibrated and terrain-corrected Sentinel-1 backscatter rasters for Bardhaman district</li>
-                                <li>Soil moisture distribution maps with spatial coverage across both Paschim and Purba Bardhaman</li>
-                                <li>Comprehensive validation report comparing satellite-derived estimates with in-situ observations</li>
-                                <li>SNAP Graph Builder XML workflows for reproducible processing pipeline</li>
+                                <li>This project focuses on retrieving and mapping soil moisture across Bardhaman district using Sentinel-1 Synthetic Aperture Radar (SAR) data. The objective is to generate reliable soil moisture estimates by applying SAR backscatter processing, calibration, speckle filtering, terrain correction, and moisture retrieval algorithms within SNAP and ArcGIS environments.</li>
+                                <li>A secondary goal of the study is to assess the accuracy of the satellite-derived soil moisture by comparing it with available in-situ field observations, thereby evaluating the reliability and applicability of Sentinel-1 data for operational soil moisture monitoring in the region.</li>
                             </ul>
                         </div>
-
-                        <div class="content-section">
-                            <h3 class="section-title">Challenges &amp; Solutions</h3>
-                            <ul class="content-list">
-                                <li>Sparse in-situ sampling network &rarr; Applied temporal matching techniques to maximize data colocation</li>
-                                <li>Vegetation canopy signal interference &rarr; Utilized VH/VV ratio and integrated NDVI to minimize vegetation bias</li>
-                                <li>Surface roughness variability &rarr; Incorporated auxiliary surface roughness parameters in the retrieval model</li>
-                                <li>Model uncertainty propagation &rarr; Developed systematic error analysis framework for result reliability assessment</li>
-                            </ul>
-                        </div>
-
                     </div>
                 </div>
             </div>
 
-            <!-- ══ PROJECT 02 ══ -->
+            <!-- PROJECT 02 -->
             <div class="project-card" onclick="toggleProject(this)">
                 <div class="project-header">
                     <div class="project-meta">
@@ -532,89 +369,31 @@
                         </div>
                         <div class="expand-icon">+</div>
                     </div>
-                    <h2 class="project-title">Advanced Flood Hazard Mapping &amp; Socio-Environmental Impact Assessment</h2>
-                    <p class="project-subtitle">Kamrup Metropolitan &middot; Google Earth Engine &middot; Migration &amp; Displacement Analysis</p>
+                    <h2 class="project-title">Advanced Flood Hazard Mapping and Socio-Environmental Impact Assessment of Kamrup Metropolitan Using Google Earth Engine</h2>
+                    <p class="project-subtitle">Multi-temporal Sentinel-1 &amp; 2 &middot; Population Displacement &middot; Migration Analysis</p>
                     <div class="project-tags">
                         <span class="tag">Google Earth Engine</span>
                         <span class="tag">Sentinel-1 SAR</span>
                         <span class="tag">Sentinel-2</span>
                         <span class="tag">NDWI / MNDWI</span>
                         <span class="tag">Night-time Lights</span>
-                        <span class="tag">Population Displacement</span>
                     </div>
                 </div>
                 <div class="project-details">
                     <div class="project-content">
-
                         <div class="content-section">
-                            <h3 class="section-title">Overview</h3>
-                            <p class="content-text">This project develops an advanced flood hazard mapping framework for Kamrup Metropolitan district using Google Earth Engine (GEE). The study integrates multi-temporal Sentinel-1 SAR data to detect flood inundation and evaluates flood severity at high temporal resolution. Flood classification is refined by validating surface water signatures using Sentinel-2 reflectance indices such as NDWI, MNDWI, and SWIR-based water detection, ensuring improved accuracy of the inundation maps.</p>
-                            <p class="content-text">Beyond mapping, the project assesses long-term socio-environmental implications by analyzing population displacement and migration patterns over the past decade, relying entirely on satellite-driven indicators without field surveys.</p>
-                        </div>
-
-                        <div class="content-section">
-                            <h3 class="section-title">Data Sources</h3>
-                            <div class="data-grid">
-                                <div class="data-item"><div class="data-label">SAR Data</div><div class="data-value">Sentinel-1 C-band multi-temporal stack (VV &amp; VH)</div></div>
-                                <div class="data-item"><div class="data-label">Optical Data</div><div class="data-value">Sentinel-2 multispectral imagery for water index validation</div></div>
-                                <div class="data-item"><div class="data-label">Socio-economic</div><div class="data-value">Census layers, settlement change datasets, nighttime lights (VIIRS/DMSP)</div></div>
-                                <div class="data-item"><div class="data-label">Platform</div><div class="data-value">Google Earth Engine (JavaScript API), QGIS, ArcGIS</div></div>
-                            </div>
-                        </div>
-
-                        <div class="content-section">
-                            <h3 class="section-title">Processing Workflow</h3>
-                            <div class="timeline-wrapper">
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">SAR Time Series Ingestion</div>
-                                    <div class="timeline-text">Ingested Kamrup Metropolitan AOI in GEE, created multi-temporal Sentinel-1 image collection with speckle reduction (focal mean filter) for noise suppression.</div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Flood Inundation Detection</div>
-                                    <div class="timeline-text">Applied threshold-based and change detection methods on SAR backscatter, comparing pre-flood baseline scenes against flood-period imagery to delineate inundated extents.</div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Optical Index Refinement</div>
-                                    <div class="timeline-text">Computed NDWI, MNDWI, and SWIR-band thresholds from Sentinel-2 to mask false positives including cast shadows, built-up reflectance, and permanent water bodies.</div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Flood Severity Classification</div>
-                                    <div class="timeline-text">Classified flood severity as transient or sustained flooding using inundation duration, recurrence frequency, and backscatter magnitude patterns across multiple events.</div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Socio-spatial Impact Analysis</div>
-                                    <div class="timeline-text">Overlaid flood maps with census and settlement layers for exposure analysis. Analyzed nighttime light trends, built-up density shifts, and informal settlement growth to infer displacement and migration drivers.</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="content-section">
-                            <h3 class="section-title">Socio-Environmental Assessment Focus</h3>
                             <ul class="content-list">
-                                <li>How recurrent flooding influences population redistribution across Kamrup Metropolitan</li>
-                                <li>Migration hotspots and probable routes toward safer, higher-elevation zones</li>
-                                <li>Patterns of informal settlement growth in chronically flood-prone pockets</li>
-                                <li>Changes in built-up density following repeated flood disturbance events</li>
-                                <li>Correlation between nighttime light intensity decline and displacement risk zones</li>
+                                <li>This project aims to develop an advanced flood hazard mapping framework for Kamrup Metropolitan district using Google Earth Engine (GEE). The study integrates multi-temporal Sentinel-1 SAR data to detect flood inundation and evaluates flood severity at high temporal resolution. Flood classification is refined by validating surface water signatures using Sentinel-2 reflectance indices such as NDWI, MNDWI, and SWIR-based water detection, ensuring improved accuracy of the inundation maps.</li>
+                                <li>To understand the long-term socio-environmental implications, the project also assesses population displacement and migration patterns over the past decade. Using census layers, settlement change datasets, and multi-year land-use transitions, the study evaluates: how recurrent flooding influences population redistribution; migration hotspots and routes toward safer zones; patterns of informal settlement growth in flood-prone pockets; and changes in built-up density after repeated flood events.</li>
+                                <li>This socio-spatial analysis is performed without field surveys, relying entirely on satellite-driven indicators such as settlement expansion, nighttime lights, land-use shift, and proximity to flood-affected zones to infer displacement and probable migration drivers.</li>
+                                <li>The outcome demonstrates how remote sensing and GEE can be combined to generate near-real-time flood hazard maps and provide insights into human vulnerability, resilience, and climate-driven migration in rapidly urbanizing riverine environments.</li>
                             </ul>
                         </div>
-
-                        <div class="content-section">
-                            <h3 class="section-title">Key Outputs</h3>
-                            <ul class="content-list">
-                                <li>Multi-temporal flood extent maps at daily-to-weekly temporal resolution</li>
-                                <li>Flood severity classification maps distinguishing transient vs. sustained inundation</li>
-                                <li>Population exposure statistics and community vulnerability hotspot maps</li>
-                                <li>Migration and displacement indicator maps derived from satellite proxies</li>
-                                <li>Complete, reproducible Google Earth Engine JavaScript processing scripts</li>
-                            </ul>
-                        </div>
-
                     </div>
                 </div>
             </div>
 
-            <!-- ══ PROJECT 03 ══ -->
+            <!-- PROJECT 03 -->
             <div class="project-card" onclick="toggleProject(this)">
                 <div class="project-header">
                     <div class="project-meta">
@@ -625,73 +404,28 @@
                         <div class="expand-icon">+</div>
                     </div>
                     <h2 class="project-title">Asset Mapping of Symbiosis Lavale Campus Using Drone Data</h2>
-                    <p class="project-subtitle">UAV Photogrammetry &middot; Orthomosaic &amp; DSM Generation &middot; Institutional Infrastructure Inventory</p>
+                    <p class="project-subtitle">UAV Photogrammetry &middot; Orthomosaic &amp; DSM Generation &middot; Infrastructure Inventory</p>
                     <div class="project-tags">
-                        <span class="tag">UAV / Drone Imagery</span>
+                        <span class="tag">UAV / Drone</span>
                         <span class="tag">Drone2Map</span>
                         <span class="tag">Photogrammetry</span>
-                        <span class="tag">ArcGIS Pro</span>
-                        <span class="tag">DSM / DTM</span>
-                        <span class="tag">3D Modeling</span>
+                        <span class="tag">ArcGIS</span>
+                        <span class="tag">DSM / 3D</span>
                     </div>
                 </div>
                 <div class="project-details">
                     <div class="project-content">
-
                         <div class="content-section">
-                            <h3 class="section-title">Overview</h3>
-                            <p class="content-text">This project involves creating a comprehensive asset map of the Symbiosis Lavale campus using high-resolution drone imagery. Drone2Map is used to process UAV data into orthomosaics, digital surface models (DSM), and 3D products. These datasets are integrated into ArcGIS to accurately identify, digitize, and map campus assets such as buildings, roads, vegetation, open spaces, and infrastructure facilities.</p>
-                            <p class="content-text">The project provides a detailed spatial inventory that supports campus planning, management, and decision-making, demonstrating the effectiveness of drone-based mapping for institutional asset management.</p>
-                        </div>
-
-                        <div class="content-section">
-                            <h3 class="section-title">Technology Stack</h3>
-                            <div class="data-grid">
-                                <div class="data-item"><div class="data-label">Data Acquisition</div><div class="data-value">UAV RGB imagery with nadir and oblique captures</div></div>
-                                <div class="data-item"><div class="data-label">Photogrammetric Processing</div><div class="data-value">Drone2Map (Esri) / Pix4D</div></div>
-                                <div class="data-item"><div class="data-label">GIS Platform</div><div class="data-value">ArcGIS Pro, ArcGIS Online</div></div>
-                                <div class="data-item"><div class="data-label">Primary Outputs</div><div class="data-value">Orthomosaic, DSM, DTM, Dense Point Cloud</div></div>
-                            </div>
-                        </div>
-
-                        <div class="content-section">
-                            <h3 class="section-title">Workflow</h3>
-                            <div class="timeline-wrapper">
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Mission Planning &amp; Data Capture</div>
-                                    <div class="timeline-text">Designed UAV flight mission with full campus coverage and 70%+ forward/side overlap ratios for optimal Structure-from-Motion (SfM) reconstruction quality.</div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Photogrammetric Processing</div>
-                                    <div class="timeline-text">Image alignment and tie-point generation &rarr; Dense point cloud construction &rarr; Orthomosaic generation at centimeter-level resolution &rarr; DSM and DTM extraction using ground filtering.</div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Asset Digitization in ArcGIS</div>
-                                    <div class="timeline-text">Digitized campus assets directly on orthomosaic layer, including buildings, roads, pathways, vegetation zones, open spaces, and utility infrastructure. Extracted height attributes from DSM-DTM differencing for 3D characterization.</div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Inventory Creation &amp; Publication</div>
-                                    <div class="timeline-text">Compiled feature classes into a structured geodatabase with full attribute tables. Exported printable campus maps and published an interactive web map on ArcGIS Online for facility management use.</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="content-section">
-                            <h3 class="section-title">Key Deliverables</h3>
                             <ul class="content-list">
-                                <li>High-resolution campus orthomosaic at centimeter-level ground sampling distance</li>
-                                <li>Digital Surface Model (DSM) and Digital Terrain Model (DTM) for 3D analysis</li>
-                                <li>Comprehensive asset geodatabase with feature classes for all campus infrastructure categories</li>
-                                <li>Detailed attribute inventory spreadsheet covering area, height, condition, and asset type</li>
-                                <li>Interactive ArcGIS Online web map for ongoing campus facility management</li>
+                                <li>This project involves creating a comprehensive asset map of the Symbiosis Lavale campus using high-resolution drone imagery. Drone2Map is used to process UAV data into orthomosaics, digital surface models (DSM), and 3D products. These datasets are then integrated into ArcGIS to accurately identify, digitize, and map campus assets such as buildings, roads, vegetation, open spaces, and infrastructure facilities.</li>
+                                <li>The project provides a detailed spatial inventory that supports campus planning, management, and decision-making, demonstrating the effectiveness of drone-based mapping for institutional asset management.</li>
                             </ul>
                         </div>
-
                     </div>
                 </div>
             </div>
 
-            <!-- ══ PROJECT 04 ══ -->
+            <!-- PROJECT 04 -->
             <div class="project-card" onclick="toggleProject(this)">
                 <div class="project-header">
                     <div class="project-meta">
@@ -701,74 +435,31 @@
                         </div>
                         <div class="expand-icon">+</div>
                     </div>
-                    <h2 class="project-title">Comparative Analysis of ML Algorithms for Land Cover Classification</h2>
-                    <p class="project-subtitle">Decision Tree &middot; Random Forest &middot; SVM &middot; Performance Benchmarking Using Python</p>
+                    <h2 class="project-title">Comparative Analysis of Machine Learning Algorithms for Land Cover Classification Using Python</h2>
+                    <p class="project-subtitle">Decision Tree &middot; Random Forest &middot; SVM &middot; Accuracy Benchmarking</p>
                     <div class="project-tags">
                         <span class="tag">Python</span>
                         <span class="tag">Scikit-learn</span>
                         <span class="tag">Decision Tree</span>
                         <span class="tag">Random Forest</span>
                         <span class="tag">SVM</span>
-                        <span class="tag">LULC Classification</span>
+                        <span class="tag">LULC</span>
                     </div>
                 </div>
                 <div class="project-details">
                     <div class="project-content">
-
                         <div class="content-section">
-                            <h3 class="section-title">Overview</h3>
-                            <p class="content-text">This project evaluates and compares the performance of multiple machine learning algorithms for Land Use/Land Cover (LULC) classification using Python. The study applies Decision Tree (DT), Random Forest (RF), and Support Vector Machine (SVM) algorithms to classify satellite imagery and identify spatial patterns of land cover change.</p>
-                            <p class="content-text">The goal is to determine which algorithm performs most accurately for change detection across different datasets. The project encompasses the full pipeline from preprocessing and feature extraction through model training, accuracy assessment, and visualization of classification outputs to support improved land resource management.</p>
-                        </div>
-
-                        <div class="content-section">
-                            <h3 class="section-title">Experimental Design</h3>
-                            <div class="timeline-wrapper">
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Dataset Preparation</div>
-                                    <div class="timeline-text">Prepared a balanced, labeled training dataset using stratified random sampling across all LULC classes to ensure representative class coverage and minimize spatial autocorrelation bias.</div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Preprocessing &amp; Feature Engineering</div>
-                                    <div class="timeline-text">Applied atmospheric correction and band stacking on satellite imagery. Computed spectral indices including NDVI, NDWI, and NDBI as additional classification features to improve separability between classes.</div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Model Training &amp; Hyperparameter Tuning</div>
-                                    <div class="timeline-text">Trained DT, RF, and SVM models using scikit-learn. Applied systematic hyperparameter optimization via k-fold cross-validation (GridSearchCV) to maximize generalization across classifiers.</div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Accuracy Assessment &amp; Comparison</div>
-                                    <div class="timeline-text">Generated LULC classified maps for each algorithm, conducted comprehensive accuracy assessment using overall accuracy, Kappa coefficient, per-class precision/recall/F1, and processing time benchmarks.</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="content-section">
-                            <h3 class="section-title">Evaluation Metrics</h3>
-                            <div class="metrics-grid">
-                                <div class="metric-card"><div class="metric-label">Overall Accuracy</div><div class="metric-value">Primary Metric</div></div>
-                                <div class="metric-card"><div class="metric-label">Kappa Coefficient</div><div class="metric-value">Agreement</div></div>
-                                <div class="metric-card"><div class="metric-label">Per-class F1 Score</div><div class="metric-value">Class Balance</div></div>
-                                <div class="metric-card"><div class="metric-label">Computation Time</div><div class="metric-value">Efficiency</div></div>
-                            </div>
-                        </div>
-
-                        <div class="content-section">
-                            <h3 class="section-title">Key Deliverables</h3>
                             <ul class="content-list">
-                                <li>Comparative accuracy table with side-by-side performance metrics for DT, RF, and SVM</li>
-                                <li>Classified LULC maps for each algorithm rendered as georeferenced rasters</li>
-                                <li>Visualized land cover maps supporting interpretation of spatial patterns and transitions</li>
-                                <li>Complete Python Jupyter Notebooks with fully reproducible classification workflows</li>
-                                <li>Algorithm selection recommendations and best-practice guidelines for LULC classification tasks</li>
+                                <li>This project evaluates and compares the performance of multiple machine learning algorithms for Land Use/Land Cover (LULC) classification using Python. The study applies algorithms such as Decision Tree (DT), Random Forest (RF), and Support Vector Machine (SVM) to classify satellite imagery and identify spatial patterns of land cover change.</li>
+                                <li>The goal is to determine which algorithm performs most accurately for change detection across different datasets. The project includes preprocessing, feature extraction, model training and testing, accuracy assessment, and comparison of classification outputs.</li>
+                                <li>Visualized land cover maps generated from each algorithm are produced to support interpretation and provide insights for improved land resource management.</li>
                             </ul>
                         </div>
-
                     </div>
                 </div>
             </div>
 
-            <!-- ══ PROJECT 05 ══ -->
+            <!-- PROJECT 05 -->
             <div class="project-card" onclick="toggleProject(this)">
                 <div class="project-header">
                     <div class="project-meta">
@@ -778,84 +469,31 @@
                         </div>
                         <div class="expand-icon">+</div>
                     </div>
-                    <h2 class="project-title">Forest Cover Change &amp; Climatic Variability in the Western Ghats</h2>
-                    <p class="project-subtitle">Western Part of Western Ghats &middot; Fire Dynamics &middot; 2001&ndash;2022 Long-term Analysis</p>
+                    <h2 class="project-title">Establishing the Relationship Between Forest Cover Change and Climatic Variability in the Western Ghats</h2>
+                    <p class="project-subtitle">Multi-temporal Imagery &middot; Wildfire Dynamics &middot; Climate&ndash;Fire Analysis (2001&ndash;2015)</p>
                     <div class="project-tags">
                         <span class="tag">Landsat / Sentinel</span>
                         <span class="tag">MODIS Fire</span>
                         <span class="tag">Land Surface Temperature</span>
                         <span class="tag">Rainfall Analysis</span>
-                        <span class="tag">Google Earth Engine</span>
                         <span class="tag">Time Series</span>
                     </div>
                 </div>
                 <div class="project-details">
                     <div class="project-content">
-
                         <div class="content-section">
-                            <h3 class="section-title">Overview</h3>
-                            <p class="content-text">This project investigates how forest cover change in the western part of the Western Ghats is influenced by climatic variability. The study analyzes multi-temporal satellite imagery to assess forest loss, degradation, and land cover transitions, and correlates these changes with climatic factors such as rainfall patterns and land surface temperature (LST).</p>
-                            <p class="content-text">The research also incorporates wildfire dynamics as a key disturbance agent. Using long-term fire activity records (2001&ndash;2015), the project examines temporal and spatial patterns of wildland fires and evaluates how inter-annual climate variability contributes to fluctuations in burned area, revealing that years like 2000, 2013, and 2022 experienced nearly five times more fire activity compared to low-fire years.</p>
-                        </div>
-
-                        <div class="content-section">
-                            <h3 class="section-title">Multi-source Data</h3>
-                            <div class="data-grid">
-                                <div class="data-item"><div class="data-label">Land Cover Imagery</div><div class="data-value">Multi-temporal Landsat &amp; Sentinel-2 for forest change mapping</div></div>
-                                <div class="data-item"><div class="data-label">Fire Data</div><div class="data-value">MODIS Active Fire (MOD14A1) &amp; Burned Area (MCD64A1) products</div></div>
-                                <div class="data-item"><div class="data-label">Climate Variables</div><div class="data-value">ERA5 / IMD rainfall, MODIS LST (MOD11A2) time series</div></div>
-                                <div class="data-item"><div class="data-label">Analysis Platform</div><div class="data-value">Google Earth Engine, Python (pandas, scipy)</div></div>
-                            </div>
-                        </div>
-
-                        <div class="content-section">
-                            <h3 class="section-title">Analytical Framework</h3>
-                            <div class="timeline-wrapper">
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Multi-temporal Land Cover Mapping</div>
-                                    <div class="timeline-text">Compiled annual and seasonal land cover maps using supervised classification, harmonized across sensors to ensure temporal consistency of forest cover estimates.</div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Forest Change Detection</div>
-                                    <div class="timeline-text">Detected forest loss and gain using post-classification comparison and CCDC (Continuous Change Detection and Classification) algorithms to identify abrupt and gradual transitions.</div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Fire Dynamics Integration</div>
-                                    <div class="timeline-text">Integrated MODIS fire frequency and burned area records with forest change maps, identifying fire-driven deforestation hotspots and analyzing inter-annual burned area fluctuations.</div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Climate Attribution Analysis</div>
-                                    <div class="timeline-text">Correlated forest loss and fire activity with climatic anomalies in LST and rainfall using lagged time-series regression, revealing weak-to-strong climate&ndash;fire relationships varying across landscape types.</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="content-section">
-                            <h3 class="section-title">Key Findings</h3>
                             <ul class="content-list">
-                                <li>Notable inter-annual variation in fire frequency: high-fire years (2000, 2013, 2022) recorded ~5&times; more activity than low-fire years</li>
-                                <li>Climate&ndash;fire relationships ranged from weak to strong depending on landscape type and vegetation density</li>
-                                <li>Extreme LST anomalies and rainfall deficits identified as primary drivers of elevated wildfire risk and subsequent forest cover decline</li>
-                                <li>Hotspot zones of forest loss concentration mapped, revealing priority areas for conservation intervention</li>
+                                <li>This project investigates how forest cover change in the western part of the Western Ghats is influenced by climatic variability. The study analyzes multi-temporal satellite imagery to assess forest loss, degradation, and land cover transitions, and correlates these changes with climatic factors such as rainfall patterns and land surface temperature (LST).</li>
+                                <li>The research also incorporates wildfire dynamics as an important disturbance agent in the Western Ghats. Using long-term fire activity records (2001–2015), the project examines temporal and spatial patterns of wildland fires and evaluates how inter-annual climate variability contributes to fluctuations in burned area.</li>
+                                <li>At both regional and landscape scales, the analysis reveals notable variations in fire frequency — showing that years like 2000, 2013, and 2022 experienced nearly five times more fire activity compared to low-fire years. Climate–fire relationships ranged from weak to strong depending on the landscape, suggesting that climatic episodes (particularly extreme LST and rainfall anomalies) may increasingly influence wildfire behavior and subsequent forest cover change.</li>
+                                <li>The outcomes of this project provide insights into climate-driven ecological changes in one of India's most sensitive biodiversity hotspots, contributing to improved conservation planning and environmental management.</li>
                             </ul>
                         </div>
-
-                        <div class="content-section">
-                            <h3 class="section-title">Outputs &amp; Impact</h3>
-                            <ul class="content-list">
-                                <li>Annual forest change maps (2001&ndash;2022) quantifying loss and gain extents</li>
-                                <li>Time-series plots correlating forest cover dynamics with climate and fire variables</li>
-                                <li>Spatial hotspot maps of critical forest loss zones and fire frequency clusters</li>
-                                <li>Statistical report linking climate drivers to forest change at regional and landscape scales</li>
-                                <li>Conservation planning insights for one of India's most sensitive biodiversity hotspots</li>
-                            </ul>
-                        </div>
-
                     </div>
                 </div>
             </div>
 
-            <!-- ══ PROJECT 06 ══ -->
+            <!-- PROJECT 06 -->
             <div class="project-card" onclick="toggleProject(this)">
                 <div class="project-header">
                     <div class="project-meta">
@@ -865,68 +503,29 @@
                         </div>
                         <div class="expand-icon">+</div>
                     </div>
-                    <h2 class="project-title">Urban Encroachment Analysis in the Eastern Kolkata Wetlands</h2>
-                    <p class="project-subtitle">Ramsar Site &middot; LULC Change Modeling &middot; MOLUSCE Future Scenario Simulation</p>
+                    <h2 class="project-title">Urban Encroachment Analysis and Expansion in the Eastern Kolkata Wetlands</h2>
+                    <p class="project-subtitle">Ramsar Site &middot; MOLUSCE Change Modeling &middot; Future Scenario Simulation</p>
                     <div class="project-tags">
                         <span class="tag">MOLUSCE</span>
                         <span class="tag">Landsat / Sentinel</span>
                         <span class="tag">QGIS / ArcGIS</span>
-                        <span class="tag">Cellular Automata</span>
                         <span class="tag">Future Scenarios</span>
                         <span class="tag">Wetland Conservation</span>
                     </div>
                 </div>
                 <div class="project-details">
                     <div class="project-content">
-
                         <div class="content-section">
-                            <h3 class="section-title">Overview</h3>
-                            <p class="content-text">This project investigates the patterns, drivers, and impacts of urban encroachment on the Eastern Kolkata Wetlands (EKW) &mdash; a Ramsar-designated wetland of international importance. Using multi-temporal satellite imagery and geospatial analysis tools, the study quantifies historical changes in land use and identifies the rate of wetland shrinkage over time.</p>
-                            <p class="content-text">MOLUSCE is employed to model land cover transitions and predict future scenarios of wetland loss and urban expansion under varying anthropogenic and climatic pressures, offering insights into sustainability challenges and supporting conservation and policy planning for the Eastern Kolkata Wetlands.</p>
-                        </div>
-
-                        <div class="content-section">
-                            <h3 class="section-title">Methodology</h3>
-                            <div class="timeline-wrapper">
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Multi-temporal LULC Classification</div>
-                                    <div class="timeline-text">Produced consistent, harmonized LULC maps for key years (2000, 2010, 2020) using supervised classification on Landsat and Sentinel imagery, ensuring temporal comparability across sensors.</div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Wetland Change Quantification</div>
-                                    <div class="timeline-text">Computed area statistics and land cover transition matrices to quantify wetland loss pathways, identifying which classes are encroaching on EKW and at what rates over each decade.</div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Spatial Driver Analysis</div>
-                                    <div class="timeline-text">Analyzed spatial drivers of encroachment including proximity to major roads, distance to urban centers, development corridor alignments, and population density gradients.</div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">MOLUSCE Transition Modeling</div>
-                                    <div class="timeline-text">Calibrated land cover transition models in MOLUSCE using artificial neural networks and cellular automata, integrating spatial drivers as explanatory variables for predictive accuracy.</div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Future Scenario Simulation</div>
-                                    <div class="timeline-text">Simulated projected land cover scenarios for 2030 and 2040 under business-as-usual and alternative urban growth trajectories, quantifying potential wetland loss under each scenario.</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="content-section">
-                            <h3 class="section-title">Key Deliverables</h3>
                             <ul class="content-list">
-                                <li>Multi-temporal LULC change maps for 2000, 2010, and 2020 with quantified class transitions</li>
-                                <li>Land cover transition matrices revealing historical encroachment pathways and rates</li>
-                                <li>Future scenario maps for 2030 and 2040 under contrasting urban growth trajectories</li>
-                                <li>Priority conservation area maps identifying the most at-risk wetland zones</li>
-                                <li>Policy recommendations for sustainable urban planning around the EKW Ramsar site</li>
+                                <li>This project investigates the patterns, drivers, and impacts of urban encroachment on the Eastern Kolkata Wetlands (EKW). Using multi-temporal satellite imagery and geospatial analysis tools, the study quantifies historical changes in land use and identifies the rate of wetland shrinkage over time. MOLUSCE is employed to model land cover transitions and to predict future scenarios of wetland loss and urban expansion under human and climatic influences.</li>
+                                <li>The research assesses how anthropogenic pressures and environmental factors contribute to the degradation of this Ramsar site, offering insights into sustainability challenges and supporting future conservation and policy planning for the Eastern Kolkata Wetlands.</li>
                             </ul>
                         </div>
-
                     </div>
                 </div>
             </div>
 
-            <!-- ══ PROJECT 07 ══ -->
+            <!-- PROJECT 07 -->
             <div class="project-card" onclick="toggleProject(this)">
                 <div class="project-header">
                     <div class="project-meta">
@@ -936,88 +535,24 @@
                         </div>
                         <div class="expand-icon">+</div>
                     </div>
-                    <h2 class="project-title">Visualization of Land Subsidence Due to Coal Mining Using Sentinel-1</h2>
-                    <p class="project-subtitle">Paschim Bardhaman District &middot; SAR Interferometry &middot; Mining-induced Geohazard Assessment</p>
+                    <h2 class="project-title">Visualization of Land Subsidence Due to Coal Mining Using Sentinel-1 Data in Paschim Bardhaman District</h2>
+                    <p class="project-subtitle">SAR Interferometry &middot; Deformation Analysis &middot; Mining-induced Geohazard Mapping</p>
                     <div class="project-tags">
-                        <span class="tag">Sentinel-1 InSAR</span>
+                        <span class="tag">Sentinel-1 SAR</span>
                         <span class="tag">ESA SNAP</span>
                         <span class="tag">SAR Interferometry</span>
-                        <span class="tag">Deformation Analysis</span>
-                        <span class="tag">ArcGIS Pro</span>
+                        <span class="tag">ArcGIS</span>
                         <span class="tag">Geohazard Mapping</span>
                     </div>
                 </div>
                 <div class="project-details">
                     <div class="project-content">
-
                         <div class="content-section">
-                            <h3 class="section-title">Overview</h3>
-                            <p class="content-text">This project focuses on detecting and visualizing land subsidence in the coal mining regions of Paschim Bardhaman district using Sentinel-1 SAR data. The study utilizes SAR interferometry and deformation analysis techniques to identify ground displacement caused by extensive underground mining activities in one of India's most coal-intensive districts.</p>
-                            <p class="content-text">By processing Sentinel-1 imagery &mdash; including calibration, filtering, and interferogram generation &mdash; the project produces detailed subsidence maps highlighting zones of significant vertical ground movement. ArcGIS is used to visualize and interpret spatial patterns, enabling better understanding of mining-induced geohazards and supporting regional risk assessment and planning.</p>
-                        </div>
-
-                        <div class="content-section">
-                            <h3 class="section-title">Technical Infrastructure</h3>
-                            <div class="data-grid">
-                                <div class="data-item"><div class="data-label">SAR Data</div><div class="data-value">Sentinel-1 IW SLC time series (C-band, ascending/descending)</div></div>
-                                <div class="data-item"><div class="data-label">Ancillary Data</div><div class="data-value">High-resolution DEM, coal mining lease boundary shapefiles</div></div>
-                                <div class="data-item"><div class="data-label">Processing Software</div><div class="data-value">ESA SNAP, interferometric processing tools</div></div>
-                                <div class="data-item"><div class="data-label">Visualization</div><div class="data-value">ArcGIS Pro, Python (matplotlib, plotly) for displacement mapping</div></div>
-                            </div>
-                        </div>
-
-                        <div class="content-section">
-                            <h3 class="section-title">InSAR Processing Workflow</h3>
-                            <div class="timeline-wrapper">
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Data Acquisition &amp; Stack Preparation</div>
-                                    <div class="timeline-text">Collected Sentinel-1 SLC acquisitions covering the mining areas of Paschim Bardhaman, applying orbit correction and co-registration of the image stack for precise alignment.</div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Interferogram Generation</div>
-                                    <div class="timeline-text">Generated differential interferograms from co-registered image pairs, isolating surface deformation phase by removing the flat-earth and topographic phase components using the DEM.</div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Phase Filtering &amp; Coherence Assessment</div>
-                                    <div class="timeline-text">Applied adaptive Goldstein phase filtering to enhance fringe visibility. Computed coherence maps to identify reliable scatterers and mask low-coherence vegetated regions.</div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Phase Unwrapping</div>
-                                    <div class="timeline-text">Performed phase unwrapping using minimum cost flow algorithms to convert wrapped interferometric phase to continuous displacement measurements in the line-of-sight direction.</div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Displacement Estimation &amp; Geocoding</div>
-                                    <div class="timeline-text">Converted line-of-sight displacement to vertical ground motion estimates. Geocoded results to geographic coordinates and referenced to stable reference points outside mining zones.</div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-phase">Visualization &amp; Risk Mapping</div>
-                                    <div class="timeline-text">Generated subsidence magnitude maps in ArcGIS, overlaid with mining lease boundaries, road networks, and settlement layers. Produced hazard zonation maps identifying critical displacement zones for infrastructure risk assessment.</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="content-section">
-                            <h3 class="section-title">Visualization Outputs</h3>
                             <ul class="content-list">
-                                <li>Subsidence magnitude maps showing spatial extent and intensity of ground displacement across mining areas</li>
-                                <li>Wrapped and unwrapped interferogram visualizations illustrating deformation fringes</li>
-                                <li>Coherence maps identifying zones of reliable deformation measurement vs. noise</li>
-                                <li>Displacement maps overlaid with coal mine lease boundaries for direct geohazard attribution</li>
-                                <li>Infrastructure risk overlay identifying roads, buildings, and settlements in subsidence-prone zones</li>
-                                <li>Hazard zonation map classifying areas by severity of mining-induced ground movement</li>
+                                <li>This project focuses on detecting and visualizing land subsidence in the coal mining regions of Paschim Bardhaman district using Sentinel-1 SAR data. The study utilizes SAR interferometry and deformation analysis techniques to identify ground displacement caused by extensive underground mining activities.</li>
+                                <li>By processing Sentinel-1 imagery — including calibration, filtering, and interferogram generation — the project produces detailed subsidence maps, highlighting zones of significant vertical ground movement. ArcGIS is used to visualize and interpret the spatial patterns, enabling better understanding of mining-induced geohazards and supporting risk assessment and regional planning.</li>
                             </ul>
                         </div>
-
-                        <div class="content-section">
-                            <h3 class="section-title">Challenges &amp; Solutions</h3>
-                            <ul class="content-list">
-                                <li>Temporal decorrelation in agricultural areas &rarr; Focused analysis on coherent urban and bare-earth zones near mine boundaries</li>
-                                <li>Atmospheric phase delays &rarr; Mitigated through careful scene pair selection and reference area normalization</li>
-                                <li>Phase ambiguity in high-deformation zones &rarr; Applied robust unwrapping algorithms with coherence-weighted masking</li>
-                                <li>Complex subsidence bowl geometry &rarr; Cross-sectional profiling and 3D terrain overlays for spatial interpretation</li>
-                            </ul>
-                        </div>
-
                     </div>
                 </div>
             </div>
@@ -1026,7 +561,6 @@
     </div>
 </section>
 
-<!-- ══ FOOTER ══ -->
 <footer>
     <div class="footer-main">
         <div class="footer-brand">
