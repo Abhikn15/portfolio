@@ -224,7 +224,7 @@
             transform: translateY(-3px);
         }
 
-        /* Photo Section */
+        /* ── Photo Section ── */
         .hero-visual {
             position: relative;
             animation: fadeSlideIn 1s ease 0.3s both;
@@ -233,7 +233,7 @@
         .photo-container {
             position: relative;
             width: 100%;
-            max-width: 450px;
+            max-width: 420px;
             margin: 0 auto;
         }
 
@@ -249,35 +249,18 @@
             border-radius: 22px;
             overflow: hidden;
             background: #1a1a1a;
-            aspect-ratio: 3/4;
+            /* Adjusted to show portrait headshot naturally */
+            aspect-ratio: 4 / 5;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
-        }
-
-        .photo-placeholder {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 1rem;
-            color: #606060;
-            font-size: 4rem;
-        }
-
-        .photo-placeholder-text {
-            font-size: 1rem;
-            color: #707070;
         }
 
         .profile-photo {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center;
+            object-position: center top;
             display: block;
         }
 
@@ -379,7 +362,9 @@
             line-height: 1.6;
         }
 
-        /* ===== TESTIMONIALS SECTION ===== */
+        /* ═══════════════════════════════════════
+           TESTIMONIALS SECTION
+        ═══════════════════════════════════════ */
         .testimonials-section {
             position: relative;
             padding: 6rem 5%;
@@ -404,16 +389,18 @@
         .carousel-wrapper {
             position: relative;
             overflow: hidden;
+            border-radius: 20px;
         }
 
         .carousel-track {
             display: flex;
             transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
         }
 
         .testimonial-card {
             min-width: 100%;
-            padding: 1.6rem 2rem;
+            padding: 2.2rem 2.4rem;
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 20px;
@@ -422,11 +409,11 @@
         }
 
         .testimonial-card::before {
-            content: '"';
+            content: '\201C';
             position: absolute;
             top: -10px;
-            left: 1.2rem;
-            font-size: 6rem;
+            left: 1.4rem;
+            font-size: 7rem;
             color: rgba(255, 255, 255, 0.05);
             font-family: Georgia, serif;
             line-height: 1;
@@ -440,26 +427,26 @@
             left: 0;
             width: 100%;
             height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
         }
 
         .testimonial-body {
-            font-size: 0.92rem;
+            font-size: 0.94rem;
             color: #c0c0c0;
-            line-height: 1.7;
-            margin-bottom: 1.2rem;
+            line-height: 1.75;
+            margin-bottom: 1.6rem;
             font-style: italic;
             position: relative;
             z-index: 1;
         }
 
         .testimonial-body p {
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.5rem;
         }
 
         .testimonial-highlight {
-            color: #e0e0e0;
-            font-weight: 500;
+            color: #e8e8e8;
+            font-weight: 600;
             font-style: normal;
         }
 
@@ -469,11 +456,12 @@
             gap: 1rem;
             position: relative;
             z-index: 1;
+            flex-wrap: wrap;
         }
 
         .author-avatar {
-            width: 52px;
-            height: 52px;
+            width: 54px;
+            height: 54px;
             border-radius: 50%;
             background: linear-gradient(135deg, #2a2a2a, #3a3a3a);
             border: 2px solid rgba(255, 255, 255, 0.15);
@@ -496,17 +484,18 @@
 
         .author-info {
             flex: 1;
+            min-width: 180px;
         }
 
         .author-name {
             font-size: 1rem;
             font-weight: 700;
             color: #ffffff;
-            margin-bottom: 0.2rem;
+            margin-bottom: 0.25rem;
         }
 
         .author-role {
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             color: #707070;
             line-height: 1.4;
         }
@@ -519,10 +508,11 @@
             color: #0077b5;
             font-weight: 600;
             background: rgba(0, 119, 181, 0.1);
-            padding: 0.3rem 0.7rem;
+            padding: 0.3rem 0.8rem;
             border-radius: 20px;
-            border: 1px solid rgba(0, 119, 181, 0.2);
+            border: 1px solid rgba(0, 119, 181, 0.25);
             white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .stars {
@@ -541,7 +531,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 1rem;
+            gap: 1.2rem;
             margin-top: 2.5rem;
         }
 
@@ -578,29 +568,33 @@
         }
 
         .dot {
-            width: 6px;
-            height: 6px;
+            width: 7px;
+            height: 7px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.2);
             cursor: pointer;
             transition: all 0.3s ease;
+            border: none;
+            padding: 0;
         }
 
         .dot.active {
             background: #ffffff;
-            width: 20px;
-            border-radius: 3px;
+            width: 22px;
+            border-radius: 4px;
         }
 
-        /* Counter */
         .carousel-counter {
             font-size: 0.82rem;
-            color: #606060;
-            min-width: 40px;
+            color: #555555;
+            min-width: 44px;
             text-align: center;
+            font-variant-numeric: tabular-nums;
         }
 
-        /* ===== FOOTER ===== */
+        /* ═══════════════════════════════════════
+           FOOTER
+        ═══════════════════════════════════════ */
         footer {
             position: relative;
             z-index: 1;
@@ -721,10 +715,12 @@
 
         @keyframes fadeSlideIn {
             from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            to   { opacity: 1; transform: translateY(0);    }
         }
 
-        /* Mobile */
+        /* ═══════════════════════════════════════
+           RESPONSIVE
+        ═══════════════════════════════════════ */
         @media (max-width: 968px) {
             .mobile-menu-btn { display: block; }
             .nav-links {
@@ -739,14 +735,18 @@
                 transition: left 0.3s ease;
             }
             .nav-links.active { left: 0; }
-            .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
-            .photo-container { max-width: 350px; }
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .hero-visual { order: -1; }
+            .photo-container { max-width: 320px; }
             .hero-content { text-align: center; }
             .hero-description { margin-left: auto; margin-right: auto; }
             .social-connect { justify-content: center; }
             .cta-buttons { justify-content: center; }
             .footer-main { grid-template-columns: 1fr; gap: 2rem; }
-            .testimonial-card { padding: 2rem 1.5rem; }
+            .testimonial-card { padding: 1.8rem 1.4rem; }
         }
 
         @media (max-width: 640px) {
@@ -755,6 +755,7 @@
             .hero { padding: 0 4%; }
             .sections-nav { padding: 4rem 4% 6rem; }
             .footer-bottom-inner { flex-direction: column; text-align: center; }
+            .author-platform { display: none; }
         }
     </style>
 </head>
@@ -774,7 +775,9 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- ═══════════════════════════════════════
+         HERO SECTION
+    ═══════════════════════════════════════ -->
     <section class="hero">
         <div class="hero-grid">
             <div class="hero-content">
@@ -798,11 +801,12 @@
                     <a href="project.html" class="btn btn-secondary">View My Work</a>
                 </div>
             </div>
+
             <div class="hero-visual">
                 <div class="photo-container">
                     <div class="photo-frame">
                         <div class="photo-inner">
-                            <img src="profile.jpeg" alt="My Professional Photo" class="profile-photo">
+                            <img src="profile.jpeg" alt="Abhik Naskar — Professional Photo" class="profile-photo">
                         </div>
                     </div>
                 </div>
@@ -810,7 +814,9 @@
         </div>
     </section>
 
-    <!-- Sections Navigation -->
+    <!-- ═══════════════════════════════════════
+         SECTIONS NAVIGATION
+    ═══════════════════════════════════════ -->
     <section class="sections-nav">
         <div class="section-header">
             <h2 class="section-title">Explore My Portfolio</h2>
@@ -904,7 +910,9 @@
         </div>
     </section>
 
-    <!-- ===== TESTIMONIALS SECTION ===== -->
+    <!-- ═══════════════════════════════════════
+         TESTIMONIALS SECTION
+    ═══════════════════════════════════════ -->
     <section class="testimonials-section" id="testimonials">
         <div class="testimonials-inner">
             <div class="section-header">
@@ -915,14 +923,14 @@
             <div class="carousel-wrapper">
                 <div class="carousel-track" id="carouselTrack">
 
-                    <!-- Testimonial 1 — Pretesh Biswas -->
+                    <!-- ── Testimonial 1 — Pretesh Biswas ── -->
                     <div class="testimonial-card">
                         <div class="testimonial-glow"></div>
                         <div class="testimonial-body">
                             <p>I had the opportunity to collaborate with Abhik on a Forest Management System project, where his contribution was <span class="testimonial-highlight">both strategic and technically sound.</span></p>
                             <p>He brings strong geospatial expertise and the ability to translate complex spatial analysis into <span class="testimonial-highlight">practical, decision-driven solutions.</span></p>
                             <p>Abhik demonstrates <span class="testimonial-highlight">ownership, clarity in communication, and a natural leadership mindset.</span> His ability to connect geospatial intelligence with real-world implementation truly sets him apart.</p>
-                            <p style="margin-top: 0.8rem;">I highly recommend him to any organization seeking a <span class="testimonial-highlight">forward-thinking geospatial professional with high growth potential.</span></p>
+                            <p style="margin-top:0.8rem;">I highly recommend him to any organization seeking a <span class="testimonial-highlight">forward-thinking geospatial professional with high growth potential.</span></p>
                         </div>
                         <div class="testimonial-author">
                             <div class="author-avatar">
@@ -930,7 +938,10 @@
                             </div>
                             <div class="author-info">
                                 <div class="author-name">Pretesh Biswas</div>
-                                <div class="author-role">GIS Analyst · Geospatial & Remote Sensing Specialist · MSc. Disaster Management</div>
+                                <div class="author-role">GIS Analyst · Geospatial &amp; Remote Sensing Specialist · MSc. Disaster Management</div>
+                                <div class="stars">
+                                    <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+                                </div>
                             </div>
                             <div class="author-platform">
                                 <span style="font-size:1rem;">in</span> LinkedIn
@@ -938,11 +949,46 @@
                         </div>
                     </div>
 
-                    <!-- Testimonial 2 — Placeholder for future reviews -->
+                    <!-- ── Testimonial 2 — Hansa Karunakaran ── -->
+                    <div class="testimonial-card">
+                        <div class="testimonial-glow"></div>
+                        <div class="testimonial-body">
+                            <p>I had the pleasure of working with Abhik at AGSRT. He combines <span class="testimonial-highlight">deep technical knowledge with a good understanding of business needs.</span></p>
+                            <p>Abhik has the rare ability to translate complex geospatial and data-driven concepts into <span class="testimonial-highlight">clear, actionable insights for clients and stakeholders.</span></p>
+                            <p>His approach is <span class="testimonial-highlight">structured, analytical, and always solution-oriented.</span></p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">HK</div>
+                            <div class="author-info">
+                                <div class="author-name">Hansa Karunakaran</div>
+                                <div class="author-role">GIS Analyst and Trainer · Avakaza Geoscience Research Technologies</div>
+                                <div class="stars">
+                                    <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+                                </div>
+                            </div>
+                            <div class="author-platform">
+                                <span style="font-size:1rem;">in</span> LinkedIn
+                            </div>
+                        </div>
+                    </div>
 
+                </div><!-- /carousel-track -->
+            </div><!-- /carousel-wrapper -->
 
+            <!-- Carousel Controls -->
+            <div class="carousel-controls">
+                <button class="carousel-btn" id="prevBtn" aria-label="Previous testimonial">&#8592;</button>
+                <div class="carousel-dots" id="carouselDots"></div>
+                <span class="carousel-counter" id="carouselCounter">1 / 2</span>
+                <button class="carousel-btn" id="nextBtn" aria-label="Next testimonial">&#8594;</button>
+            </div>
 
-    <!-- ===== FOOTER ===== -->
+        </div><!-- /testimonials-inner -->
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         FOOTER
+    ═══════════════════════════════════════ -->
     <footer>
         <div class="footer-main">
             <div class="footer-brand">
@@ -981,28 +1027,35 @@
 
         <div class="footer-bottom">
             <div class="footer-bottom-inner">
-                <p class="footer-copyright">© 2026 Abhik Naskar. All rights reserved.</p>
-                <p class="footer-tagline">Built with <span>♥</span> · Geospatial Intelligence meets Design</p>
+                <p class="footer-copyright">&copy; 2026 Abhik Naskar. All rights reserved.</p>
+                <p class="footer-tagline">Built with <span>&#9825;</span> &middot; Geospatial Intelligence meets Design</p>
             </div>
         </div>
     </footer>
 
+    <!-- ═══════════════════════════════════════
+         SCRIPTS
+    ═══════════════════════════════════════ -->
     <script>
-        // ── Animated line canvas ──
+        /* ── Animated line canvas ── */
         const canvas = document.getElementById('lineCanvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        const ctx    = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width  = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
 
         const lines = [];
         class Line {
             constructor() { this.reset(); }
             reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.length = Math.random() * 150 + 50;
-                this.angle = Math.random() * Math.PI * 2;
-                this.speed = Math.random() * 0.3 + 0.1;
+                this.x       = Math.random() * canvas.width;
+                this.y       = Math.random() * canvas.height;
+                this.length  = Math.random() * 150 + 50;
+                this.angle   = Math.random() * Math.PI * 2;
+                this.speed   = Math.random() * 0.3 + 0.1;
                 this.opacity = Math.random() * 0.3 + 0.1;
             }
             update() {
@@ -1013,24 +1066,30 @@
             draw() {
                 ctx.beginPath();
                 ctx.moveTo(this.x, this.y);
-                ctx.lineTo(this.x + Math.cos(this.angle)*this.length, this.y + Math.sin(this.angle)*this.length);
+                ctx.lineTo(
+                    this.x + Math.cos(this.angle) * this.length,
+                    this.y + Math.sin(this.angle) * this.length
+                );
                 ctx.strokeStyle = `rgba(255,255,255,${this.opacity})`;
-                ctx.lineWidth = 1;
+                ctx.lineWidth   = 1;
                 ctx.stroke();
             }
         }
+
         for (let i = 0; i < 40; i++) lines.push(new Line());
+
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             lines.forEach(l => { l.update(); l.draw(); });
             requestAnimationFrame(animate);
         }
         animate();
-        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+        window.addEventListener('resize', resizeCanvas);
 
-        // ── Mobile menu ──
+        /* ── Mobile menu ── */
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const navLinks = document.getElementById('navLinks');
+        const navLinks      = document.getElementById('navLinks');
+
         mobileMenuBtn.addEventListener('click', () => {
             navLinks.classList.toggle('active');
             mobileMenuBtn.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
@@ -1040,71 +1099,99 @@
             mobileMenuBtn.textContent = '☰';
         }));
 
-        // ── Navbar scroll ──
+        /* ── Navbar scroll ── */
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 50));
 
-        // ── Smooth scroll ──
+        /* ── Smooth scroll for anchor links ── */
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
+            anchor.addEventListener('click', function (e) {
                 const target = document.querySelector(this.getAttribute('href'));
-                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             });
         });
 
-        // ── Cards observer ──
-        const cards = document.querySelectorAll('.section-card');
+        /* ── Cards intersection observer ── */
+        const cards    = document.querySelectorAll('.section-card');
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.style.animation = 'fadeSlideIn 0.6s ease both';
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeSlideIn 0.6s ease both';
+                }
             });
         }, { threshold: 0.1 });
-        cards.forEach((card, i) => { card.style.animationDelay = `${i * 0.05}s`; observer.observe(card); });
-
-        // ── Testimonials Carousel ──
-        const track = document.getElementById('carouselTrack');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const dotsContainer = document.getElementById('carouselDots');
-
-        const slides = track.querySelectorAll('.testimonial-card');
-        let current = 0;
-        const total = slides.length;
-
-        // Build dots
-        slides.forEach((_, i) => {
-            const dot = document.createElement('button');
-            dot.className = 'dot' + (i === 0 ? ' active' : '');
-            dot.setAttribute('aria-label', `Go to testimonial ${i+1}`);
-            dot.addEventListener('click', () => goTo(i));
-            dotsContainer.appendChild(dot);
+        cards.forEach((card, i) => {
+            card.style.animationDelay = `${i * 0.05}s`;
+            observer.observe(card);
         });
 
-        function updateDots() {
-            dotsContainer.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
-        }
+        /* ── Testimonials Carousel ── */
+        (function () {
+            const track          = document.getElementById('carouselTrack');
+            const prevBtn        = document.getElementById('prevBtn');
+            const nextBtn        = document.getElementById('nextBtn');
+            const dotsContainer  = document.getElementById('carouselDots');
+            const counter        = document.getElementById('carouselCounter');
+            const slides         = Array.from(track.querySelectorAll('.testimonial-card'));
+            const total          = slides.length;
+            let current          = 0;
+            let autoTimer        = null;
 
-        function goTo(index) {
-            current = (index + total) % total;
-            track.style.transform = `translateX(-${current * 100}%)`;
-            updateDots();
-        }
+            /* Build dots */
+            slides.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.className = 'dot' + (i === 0 ? ' active' : '');
+                dot.setAttribute('aria-label', `Go to testimonial ${i + 1}`);
+                dot.addEventListener('click', () => goTo(i));
+                dotsContainer.appendChild(dot);
+            });
 
-        prevBtn.addEventListener('click', () => goTo(current - 1));
-        nextBtn.addEventListener('click', () => goTo(current + 1));
+            function updateUI() {
+                track.style.transform = `translateX(-${current * 100}%)`;
+                dotsContainer.querySelectorAll('.dot').forEach((d, i) =>
+                    d.classList.toggle('active', i === current)
+                );
+                if (counter) counter.textContent = `${current + 1} / ${total}`;
+            }
 
-        // Touch/swipe support
-        let startX = 0;
-        track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
-        track.addEventListener('touchend', e => {
-            const diff = startX - e.changedTouches[0].clientX;
-            if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
-        }, { passive: true });
+            function goTo(index) {
+                current = ((index % total) + total) % total;
+                updateUI();
+            }
+
+            prevBtn.addEventListener('click', () => { goTo(current - 1); resetAuto(); });
+            nextBtn.addEventListener('click', () => { goTo(current + 1); resetAuto(); });
+
+            /* Auto-advance every 6 s */
+            function startAuto() {
+                autoTimer = setInterval(() => goTo(current + 1), 6000);
+            }
+            function resetAuto() {
+                clearInterval(autoTimer);
+                startAuto();
+            }
+            startAuto();
+
+            /* Touch / swipe support */
+            let startX = 0;
+            track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+            track.addEventListener('touchend',   e => {
+                const diff = startX - e.changedTouches[0].clientX;
+                if (Math.abs(diff) > 50) {
+                    goTo(diff > 0 ? current + 1 : current - 1);
+                    resetAuto();
+                }
+            }, { passive: true });
+
+            /* Pause auto on hover */
+            track.addEventListener('mouseenter', () => clearInterval(autoTimer));
+            track.addEventListener('mouseleave', startAuto);
+
+            updateUI(); /* initial render */
+        })();
     </script>
 </body>
 </html>
-
-
-
-
