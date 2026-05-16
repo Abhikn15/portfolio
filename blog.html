@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog — Abhik Naskar</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap');
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg:        #0f0f0f;
+            --surface:   rgba(255,255,255,0.025);
+            --border:    rgba(255,255,255,0.09);
+            --border-hi: rgba(255,255,255,0.22);
+            --text-1:    #f0f0f0;
+            --text-2:    #a0a0a0;
+            --text-3:    #606060;
+            --accent:    #e8e8e8;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text-1);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ── Animated canvas (same as main) ── */
+        #lineCanvas {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0; opacity: 0.12; pointer-events: none;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed; top: 0; width: 100%;
+            padding: 1.5rem 5%;
+            background: rgba(15,15,15,0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000; transition: all .3s ease;
+        }
+        nav.scrolled {
+            background: rgba(15,15,15,.97);
+            padding: 1rem 5%;
+            box-shadow: 0 2px 20px rgba(0,0,0,.35);
+        }
+        .nav-container {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .nav-brand {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800; font-size: 1.1rem;
+            color: var(--text-1); text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a {
+            color: var(--text-2); text-decoration: none;
+            font-size: .95rem; font-weight: 500;
+            transition: color .3s;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -4px; left: 0;
+            width: 0; height: 1px; background: #fff; transition: width .3s;
+        }
+        .nav-links a:hover { color: #fff; }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active { color: #fff; }
+        .nav-links a.active::after { width: 100%; }
+
+        .mobile-menu-btn {
+            display: none; background: none; border: none;
+            color: #fff; font-size: 1.5rem; cursor: pointer;
+        }
+
+        /* ── PAGE HERO ── */
+        .page-hero {
+            position: relative; z-index: 1;
+            padding: 140px 5% 70px;
+            border-bottom: 1px solid var(--border);
+        }
+        .page-hero-inner { max-width: 1400px; margin: 0 auto; }
+        .page-hero-label {
+            font-family: 'Syne', sans-serif;
+            font-size: .72rem; font-weight: 700;
+            letter-spacing: .2em; text-transform: uppercase;
+            color: var(--text-3); margin-bottom: 1.2rem;
+            display: flex; align-items: center; gap: .7rem;
+        }
+        .page-hero-label::before {
+            content: ''; display: inline-block;
+            width: 28px; height: 1px; background: var(--text-3);
+        }
+        .page-hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(3rem, 8vw, 6.5rem);
+            font-weight: 800; line-height: 1.0;
+            letter-spacing: -3px; color: var(--text-1);
+            margin-bottom: 1.5rem;
+        }
+        .page-hero-meta {
+            display: flex; align-items: center; gap: 2rem;
+            flex-wrap: wrap; margin-top: 1rem;
+        }
+        .page-hero-desc {
+            font-size: 1.05rem; color: var(--text-2);
+            line-height: 1.8; max-width: 560px;
+        }
+        .post-count-badge {
+            display: inline-flex; align-items: center; gap: .5rem;
+            background: var(--surface); border: 1px solid var(--border);
+            padding: .4rem 1rem; border-radius: 100px;
+            font-size: .82rem; color: var(--text-2);
+            font-family: 'Syne', sans-serif; font-weight: 600;
+            white-space: nowrap;
+        }
+        .post-count-badge .dot { width: 6px; height: 6px; background: #4ade80; border-radius: 50%; }
+
+        /* ── FILTER BAR ── */
+        .filter-bar {
+            position: relative; z-index: 1;
+            padding: 2rem 5%;
+            border-bottom: 1px solid var(--border);
+            background: rgba(15,15,15,.5);
+        }
+        .filter-bar-inner {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+        }
+        .filter-label {
+            font-size: .78rem; color: var(--text-3);
+            font-family: 'Syne', sans-serif; font-weight: 700;
+            letter-spacing: .1em; text-transform: uppercase;
+            white-space: nowrap;
+        }
+        .filter-tags { display: flex; gap: .5rem; flex-wrap: wrap; }
+        .filter-tag {
+            padding: .35rem .9rem; border-radius: 100px;
+            border: 1px solid var(--border);
+            background: transparent; color: var(--text-2);
+            font-size: .8rem; font-weight: 500; cursor: pointer;
+            transition: all .25s; font-family: 'DM Sans', sans-serif;
+        }
+        .filter-tag:hover { border-color: var(--border-hi); color: var(--text-1); }
+        .filter-tag.active {
+            background: var(--text-1); color: var(--bg);
+            border-color: var(--text-1);
+        }
+        .search-wrap {
+            margin-left: auto;
+            position: relative;
+        }
+        .search-input {
+            background: var(--surface); border: 1px solid var(--border);
+            color: var(--text-1); padding: .4rem 1rem .4rem 2.4rem;
+            border-radius: 100px; font-size: .85rem; outline: none;
+            font-family: 'DM Sans', sans-serif; width: 220px;
+            transition: border-color .25s;
+        }
+        .search-input::placeholder { color: var(--text-3); }
+        .search-input:focus { border-color: var(--border-hi); }
+        .search-icon {
+            position: absolute; left: .8rem; top: 50%;
+            transform: translateY(-50%); color: var(--text-3);
+            font-size: .85rem; pointer-events: none;
+        }
+
+        /* ── BLOG GRID ── */
+        .blog-section {
+            position: relative; z-index: 1;
+            padding: 4rem 5% 8rem;
+        }
+        .blog-section-inner { max-width: 1400px; margin: 0 auto; }
+
+        /* Featured post */
+        .featured-post {
+            display: grid; grid-template-columns: 1.1fr .9fr;
+            gap: 0; border: 1px solid var(--border);
+            border-radius: 24px; overflow: hidden; margin-bottom: 3rem;
+            background: var(--surface);
+            transition: border-color .35s, box-shadow .35s;
+            cursor: pointer; text-decoration: none; color: inherit;
+        }
+        .featured-post:hover {
+            border-color: var(--border-hi);
+            box-shadow: 0 20px 50px rgba(0,0,0,.5);
+        }
+        .featured-text { padding: 3.5rem; display: flex; flex-direction: column; justify-content: space-between; }
+        .featured-visual {
+            background: linear-gradient(135deg, #1a1a1a 0%, #111 50%, #161616 100%);
+            display: flex; align-items: center; justify-content: center;
+            border-left: 1px solid var(--border); overflow: hidden; position: relative;
+            min-height: 340px;
+        }
+        .featured-visual .geo-art {
+            width: 280px; height: 280px; opacity: .3;
+        }
+        .featured-visual .geo-overlay {
+            position: absolute; inset: 0;
+            background: radial-gradient(circle at 60% 40%, rgba(255,255,255,.04) 0%, transparent 70%);
+        }
+        .featured-badge {
+            display: inline-flex; align-items: center; gap: .5rem;
+            background: rgba(255,255,255,.06); border: 1px solid var(--border);
+            padding: .3rem .9rem; border-radius: 100px;
+            font-size: .72rem; font-family: 'Syne', sans-serif;
+            font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+            color: var(--text-2); margin-bottom: 1.4rem; width: fit-content;
+        }
+        .featured-badge .badge-dot { width: 5px; height: 5px; background: #facc15; border-radius: 50%; }
+        .featured-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(1.4rem, 2.5vw, 2rem);
+            font-weight: 800; line-height: 1.2;
+            letter-spacing: -1px; color: var(--text-1);
+            margin-bottom: 1rem;
+        }
+        .featured-excerpt {
+            font-size: .95rem; color: var(--text-2); line-height: 1.75;
+            margin-bottom: 2rem; flex: 1;
+        }
+        .post-meta {
+            display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap;
+        }
+        .post-date { font-size: .8rem; color: var(--text-3); }
+        .post-tag {
+            font-size: .72rem; font-family: 'Syne', sans-serif;
+            font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+            color: var(--text-2); background: var(--surface);
+            border: 1px solid var(--border); padding: .2rem .7rem;
+            border-radius: 100px;
+        }
+        .read-link {
+            display: inline-flex; align-items: center; gap: .5rem;
+            color: var(--text-1); font-weight: 600; font-size: .88rem;
+            transition: gap .25s;
+        }
+        .read-link:hover { gap: .9rem; }
+
+        /* ── Regular Grid ── */
+        .grid-label {
+            font-family: 'Syne', sans-serif;
+            font-size: .72rem; font-weight: 700;
+            letter-spacing: .18em; text-transform: uppercase;
+            color: var(--text-3); margin-bottom: 2rem;
+            display: flex; align-items: center; gap: .8rem;
+        }
+        .grid-label::after {
+            content: ''; flex: 1; height: 1px; background: var(--border);
+        }
+
+        .posts-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem; margin-bottom: 3rem;
+        }
+
+        .post-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 20px; padding: 2rem;
+            cursor: pointer; text-decoration: none; color: inherit;
+            transition: all .35s cubic-bezier(.4,0,.2,1);
+            display: flex; flex-direction: column;
+            position: relative; overflow: hidden;
+        }
+        .post-card::before {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(255,255,255,.02);
+            opacity: 0; transition: opacity .35s;
+        }
+        .post-card:hover { transform: translateY(-6px); border-color: var(--border-hi); box-shadow: 0 14px 36px rgba(0,0,0,.4); }
+        .post-card:hover::before { opacity: 1; }
+
+        .card-top-bar {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 1.4rem;
+        }
+        .card-num {
+            font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 700;
+            color: var(--text-3); letter-spacing: .1em;
+        }
+        .card-tag {
+            font-size: .68rem; font-family: 'Syne', sans-serif;
+            font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+            color: var(--text-2); background: rgba(255,255,255,.05);
+            border: 1px solid var(--border); padding: .18rem .6rem;
+            border-radius: 100px;
+        }
+        .post-card h3 {
+            font-family: 'Syne', sans-serif; font-size: 1.05rem;
+            font-weight: 700; line-height: 1.35; letter-spacing: -.3px;
+            color: var(--text-1); margin-bottom: .8rem; flex: 1;
+        }
+        .post-card p {
+            font-size: .85rem; color: var(--text-2); line-height: 1.7;
+            margin-bottom: 1.5rem; flex: 1;
+            display: -webkit-box; -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical; overflow: hidden;
+        }
+        .card-footer {
+            display: flex; align-items: center; justify-content: space-between;
+            padding-top: 1.2rem; border-top: 1px solid var(--border);
+            margin-top: auto;
+        }
+        .card-date { font-size: .76rem; color: var(--text-3); }
+        .card-arrow {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: rgba(255,255,255,.05); border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-2); font-size: .85rem;
+            transition: all .25s;
+        }
+        .post-card:hover .card-arrow {
+            background: var(--text-1); color: var(--bg);
+            border-color: var(--text-1);
+        }
+
+        /* ── COMING SOON / EMPTY SLOTS ── */
+        .empty-slot {
+            background: transparent;
+            border: 1px dashed rgba(255,255,255,.07);
+            border-radius: 20px; padding: 2rem;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            min-height: 220px; gap: .6rem; text-align: center;
+        }
+        .empty-slot-icon { font-size: 1.6rem; opacity: .25; }
+        .empty-slot-text { font-size: .78rem; color: var(--text-3); font-family: 'Syne', sans-serif; letter-spacing: .1em; text-transform: uppercase; }
+
+        /* ── NEWSLETTER / CTA ── */
+        .newsletter-bar {
+            position: relative; z-index: 1;
+            padding: 4rem 5%;
+            border-top: 1px solid var(--border);
+        }
+        .newsletter-inner {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 3rem; flex-wrap: wrap;
+        }
+        .newsletter-text h3 {
+            font-family: 'Syne', sans-serif; font-size: 1.8rem;
+            font-weight: 800; letter-spacing: -1px; color: var(--text-1);
+            margin-bottom: .5rem;
+        }
+        .newsletter-text p { font-size: .95rem; color: var(--text-2); max-width: 420px; line-height: 1.7; }
+        .newsletter-form { display: flex; gap: .75rem; flex-wrap: wrap; }
+        .newsletter-input {
+            background: var(--surface); border: 1px solid var(--border);
+            color: var(--text-1); padding: .75rem 1.2rem;
+            border-radius: 12px; font-size: .9rem; outline: none;
+            font-family: 'DM Sans', sans-serif; width: 280px;
+            transition: border-color .25s;
+        }
+        .newsletter-input::placeholder { color: var(--text-3); }
+        .newsletter-input:focus { border-color: var(--border-hi); }
+        .newsletter-btn {
+            padding: .75rem 1.8rem; border-radius: 12px;
+            background: var(--text-1); color: var(--bg);
+            border: none; font-weight: 700; font-size: .9rem;
+            font-family: 'Syne', sans-serif; cursor: pointer;
+            transition: all .25s;
+        }
+        .newsletter-btn:hover { background: #ccc; transform: translateY(-2px); }
+
+        /* ── FOOTER ── */
+        footer {
+            position: relative; z-index: 1;
+            border-top: 1px solid rgba(255,255,255,.08);
+        }
+        .footer-main {
+            padding: 3.5rem 5% 2rem; max-width: 1400px; margin: 0 auto;
+            display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 3rem;
+        }
+        .footer-brand h3 { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: .6rem; letter-spacing: -.5px; }
+        .footer-brand p { font-size: .88rem; color: #606060; line-height: 1.7; max-width: 300px; }
+        .footer-social { display: flex; gap: .6rem; margin-top: 1.2rem; }
+        .footer-social-btn {
+            width: 36px; height: 36px; border-radius: 8px;
+            background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1);
+            color: #707070; text-decoration: none; font-size: .85rem; font-weight: 600;
+            display: flex; align-items: center; justify-content: center; transition: all .3s;
+        }
+        .footer-social-btn:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.25); color: #fff; transform: translateY(-2px); }
+        .footer-nav h4 { font-family: 'Syne', sans-serif; font-size: .78rem; font-weight: 700; color: #fff; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 1.2rem; }
+        .footer-nav ul { list-style: none; display: flex; flex-direction: column; gap: .7rem; }
+        .footer-nav a { color: #606060; text-decoration: none; font-size: .88rem; transition: color .3s; }
+        .footer-nav a:hover { color: #d0d0d0; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,.06); padding: 1.5rem 5%; }
+        .footer-bottom-inner { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .footer-copyright { font-size: .82rem; color: #454545; }
+        .footer-tagline { font-size: .82rem; color: #454545; display: flex; align-items: center; gap: .4rem; }
+        .footer-tagline span { color: #606060; }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+        .animate-up { animation: fadeUp .7s ease both; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1100px) {
+            .posts-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 900px) {
+            .featured-post { grid-template-columns: 1fr; }
+            .featured-visual { min-height: 200px; border-left: none; border-top: 1px solid var(--border); }
+            .mobile-menu-btn { display: block; }
+            .nav-links {
+                position: fixed; top: 80px; left: -100%; width: 100%;
+                height: calc(100vh - 80px); background: rgba(15,15,15,.98);
+                backdrop-filter: blur(20px); flex-direction: column;
+                align-items: center; justify-content: flex-start;
+                padding: 3rem 0; gap: 2rem; transition: left .3s;
+            }
+            .nav-links.active { left: 0; }
+            .footer-main { grid-template-columns: 1fr; gap: 2rem; }
+        }
+        @media (max-width: 640px) {
+            .posts-grid { grid-template-columns: 1fr; }
+            .featured-text { padding: 2rem; }
+            .newsletter-inner { flex-direction: column; }
+            .newsletter-input { width: 100%; }
+            .filter-bar-inner { flex-direction: column; align-items: flex-start; }
+            .search-wrap { margin-left: 0; width: 100%; }
+            .search-input { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="lineCanvas"></canvas>
+
+<!-- NAV -->
+<nav id="navbar">
+    <div class="nav-container">
+        <a href="index.html" class="nav-brand">Abhik Naskar</a>
+        <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="about.html">About</a></li>
+            <li><a href="corporate.html">Experience</a></li>
+            <li><a href="project.html">Projects</a></li>
+            <li><a href="blog.html" class="active">Blog</a></li>
+            <li><a href="connect.html">Connect</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+    <div class="page-hero-inner animate-up">
+        <div class="page-hero-label">Writing &amp; Insights</div>
+        <h1>The Blog</h1>
+        <div class="page-hero-meta">
+            <p class="page-hero-desc">
+                Perspectives on geospatial intelligence, cloud-native spatial data, GIS strategy, and the future of location technology. Written from the field.
+            </p>
+            <span class="post-count-badge">
+                <span class="dot"></span> 5 Articles Published
+            </span>
+        </div>
+    </div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+    <div class="filter-bar-inner">
+        <span class="filter-label">Filter</span>
+        <div class="filter-tags">
+            <button class="filter-tag active" data-filter="all">All</button>
+            <button class="filter-tag" data-filter="strategy">Strategy</button>
+            <button class="filter-tag" data-filter="cloud">Cloud-Native</button>
+            <button class="filter-tag" data-filter="tools">Tools &amp; Stack</button>
+            <button class="filter-tag" data-filter="data">Data Architecture</button>
+        </div>
+        <div class="search-wrap">
+            <span class="search-icon">&#128269;</span>
+            <input type="text" class="search-input" id="searchInput" placeholder="Search articles…">
+        </div>
+    </div>
+</div>
+
+<!-- BLOG CONTENT -->
+<section class="blog-section">
+    <div class="blog-section-inner">
+
+        <!-- FEATURED POST -->
+        <a class="featured-post animate-up" href="blog-post.html?id=1" data-tags="strategy">
+            <div class="featured-text">
+                <div>
+                    <div class="featured-badge"><span class="badge-dot"></span> Featured</div>
+                    <h2 class="featured-title">Geospatial Is No Longer Just Mapping — It Is Becoming the Operating Intelligence Behind Real-World Decisions</h2>
+                    <p class="featured-excerpt">
+                        There was a time when geospatial work was seen as a support function. A map was requested. A layer was prepared. But that world is changing fast. Today, geospatial is moving into a far more powerful role — not as a back-end technical service, but as a decision-making layer that can influence how industries plan, operate, invest, monitor, and grow.
+                    </p>
+                </div>
+                <div class="post-meta">
+                    <span class="post-date">March 24, 2026</span>
+                    <span class="post-tag">Strategy</span>
+                    <span class="read-link">Read article →</span>
+                </div>
+            </div>
+            <div class="featured-visual">
+                <svg class="geo-art" viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="140" cy="140" r="120" stroke="white" stroke-width="1"/>
+                    <circle cx="140" cy="140" r="80" stroke="white" stroke-width="1"/>
+                    <circle cx="140" cy="140" r="40" stroke="white" stroke-width="1"/>
+                    <line x1="20" y1="140" x2="260" y2="140" stroke="white" stroke-width="0.5"/>
+                    <line x1="140" y1="20" x2="140" y2="260" stroke="white" stroke-width="0.5"/>
+                    <line x1="55" y1="55" x2="225" y2="225" stroke="white" stroke-width="0.5"/>
+                    <line x1="225" y1="55" x2="55" y2="225" stroke="white" stroke-width="0.5"/>
+                    <polygon points="140,60 200,170 80,170" stroke="white" stroke-width="1" fill="none"/>
+                    <circle cx="140" cy="140" r="8" fill="white" opacity="0.6"/>
+                    <circle cx="80" cy="100" r="3" fill="white" opacity="0.4"/>
+                    <circle cx="200" cy="180" r="3" fill="white" opacity="0.4"/>
+                    <circle cx="170" cy="70" r="3" fill="white" opacity="0.4"/>
+                </svg>
+                <div class="geo-overlay"></div>
+            </div>
+        </a>
+
+        <!-- REGULAR GRID -->
+        <div class="grid-label">All Articles</div>
+
+        <div class="posts-grid" id="postsGrid">
+
+            <!-- POST 2 -->
+            <a class="post-card" href="blog-post.html?id=2" data-tags="tools">
+                <div>
+                    <div class="card-top-bar">
+                        <span class="card-num">02</span>
+                        <span class="card-tag">Tools &amp; Stack</span>
+                    </div>
+                    <h3>QGIS 4.0 Upgrade Playbook: Qt6 Migration + Plugin Audit</h3>
+                    <p>If your team upgrades QGIS the same way it installs a normal software update, you are creating avoidable risk. QGIS 4.0 is now officially released — this is a major technical transition built around the move to Qt6.</p>
+                </div>
+                <div class="card-footer">
+                    <span class="card-date">March 9, 2026</span>
+                    <span class="card-arrow">→</span>
+                </div>
+            </a>
+
+            <!-- POST 3 -->
+            <a class="post-card" href="blog-post.html?id=3" data-tags="data cloud">
+                <div>
+                    <div class="card-top-bar">
+                        <span class="card-num">03</span>
+                        <span class="card-tag">Data Architecture</span>
+                    </div>
+                    <h3>Vector Tiles Without Drama: PMTiles / MVT Pipeline</h3>
+                    <p>If your vector tiles depend on a custom tile server and manual steps, you get schema drift, label regressions, cache bugs, and slow releases. Here's a 7-step PMTiles pipeline that removes the pain.</p>
+                </div>
+                <div class="card-footer">
+                    <span class="card-date">March 6, 2026</span>
+                    <span class="card-arrow">→</span>
+                </div>
+            </a>
+
+            <!-- POST 4 -->
+            <a class="post-card" href="blog-post.html?id=4" data-tags="data cloud">
+                <div>
+                    <div class="card-top-bar">
+                        <span class="card-num">04</span>
+                        <span class="card-tag">Cloud-Native</span>
+                    </div>
+                    <h3>Cloud-Native Geospatial Stack 2026: COG + Zarr + GeoParquet + STAC</h3>
+                    <p>If your GIS workflow still starts with "download everything first", you're paying with time, storage, and repeat processing. Modern formats finally let geospatial behave like a lakehouse stack.</p>
+                </div>
+                <div class="card-footer">
+                    <span class="card-date">March 2, 2026</span>
+                    <span class="card-arrow">→</span>
+                </div>
+            </a>
+
+            <!-- POST 5 -->
+            <a class="post-card" href="blog-post.html?id=5" data-tags="data cloud">
+                <div>
+                    <div class="card-top-bar">
+                        <span class="card-num">05</span>
+                        <span class="card-tag">Data Architecture</span>
+                    </div>
+                    <h3>STAC That Scales (Without Pain): Search, Indexing, Portability</h3>
+                    <p>How to make your spatiotemporal catalog fast to search, easy to migrate, and hard to break. STAC only scales when you treat it like a product with a clear contract, not a folder of JSON files that slowly diverge.</p>
+                </div>
+                <div class="card-footer">
+                    <span class="card-date">March 5, 2026</span>
+                    <span class="card-arrow">→</span>
+                </div>
+            </a>
+
+            <!-- EMPTY SLOT 1 -->
+            <div class="empty-slot" data-empty="true">
+                <div class="empty-slot-icon">✍️</div>
+                <div class="empty-slot-text">Coming Soon</div>
+            </div>
+
+            <!-- EMPTY SLOT 2 -->
+            <div class="empty-slot" data-empty="true">
+                <div class="empty-slot-icon">✍️</div>
+                <div class="empty-slot-text">Coming Soon</div>
+            </div>
+
+            <!-- EMPTY SLOT 3 -->
+            <div class="empty-slot" data-empty="true">
+                <div class="empty-slot-icon">✍️</div>
+                <div class="empty-slot-text">Coming Soon</div>
+            </div>
+
+        </div><!-- /posts-grid -->
+
+    </div>
+</section>
+
+<!-- NEWSLETTER / STAY CONNECTED -->
+<div class="newsletter-bar">
+    <div class="newsletter-inner">
+        <div class="newsletter-text">
+            <h3>Stay in the Loop</h3>
+            <p>Get notified when a new article drops. No spam — only substantive writing on geospatial intelligence, strategy, and technology.</p>
+        </div>
+        <form class="newsletter-form" onsubmit="handleSubscribe(event)">
+            <input type="email" class="newsletter-input" placeholder="your@email.com" required>
+            <button type="submit" class="newsletter-btn">Subscribe →</button>
+        </form>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-main">
+        <div class="footer-brand">
+            <h3>Abhik Naskar</h3>
+            <p>Geospatial Developer × Business Growth Strategist. Transforming spatial intelligence into strategic business decisions.</p>
+            <div class="footer-social">
+                <a href="https://linkedin.com/in/abhik-naskar-134b691b2" target="_blank" class="footer-social-btn" title="LinkedIn">in</a>
+                <a href="https://github.com/Abhikn15" target="_blank" class="footer-social-btn" title="GitHub">{ }</a>
+                <a href="mailto:abhiknaskar1000@gmail.com" class="footer-social-btn" title="Email">@</a>
+                <a href="https://www.instagram.com/abhikofficial_1" target="_blank" class="footer-social-btn" title="Instagram">📷</a>
+            </div>
+        </div>
+        <div class="footer-nav">
+            <h4>Portfolio</h4>
+            <ul>
+                <li><a href="about.html">About Me</a></li>
+                <li><a href="skill.html">Skills</a></li>
+                <li><a href="education.html">Education</a></li>
+                <li><a href="corporate.html">Experience</a></li>
+                <li><a href="certificate.html">Certifications</a></li>
+            </ul>
+        </div>
+        <div class="footer-nav">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="project.html">Projects</a></li>
+                <li><a href="academic.html">Academic Work</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="connect.html">Contact</a></li>
+                <li><a href="Abhik_Resume.pdf">Download CV</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="footer-bottom-inner">
+            <p class="footer-copyright">&copy; 2026 Abhik Naskar. All rights reserved.</p>
+            <p class="footer-tagline">Built with <span>&#9825;</span> &middot; Geospatial Intelligence meets Design</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+/* ── Canvas lines (identical to main page) ── */
+const canvas = document.getElementById('lineCanvas');
+const ctx    = canvas.getContext('2d');
+function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas();
+const lines = [];
+class Line {
+    constructor() { this.reset(); }
+    reset() {
+        this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
+        this.length = Math.random() * 150 + 50; this.angle = Math.random() * Math.PI * 2;
+        this.speed = Math.random() * .3 + .1; this.opacity = Math.random() * .3 + .1;
+    }
+    update() {
+        this.x += Math.cos(this.angle) * this.speed; this.y += Math.sin(this.angle) * this.speed;
+        if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+    }
+    draw() {
+        ctx.beginPath(); ctx.moveTo(this.x, this.y);
+        ctx.lineTo(this.x + Math.cos(this.angle) * this.length, this.y + Math.sin(this.angle) * this.length);
+        ctx.strokeStyle = `rgba(255,255,255,${this.opacity})`; ctx.lineWidth = 1; ctx.stroke();
+    }
+}
+for (let i = 0; i < 40; i++) lines.push(new Line());
+function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); lines.forEach(l => { l.update(); l.draw(); }); requestAnimationFrame(animate); }
+animate();
+window.addEventListener('resize', resizeCanvas);
+
+/* ── Navbar scroll ── */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', scrollY > 50));
+
+/* ── Mobile menu ── */
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const navLinks      = document.getElementById('navLinks');
+mobileMenuBtn.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+    mobileMenuBtn.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+});
+navLinks.querySelectorAll('a').forEach(l => l.addEventListener('click', () => {
+    navLinks.classList.remove('active'); mobileMenuBtn.textContent = '☰';
+}));
+
+/* ── Filter tags ── */
+const filterTags = document.querySelectorAll('.filter-tag');
+const postCards  = document.querySelectorAll('.post-card');
+const featuredPost = document.querySelector('.featured-post');
+
+filterTags.forEach(btn => {
+    btn.addEventListener('click', () => {
+        filterTags.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        postCards.forEach(card => {
+            const tags = card.dataset.tags || '';
+            const show = filter === 'all' || tags.includes(filter);
+            card.style.display = show ? 'flex' : 'none';
+        });
+        if (featuredPost) {
+            const ftags = featuredPost.dataset.tags || '';
+            featuredPost.style.display = (filter === 'all' || ftags.includes(filter)) ? 'grid' : 'none';
+        }
+    });
+});
+
+/* ── Search ── */
+const searchInput = document.getElementById('searchInput');
+searchInput.addEventListener('input', () => {
+    const q = searchInput.value.toLowerCase();
+    postCards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        card.style.display = text.includes(q) ? 'flex' : 'none';
+    });
+});
+
+/* ── Newsletter ── */
+function handleSubscribe(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    btn.textContent = '✓ Subscribed!';
+    btn.style.background = '#4ade80'; btn.style.color = '#0f0f0f';
+    setTimeout(() => { btn.textContent = 'Subscribe →'; btn.style.background = ''; btn.style.color = ''; }, 3000);
+}
+
+/* ── Intersection observer for cards ── */
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.style.animation = 'fadeUp .6s ease both'; } });
+}, { threshold: .1 });
+document.querySelectorAll('.post-card, .empty-slot').forEach((c, i) => {
+    c.style.animationDelay = `${i * .07}s`; observer.observe(c);
+});
+</script>
+</body>
+</html>
