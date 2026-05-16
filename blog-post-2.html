@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STAC That Scales - Abhik Naskar</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #0f0f0f; color: #e0e0e0; overflow-x: hidden; }
+        nav { position: fixed; top: 0; width: 100%; padding: 1.5rem 5%; background: rgba(15,15,15,0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.08); z-index: 1000; transition: background 0.3s ease; }
+        .nav-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .back-btn { color: #a0a0a0; text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: all 0.3s ease; display: flex; align-items: center; gap: 0.5rem; }
+        .back-btn:hover { color: #ffffff; }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a { color: #a0a0a0; text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: all 0.3s ease; position: relative; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 1px; background: #ffffff; transition: width 0.3s ease; }
+        .nav-links a:hover { color: #ffffff; }
+        .nav-links a:hover::after { width: 100%; }
+        .post-section { min-height: 100vh; padding: 120px 5% 80px; }
+        .post-container { max-width: 760px; margin: 0 auto; animation: fadeSlideIn 0.8s ease both; }
+        .breadcrumb { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 2.5rem; font-size: 0.85rem; color: #606060; }
+        .breadcrumb a { color: #606060; text-decoration: none; transition: color 0.2s; }
+        .breadcrumb a:hover { color: #b0b0b0; }
+        .breadcrumb span { color: #404040; }
+        .post-header { margin-bottom: 3rem; }
+        .post-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .post-date { font-size: 0.85rem; color: #606060; font-weight: 500; }
+        .post-tag { font-size: 0.75rem; color: #888; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); padding: 0.25rem 0.7rem; border-radius: 4px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; }
+        .post-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; color: #ffffff; line-height: 1.2; letter-spacing: -1px; margin-bottom: 1.2rem; }
+        .post-subtitle { font-size: 1.1rem; color: #909090; line-height: 1.7; font-weight: 400; }
+        .post-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 2.5rem 0; }
+        .post-body { line-height: 1.85; }
+        .post-body p { color: #c0c0c0; font-size: 1rem; margin-bottom: 1.4rem; font-weight: 400; }
+        .post-body h2 { font-size: 1.35rem; font-weight: 700; color: #ffffff; margin: 2.5rem 0 1rem; letter-spacing: -0.3px; }
+        .post-body h3 { font-size: 1.1rem; font-weight: 700; color: #e0e0e0; margin: 2rem 0 0.8rem; letter-spacing: -0.2px; }
+        .post-body ul, .post-body ol { margin: 0 0 1.4rem 1.4rem; color: #c0c0c0; }
+        .post-body li { margin-bottom: 0.5rem; font-size: 1rem; line-height: 1.7; }
+        .post-body strong { color: #e8e8e8; font-weight: 600; }
+        .callout { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-left: 3px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 1.2rem 1.4rem; margin: 1.8rem 0; font-size: 0.95rem; color: #b0b0b0; line-height: 1.7; }
+        .callout strong { color: #e0e0e0; }
+        .rule-box { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 1.4rem 1.6rem; margin: 1.8rem 0; font-size: 0.92rem; color: #a0a0a0; line-height: 1.8; font-weight: 500; font-style: italic; }
+        .checklist { list-style: none; margin: 0 0 1.4rem 0 !important; }
+        .checklist li { padding-left: 1.6rem; position: relative; color: #c0c0c0; }
+        .checklist li::before { content: '→'; position: absolute; left: 0; color: #606060; font-size: 0.85rem; }
+        .tier-block { border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 1.4rem 1.6rem; margin: 1rem 0 1.4rem; }
+        .tier-label { font-size: 0.78rem; font-weight: 700; color: #606060; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 0.6rem; }
+        .tier-title { font-size: 1rem; font-weight: 700; color: #e0e0e0; margin-bottom: 0.6rem; }
+        .tier-body { font-size: 0.9rem; color: #909090; line-height: 1.65; }
+        .post-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.08); gap: 1rem; flex-wrap: wrap; }
+        .post-nav a { color: #a0a0a0; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s ease; display: flex; align-items: center; gap: 0.4rem; }
+        .post-nav a:hover { color: #ffffff; }
+        footer { position: relative; z-index: 1; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 4rem; }
+        .footer-main { padding: 3.5rem 5% 2rem; max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 3rem; }
+        .footer-brand h3 { font-size: 1.3rem; font-weight: 800; color: #ffffff; margin-bottom: 0.6rem; letter-spacing: -0.5px; }
+        .footer-brand p { font-size: 0.88rem; color: #606060; line-height: 1.7; max-width: 300px; }
+        .footer-social { display: flex; gap: 0.6rem; margin-top: 1.2rem; }
+        .footer-social-btn { width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: #707070; text-decoration: none; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+        .footer-social-btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.25); color: #ffffff; transform: translateY(-2px); }
+        .footer-nav h4 { font-size: 0.78rem; font-weight: 700; color: #ffffff; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.2rem; }
+        .footer-nav ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+        .footer-nav a { color: #606060; text-decoration: none; font-size: 0.88rem; transition: color 0.3s ease; }
+        .footer-nav a:hover { color: #d0d0d0; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding: 1.5rem 5%; }
+        .footer-bottom-inner { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .footer-copyright { font-size: 0.82rem; color: #454545; }
+        .footer-tagline { font-size: 0.82rem; color: #454545; display: flex; align-items: center; gap: 0.4rem; }
+        @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 1024px) { .footer-main { grid-template-columns: 1fr; gap: 2rem; } }
+        @media (max-width: 768px) { .nav-links { display: none; } }
+        @media (max-width: 640px) { .post-section { padding: 100px 4% 60px; } }
+    </style>
+</head>
+<body>
+
+<nav id="mainNav">
+    <div class="nav-container">
+        <a href="blog.html" class="back-btn">&larr; Back to Blog</a>
+        <ul class="nav-links">
+            <li><a href="about.html">About</a></li>
+            <li><a href="corporate.html">Experience</a></li>
+            <li><a href="project.html">Projects</a></li>
+            <li><a href="connect.html">Connect</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="post-section">
+    <div class="post-container">
+
+        <div class="breadcrumb">
+            <a href="blog.html">Blog</a>
+            <span>/</span>
+            <span>STAC</span>
+        </div>
+
+        <div class="post-header">
+            <div class="post-meta">
+                <span class="post-date">March 5, 2026</span>
+                <span class="post-tag">STAC</span>
+            </div>
+            <h1 class="post-title">STAC That Scales (Without Pain): Search, Indexing, Portability</h1>
+            <p class="post-subtitle">How to make your spatiotemporal catalog fast to search, easy to migrate, and hard to break.</p>
+        </div>
+
+        <div class="post-divider"></div>
+
+        <div class="post-body">
+
+            <p>If your team is still &ldquo;finding imagery&rdquo; by bouncing between portals, spreadsheets, and one-off scripts, you&rsquo;re paying for it in three ways: time, fragile workflows, and inconsistent results. STAC can fix that &mdash; but only when you treat it like a product with a clear contract, not a folder of JSON files that slowly diverge.</p>
+
+            <h2>What &ldquo;Scaling STAC&rdquo; Actually Means</h2>
+            <p>When STAC becomes painful, it is almost never because the spec is flawed. It is because the implementation has no operational shape. Teams typically hit one or all of these issues:</p>
+            <ul>
+                <li>Search is slow or inconsistent (pagination changes results, queries time out, spatial filters behave oddly)</li>
+                <li>Indexing is incomplete (only some properties are searchable, ingestion is manual, backfills are scary)</li>
+                <li>Metadata drifts (the same property means different things across collections)</li>
+                <li>Migrations break assets (href patterns change, relative/absolute rules aren&rsquo;t consistent)</li>
+                <li>Analytics teams need bulk querying, but STAC is served as millions of tiny JSON reads</li>
+            </ul>
+
+            <div class="callout">
+                <strong>The goal is not &ldquo;STAC everywhere.&rdquo;</strong> The goal is a system that delivers fast search, stable portability, and efficient analytics &mdash; with guardrails.
+            </div>
+
+            <h2>The Guiding Model: STAC Is the Interface, Not the Engine</h2>
+            <p>A scalable STAC setup separates responsibilities clearly. STAC JSON is your interoperability layer: discovery, links, assets, extensions, and portability. A search index is your performance layer for spatial, time, and property filters at scale. A columnar mirror is your analytics layer for QA checks, sampling, reporting, and model pipelines. This separation removes the pain &mdash; you stop forcing one representation to do every job.</p>
+
+            <h2>Step 1: Design STAC Like a Product</h2>
+            <p>Start by tightening the two core entities.</p>
+            <h3>Collections = Datasets With a Stable Identity</h3>
+            <p>A collection should clearly answer: what does this dataset represent, what stays consistent across all items, and which properties are guaranteed present. Examples include Sentinel-2 L2A (your curated view), LiDAR tiles per project and version, or drone orthomosaics per site.</p>
+            <h3>Items = Atomic Spatiotemporal Records</h3>
+            <p>One acquisition, one tile, one timestamped unit. The biggest scale-killer is creative items &mdash; items that sometimes represent a scene and sometimes represent a mosaic, or IDs that embed things that might change without a plan.</p>
+            <div class="rule-box">Items should be boring, consistent, and predictable. If you want variation, express it via collections, standardized properties, or well-scoped extensions.</div>
+
+            <h2>Step 2: Define a Minimum Searchable Contract</h2>
+            <p>Most production users repeatedly ask the same questions: where is the data, when was it captured, which dataset is it from, and what constraints matter. A practical minimum contract covers bbox or intersects for geometry filtering, datetime for temporal filtering, collections for dataset selection, and a small curated set of properties you commit to supporting (for example, cloud cover, platform, processing level, resolution).</p>
+            <p>Your search contract is your product surface. Once clients depend on it, you cannot break it casually. Make it tight, then stable.</p>
+
+            <h2>Step 3: Pick an Indexing Tier Based on Load</h2>
+
+            <div class="tier-block">
+                <div class="tier-label">Tier 0</div>
+                <div class="tier-title">Small Catalog, Minimal Search</div>
+                <div class="tier-body">Static STAC JSON in object storage is fine when the catalog is small, ingestion is manual or infrequent, and search needs are basic. This is often a good starting point for pilots.</div>
+            </div>
+
+            <div class="tier-block">
+                <div class="tier-label">Tier 1</div>
+                <div class="tier-title">Search-First (STAC API + Database-Backed Index)</div>
+                <div class="tier-body">You need a proper index when you have many items, clients expect fast spatial and time filters, and you need consistent pagination, stable query results, and service reliability. This is where STAC as a platform begins.</div>
+            </div>
+
+            <div class="tier-block">
+                <div class="tier-label">Tier 2</div>
+                <div class="tier-title">Analytics-First (STAC GeoParquet Mirror)</div>
+                <div class="tier-body">If teams need to scan millions of items for QA checks, coverage audits, ML sampling strategies, or reporting and compliance summaries, serving STAC as JSON becomes expensive and slow. A columnar mirror in GeoParquet lets you run bulk queries efficiently without hammering your API or object store with tiny reads.</div>
+            </div>
+
+            <h2>Step 4: Ingest With Guardrails</h2>
+            <p>Ingestion is where STAC succeeds or silently fails. Build guardrails early: schema validation for STAC core, required fields validation (datetime, geometry, collection, key properties), and stable item IDs that do not change when you reprocess data. Normalize fields you know you will filter on &mdash; datetime formats, geometry validity, numeric types, and consistent property naming across collections.</p>
+
+            <h2>Step 5: Portability Rules</h2>
+            <p>Most STAC pain shows up during migration: cloud to cloud, bucket to bucket, dev to prod, vendor to client. Portability requires discipline. Keep custom fields namespaced. Ensure assets have consistent roles and media types. Pick an href strategy (always absolute, always relative with a known base, or a controlled rewrite policy during migrations) and stick to it.</p>
+            <div class="callout"><strong>Simple migration test:</strong> Copy a subset of the catalog to a new location. If a standard client can still resolve assets without manual patching, portability was designed in.</div>
+
+            <h2>Step 6: Pair STAC + GeoParquet for Scale Without Drama</h2>
+            <p>STAC JSON is best for discovery and navigation (links), describing assets and their roles, and interoperability across tools. GeoParquet is best for fast filtering across huge volumes, QA checks (duplicates, gaps), analytics pipelines (joins, aggregations, sampling), and preparing ML training sets. This pairing avoids forcing the STAC API to behave like an analytics engine.</p>
+
+            <h2>Step 7: Stop Metadata Drift Before It Starts</h2>
+            <p>Metadata drift is rarely a technical failure &mdash; it is a governance failure. Version your STAC rules. Maintain a regression test suite. Track schema and property changes as intentional changes. This prevents silent breakage where everything looks fine until a client workflow collapses.</p>
+
+            <h2>Common Failure Modes to Avoid</h2>
+            <ul class="checklist">
+                <li>Treating STAC JSON as the primary query engine at scale</li>
+                <li>Allowing each collection to invent slightly different property meanings</li>
+                <li>Making IDs depend on reprocessing artifacts without a version strategy</li>
+                <li>Adding too many optional fields before stabilizing the minimal search contract</li>
+                <li>Migrating storage paths without a tested href rewrite policy</li>
+                <li>No validation at ingest, followed by &ldquo;we&rsquo;ll clean it later&rdquo; (later rarely comes)</li>
+            </ul>
+
+            <h2>Do This Today</h2>
+            <ul class="checklist">
+                <li>Write down your Collection and Item ID rules, then enforce them in ingestion</li>
+                <li>Publish a minimum search contract (AOI + datetime + collections), and keep it stable</li>
+                <li>Create a GeoParquet mirror for one high-usage collection and use it for QA (counts, gaps, duplicates)</li>
+            </ul>
+
+        </div>
+
+        <div class="post-nav">
+            <a href="blog-post-1.html">&larr; Cloud-Native Geospatial Stack</a>
+            <a href="blog-post-4.html">Next: Vector Tiles Without Drama &rarr;</a>
+        </div>
+
+    </div>
+</section>
+
+<footer>
+    <div class="footer-main">
+        <div class="footer-brand">
+            <h3>Abhik Naskar</h3>
+            <p>Geospatial Developer &times; Business Growth Strategist. Transforming spatial intelligence into strategic business decisions.</p>
+            <div class="footer-social">
+                <a href="https://linkedin.com/in/abhik-naskar-134b691b2" target="_blank" class="footer-social-btn" title="LinkedIn">in</a>
+                <a href="https://github.com/Abhikn15" target="_blank" class="footer-social-btn" title="GitHub">{ }</a>
+                <a href="mailto:abhiknaskar1000@gmail.com" class="footer-social-btn" title="Email">@</a>
+                <a href="https://www.instagram.com/abhikofficial_1" target="_blank" class="footer-social-btn" title="Instagram">&#128247;</a>
+            </div>
+        </div>
+        <div class="footer-nav">
+            <h4>Portfolio</h4>
+            <ul>
+                <li><a href="about.html">About Me</a></li>
+                <li><a href="skill.html">Skills</a></li>
+                <li><a href="education.html">Education</a></li>
+                <li><a href="corporate.html">Experience</a></li>
+                <li><a href="certificate.html">Certifications</a></li>
+            </ul>
+        </div>
+        <div class="footer-nav">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="project.html">Projects</a></li>
+                <li><a href="academic.html">Academic Work</a></li>
+                <li><a href="connect.html">Contact</a></li>
+                <li><a href="Abhik_Resume.pdf">Download CV</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="footer-bottom-inner">
+            <p class="footer-copyright">&copy; 2026 Abhik Naskar. All rights reserved.</p>
+            <p class="footer-tagline">Built with <span>&hearts;</span> &middot; Geospatial Intelligence meets Design</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const navbar = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+        navbar.style.background = window.scrollY > 50 ? 'rgba(15,15,15,0.95)' : 'rgba(15,15,15,0.8)';
+    });
+</script>
+</body>
+</html>

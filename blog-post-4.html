@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vector Tiles Without Drama - Abhik Naskar</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #0f0f0f; color: #e0e0e0; overflow-x: hidden; }
+        nav { position: fixed; top: 0; width: 100%; padding: 1.5rem 5%; background: rgba(15,15,15,0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.08); z-index: 1000; transition: background 0.3s ease; }
+        .nav-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .back-btn { color: #a0a0a0; text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: all 0.3s ease; display: flex; align-items: center; gap: 0.5rem; }
+        .back-btn:hover { color: #ffffff; }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a { color: #a0a0a0; text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: all 0.3s ease; position: relative; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 1px; background: #ffffff; transition: width 0.3s ease; }
+        .nav-links a:hover { color: #ffffff; }
+        .nav-links a:hover::after { width: 100%; }
+        .post-section { min-height: 100vh; padding: 120px 5% 80px; }
+        .post-container { max-width: 760px; margin: 0 auto; animation: fadeSlideIn 0.8s ease both; }
+        .breadcrumb { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 2.5rem; font-size: 0.85rem; color: #606060; }
+        .breadcrumb a { color: #606060; text-decoration: none; transition: color 0.2s; }
+        .breadcrumb a:hover { color: #b0b0b0; }
+        .breadcrumb span { color: #404040; }
+        .post-header { margin-bottom: 3rem; }
+        .post-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .post-date { font-size: 0.85rem; color: #606060; font-weight: 500; }
+        .post-tag { font-size: 0.75rem; color: #888; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); padding: 0.25rem 0.7rem; border-radius: 4px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; }
+        .post-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; color: #ffffff; line-height: 1.2; letter-spacing: -1px; margin-bottom: 1.2rem; }
+        .post-subtitle { font-size: 1.1rem; color: #909090; line-height: 1.7; font-weight: 400; }
+        .post-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 2.5rem 0; }
+        .post-body { line-height: 1.85; }
+        .post-body p { color: #c0c0c0; font-size: 1rem; margin-bottom: 1.4rem; font-weight: 400; }
+        .post-body h2 { font-size: 1.35rem; font-weight: 700; color: #ffffff; margin: 2.5rem 0 1rem; letter-spacing: -0.3px; }
+        .post-body h3 { font-size: 1.1rem; font-weight: 700; color: #e0e0e0; margin: 2rem 0 0.8rem; letter-spacing: -0.2px; }
+        .post-body ul, .post-body ol { margin: 0 0 1.4rem 1.4rem; color: #c0c0c0; }
+        .post-body li { margin-bottom: 0.5rem; font-size: 1rem; line-height: 1.7; }
+        .post-body strong { color: #e8e8e8; font-weight: 600; }
+        .callout { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-left: 3px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 1.2rem 1.4rem; margin: 1.8rem 0; font-size: 0.95rem; color: #b0b0b0; line-height: 1.7; }
+        .callout strong { color: #e0e0e0; }
+        .code-block { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 1.4rem 1.6rem; margin: 1.4rem 0; font-family: 'SF Mono', 'Fira Code', 'Fira Mono', monospace; font-size: 0.85rem; color: #a8c4a2; line-height: 1.7; overflow-x: auto; }
+        .code-block .comment { color: #606060; }
+        .checklist { list-style: none; margin: 0 0 1.4rem 0 !important; }
+        .checklist li { padding-left: 1.6rem; position: relative; color: #c0c0c0; }
+        .checklist li::before { content: '→'; position: absolute; left: 0; color: #606060; font-size: 0.85rem; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.4rem 0; }
+        .two-col-box { border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 1.2rem 1.4rem; }
+        .two-col-box h4 { font-size: 0.85rem; font-weight: 700; color: #e0e0e0; margin-bottom: 0.8rem; letter-spacing: -0.1px; }
+        .two-col-box ul { margin: 0; list-style: none; }
+        .two-col-box li { font-size: 0.88rem; color: #909090; padding: 0.25rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .two-col-box li:last-child { border-bottom: none; }
+        .post-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.08); gap: 1rem; flex-wrap: wrap; }
+        .post-nav a { color: #a0a0a0; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s ease; display: flex; align-items: center; gap: 0.4rem; }
+        .post-nav a:hover { color: #ffffff; }
+        footer { position: relative; z-index: 1; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 4rem; }
+        .footer-main { padding: 3.5rem 5% 2rem; max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 3rem; }
+        .footer-brand h3 { font-size: 1.3rem; font-weight: 800; color: #ffffff; margin-bottom: 0.6rem; letter-spacing: -0.5px; }
+        .footer-brand p { font-size: 0.88rem; color: #606060; line-height: 1.7; max-width: 300px; }
+        .footer-social { display: flex; gap: 0.6rem; margin-top: 1.2rem; }
+        .footer-social-btn { width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: #707070; text-decoration: none; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+        .footer-social-btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.25); color: #ffffff; transform: translateY(-2px); }
+        .footer-nav h4 { font-size: 0.78rem; font-weight: 700; color: #ffffff; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.2rem; }
+        .footer-nav ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+        .footer-nav a { color: #606060; text-decoration: none; font-size: 0.88rem; transition: color 0.3s ease; }
+        .footer-nav a:hover { color: #d0d0d0; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding: 1.5rem 5%; }
+        .footer-bottom-inner { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .footer-copyright { font-size: 0.82rem; color: #454545; }
+        .footer-tagline { font-size: 0.82rem; color: #454545; display: flex; align-items: center; gap: 0.4rem; }
+        @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 1024px) { .footer-main { grid-template-columns: 1fr; gap: 2rem; } }
+        @media (max-width: 768px) { .nav-links { display: none; } .two-col { grid-template-columns: 1fr; } }
+        @media (max-width: 640px) { .post-section { padding: 100px 4% 60px; } }
+    </style>
+</head>
+<body>
+
+<nav id="mainNav">
+    <div class="nav-container">
+        <a href="blog.html" class="back-btn">&larr; Back to Blog</a>
+        <ul class="nav-links">
+            <li><a href="about.html">About</a></li>
+            <li><a href="corporate.html">Experience</a></li>
+            <li><a href="project.html">Projects</a></li>
+            <li><a href="connect.html">Connect</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="post-section">
+    <div class="post-container">
+
+        <div class="breadcrumb">
+            <a href="blog.html">Blog</a>
+            <span>/</span>
+            <span>Vector Tiles</span>
+        </div>
+
+        <div class="post-header">
+            <div class="post-meta">
+                <span class="post-date">March 6, 2026</span>
+                <span class="post-tag">Vector Tiles</span>
+            </div>
+            <h1 class="post-title">Vector Tiles Without Drama: PMTiles &amp; MVT Pipeline</h1>
+            <p class="post-subtitle">If your vector tiles depend on a custom tile server and manual steps, you get schema drift, label regressions, cache bugs, and slow releases.</p>
+        </div>
+
+        <div class="post-divider"></div>
+
+        <div class="post-body">
+
+            <h2>Why PMTiles?</h2>
+            <p>PMTiles is a single-file tileset you can version (like <strong>tiles_v12.pmtiles</strong>) and deploy as one artifact. Tiles are served over the network using HTTP Range Requests, making it suited for static hosting and CDN. It is a read-only format for stable delivery &mdash; rebuild to publish updates, with no in-place edits.</p>
+
+            <h2>The 7-Step Methodology</h2>
+
+            <h3>Step 1 &mdash; Define a Tileset Contract</h3>
+            <p>Freeze these items and treat them as an API. Changing them later means breaking clients silently.</p>
+            <ul>
+                <li><strong>Layer names:</strong> roads, buildings, water, admin, pois</li>
+                <li><strong>Required fields per layer:</strong> class, name, rank, minzoom</li>
+                <li><strong>Field types:</strong> keep consistent across releases</li>
+            </ul>
+
+            <h3>Step 2 &mdash; Normalize Geometry Before Tiling</h3>
+            <ul>
+                <li>Fix invalid geometries</li>
+                <li>Snap and merge where needed (roads, boundaries)</li>
+                <li>Standardize CRS for the build pipeline</li>
+            </ul>
+
+            <h3>Step 3 &mdash; Generalize by Zoom With Explicit Rules</h3>
+            <ul>
+                <li>Polygon drop rules (area thresholds per zoom)</li>
+                <li>Line simplify rules (tolerance per zoom)</li>
+                <li>Preserve topology where it matters (networks, admin boundaries)</li>
+            </ul>
+
+            <h3>Step 4 &mdash; Encode Label Behavior in Attributes</h3>
+            <p>Put label intent in data, not style overrides. This makes the tileset portable across different renderers and style sheets.</p>
+            <ul>
+                <li><strong>rank</strong> &mdash; collision priority</li>
+                <li><strong>minzoom</strong> &mdash; visibility start</li>
+                <li><strong>Optional:</strong> ref, shield, place_level, is_capital</li>
+            </ul>
+
+            <h3>Step 5 &mdash; Build MVT and Package as PMTiles</h3>
+            <p>Output one file as the release artifact. Example build commands:</p>
+            <div class="code-block">
+                <span class="comment"># Optional: convert to a tiling-friendly format</span><br>
+                ogr2ogr -f FlatGeobuf out.fgb input.shp<br><br>
+                <span class="comment"># Build vector tiles and write PMTiles</span><br>
+                tippecanoe -o tileset.pmtiles -zg --drop-densest-as-needed out.fgb
+            </div>
+
+            <h3>Step 6 &mdash; QA Gates Before Publish</h3>
+            <p>Automate checks and fail the build if any gate fails. These gates should live in CI so they run on every publish attempt.</p>
+            <ul class="checklist">
+                <li>Layer list matches the contract</li>
+                <li>Bounds and min/max zoom are sane</li>
+                <li>Tile size distribution (find heavy tiles)</li>
+                <li>Feature counts per zoom (detect drop cliffs)</li>
+                <li>Label smoke test (cities, highways, POIs)</li>
+            </ul>
+
+            <h3>Step 7 &mdash; Host as a Static File</h3>
+            <ul class="checklist">
+                <li>Upload tileset.pmtiles to object storage</li>
+                <li>Put a CDN in front</li>
+                <li>Ensure range requests work</li>
+                <li>Set cache headers and CORS for browser clients</li>
+            </ul>
+
+            <h2>Architecture</h2>
+            <div class="callout">
+                <strong>Source</strong> &rarr; Object Storage &rarr; Tile Build &rarr; CDN / Static Hosting &rarr; MapLibre Apps<br><br>
+                Raw data &rarr; object storage &rarr; tile build pipeline &rarr; versioned .pmtiles artifact &rarr; CDN delivery &rarr; web and native clients
+            </div>
+
+            <h2>When PMTiles Fits vs. When It Doesn&rsquo;t</h2>
+            <div class="two-col">
+                <div class="two-col-box">
+                    <h4>Use PMTiles for</h4>
+                    <ul>
+                        <li>Basemaps and reference layers</li>
+                        <li>Thematic overlays released in versions</li>
+                        <li>Offline-ready field packages</li>
+                        <li>Cost-controlled CDN delivery</li>
+                    </ul>
+                </div>
+                <div class="two-col-box">
+                    <h4>Use a dynamic tile service when you need</h4>
+                    <ul>
+                        <li>Per-user auth at tile request time</li>
+                        <li>Parameterized filtering</li>
+                        <li>Frequent partial updates without full rebuilds</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>Tool Stack (Open-Source)</h2>
+            <ul>
+                <li><strong>Tippecanoe</strong> &mdash; Build MVT, output PMTiles</li>
+                <li><strong>GDAL / ogr2ogr</strong> &mdash; Convert and prepare inputs</li>
+                <li><strong>MapLibre GL JS + PMTiles protocol integration</strong> &mdash; Browser rendering</li>
+            </ul>
+
+            <h2>Checklist: Do This Today</h2>
+            <ul class="checklist">
+                <li>Write the layer and field contract and keep it in the repo</li>
+                <li>Add rank and minzoom to all label layers</li>
+                <li>Add a tile QA script to CI before every publish</li>
+            </ul>
+
+        </div>
+
+        <div class="post-nav">
+            <a href="blog-post-2.html">&larr; STAC That Scales</a>
+            <a href="blog-post-5.html">Next: QGIS 4.0 Upgrade Playbook &rarr;</a>
+        </div>
+
+    </div>
+</section>
+
+<footer>
+    <div class="footer-main">
+        <div class="footer-brand">
+            <h3>Abhik Naskar</h3>
+            <p>Geospatial Developer &times; Business Growth Strategist. Transforming spatial intelligence into strategic business decisions.</p>
+            <div class="footer-social">
+                <a href="https://linkedin.com/in/abhik-naskar-134b691b2" target="_blank" class="footer-social-btn" title="LinkedIn">in</a>
+                <a href="https://github.com/Abhikn15" target="_blank" class="footer-social-btn" title="GitHub">{ }</a>
+                <a href="mailto:abhiknaskar1000@gmail.com" class="footer-social-btn" title="Email">@</a>
+                <a href="https://www.instagram.com/abhikofficial_1" target="_blank" class="footer-social-btn" title="Instagram">&#128247;</a>
+            </div>
+        </div>
+        <div class="footer-nav">
+            <h4>Portfolio</h4>
+            <ul>
+                <li><a href="about.html">About Me</a></li>
+                <li><a href="skill.html">Skills</a></li>
+                <li><a href="education.html">Education</a></li>
+                <li><a href="corporate.html">Experience</a></li>
+                <li><a href="certificate.html">Certifications</a></li>
+            </ul>
+        </div>
+        <div class="footer-nav">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="project.html">Projects</a></li>
+                <li><a href="academic.html">Academic Work</a></li>
+                <li><a href="connect.html">Contact</a></li>
+                <li><a href="Abhik_Resume.pdf">Download CV</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="footer-bottom-inner">
+            <p class="footer-copyright">&copy; 2026 Abhik Naskar. All rights reserved.</p>
+            <p class="footer-tagline">Built with <span>&hearts;</span> &middot; Geospatial Intelligence meets Design</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const navbar = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+        navbar.style.background = window.scrollY > 50 ? 'rgba(15,15,15,0.95)' : 'rgba(15,15,15,0.8)';
+    });
+</script>
+</body>
+</html>

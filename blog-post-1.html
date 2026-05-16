@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud-Native Geospatial Stack 2026 - Abhik Naskar</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0f0f0f;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        /* ══ NAV ══ */
+        nav {
+            position: fixed; top: 0; width: 100%;
+            padding: 1.5rem 5%;
+            background: rgba(15,15,15,0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            z-index: 1000;
+            transition: background 0.3s ease;
+        }
+        .nav-container {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .back-btn {
+            color: #a0a0a0; text-decoration: none;
+            font-size: 0.95rem; font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .back-btn:hover { color: #ffffff; }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a {
+            color: #a0a0a0; text-decoration: none;
+            font-size: 0.95rem; font-weight: 500;
+            transition: all 0.3s ease; position: relative;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute;
+            bottom: -5px; left: 0; width: 0; height: 1px;
+            background: #ffffff; transition: width 0.3s ease;
+        }
+        .nav-links a:hover { color: #ffffff; }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* ══ POST ══ */
+        .post-section {
+            min-height: 100vh;
+            padding: 120px 5% 80px;
+        }
+        .post-container {
+            max-width: 760px;
+            margin: 0 auto;
+            animation: fadeSlideIn 0.8s ease both;
+        }
+
+        /* breadcrumb */
+        .breadcrumb {
+            display: flex; align-items: center; gap: 0.5rem;
+            margin-bottom: 2.5rem;
+            font-size: 0.85rem; color: #606060;
+        }
+        .breadcrumb a { color: #606060; text-decoration: none; transition: color 0.2s; }
+        .breadcrumb a:hover { color: #b0b0b0; }
+        .breadcrumb span { color: #404040; }
+
+        /* header */
+        .post-header { margin-bottom: 3rem; }
+        .post-meta {
+            display: flex; align-items: center; gap: 1rem;
+            margin-bottom: 1.5rem; flex-wrap: wrap;
+        }
+        .post-date { font-size: 0.85rem; color: #606060; font-weight: 500; }
+        .post-tag {
+            font-size: 0.75rem; color: #888;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 0.25rem 0.7rem;
+            border-radius: 4px; font-weight: 600;
+            letter-spacing: 0.8px; text-transform: uppercase;
+        }
+        .post-title {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 800; color: #ffffff;
+            line-height: 1.2; letter-spacing: -1px;
+            margin-bottom: 1.2rem;
+        }
+        .post-subtitle {
+            font-size: 1.1rem; color: #909090;
+            line-height: 1.7; font-weight: 400;
+        }
+        .post-divider {
+            height: 1px;
+            background: rgba(255,255,255,0.08);
+            margin: 2.5rem 0;
+        }
+
+        /* body */
+        .post-body { line-height: 1.85; }
+        .post-body p {
+            color: #c0c0c0; font-size: 1rem;
+            margin-bottom: 1.4rem; font-weight: 400;
+        }
+        .post-body h2 {
+            font-size: 1.35rem; font-weight: 700;
+            color: #ffffff; margin: 2.5rem 0 1rem;
+            letter-spacing: -0.3px;
+        }
+        .post-body h3 {
+            font-size: 1.1rem; font-weight: 700;
+            color: #e0e0e0; margin: 2rem 0 0.8rem;
+            letter-spacing: -0.2px;
+        }
+        .post-body ul, .post-body ol {
+            margin: 0 0 1.4rem 1.4rem; color: #c0c0c0;
+        }
+        .post-body li { margin-bottom: 0.5rem; font-size: 1rem; line-height: 1.7; }
+        .post-body strong { color: #e8e8e8; font-weight: 600; }
+
+        .callout {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-left: 3px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
+            padding: 1.2rem 1.4rem;
+            margin: 1.8rem 0;
+            font-size: 0.95rem;
+            color: #b0b0b0;
+            line-height: 1.7;
+        }
+        .callout strong { color: #e0e0e0; }
+
+        .rule-box {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 1.4rem 1.6rem;
+            margin: 1.8rem 0;
+            font-size: 0.92rem;
+            color: #a0a0a0;
+            line-height: 1.8;
+            font-weight: 500;
+            font-style: italic;
+        }
+
+        /* checklist */
+        .checklist { list-style: none; margin: 0 0 1.4rem 0 !important; }
+        .checklist li {
+            padding-left: 1.6rem;
+            position: relative;
+            color: #c0c0c0;
+        }
+        .checklist li::before {
+            content: '→';
+            position: absolute; left: 0;
+            color: #606060; font-size: 0.85rem;
+        }
+
+        /* post nav */
+        .post-nav {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 4rem; padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            gap: 1rem; flex-wrap: wrap;
+        }
+        .post-nav a {
+            color: #a0a0a0; text-decoration: none;
+            font-size: 0.9rem; font-weight: 500;
+            transition: color 0.3s ease;
+            display: flex; align-items: center; gap: 0.4rem;
+        }
+        .post-nav a:hover { color: #ffffff; }
+
+        /* ══ FOOTER ══ */
+        footer { position: relative; z-index: 1; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 4rem; }
+        .footer-main {
+            padding: 3.5rem 5% 2rem; max-width: 1400px; margin: 0 auto;
+            display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 3rem;
+        }
+        .footer-brand h3 { font-size: 1.3rem; font-weight: 800; color: #ffffff; margin-bottom: 0.6rem; letter-spacing: -0.5px; }
+        .footer-brand p { font-size: 0.88rem; color: #606060; line-height: 1.7; max-width: 300px; }
+        .footer-social { display: flex; gap: 0.6rem; margin-top: 1.2rem; }
+        .footer-social-btn {
+            width: 36px; height: 36px; border-radius: 8px;
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+            color: #707070; text-decoration: none; font-size: 0.85rem; font-weight: 600;
+            display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;
+        }
+        .footer-social-btn:hover {
+            background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.25);
+            color: #ffffff; transform: translateY(-2px);
+        }
+        .footer-nav h4 {
+            font-size: 0.78rem; font-weight: 700; color: #ffffff;
+            letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.2rem;
+        }
+        .footer-nav ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+        .footer-nav a { color: #606060; text-decoration: none; font-size: 0.88rem; transition: color 0.3s ease; }
+        .footer-nav a:hover { color: #d0d0d0; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding: 1.5rem 5%; }
+        .footer-bottom-inner {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+            gap: 1rem; flex-wrap: wrap;
+        }
+        .footer-copyright { font-size: 0.82rem; color: #454545; }
+        .footer-tagline { font-size: 0.82rem; color: #454545; display: flex; align-items: center; gap: 0.4rem; }
+
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 1024px) { .footer-main { grid-template-columns: 1fr; gap: 2rem; } }
+        @media (max-width: 768px) { .nav-links { display: none; } }
+        @media (max-width: 640px) { .post-section { padding: 100px 4% 60px; } }
+    </style>
+</head>
+<body>
+
+<nav id="mainNav">
+    <div class="nav-container">
+        <a href="blog.html" class="back-btn">&larr; Back to Blog</a>
+        <ul class="nav-links">
+            <li><a href="about.html">About</a></li>
+            <li><a href="corporate.html">Experience</a></li>
+            <li><a href="project.html">Projects</a></li>
+            <li><a href="connect.html">Connect</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="post-section">
+    <div class="post-container">
+
+        <div class="breadcrumb">
+            <a href="blog.html">Blog</a>
+            <span>/</span>
+            <span>Cloud GIS</span>
+        </div>
+
+        <div class="post-header">
+            <div class="post-meta">
+                <span class="post-date">March 2, 2026</span>
+                <span class="post-tag">Cloud GIS</span>
+            </div>
+            <h1 class="post-title">Cloud-Native Geospatial Stack 2026: COG + Zarr + GeoParquet + STAC</h1>
+            <p class="post-subtitle">If your GIS workflow still starts with &ldquo;download everything first&rdquo;, you&rsquo;re paying with time, storage, and repeat processing.</p>
+        </div>
+
+        <div class="post-divider"></div>
+
+        <div class="post-body">
+
+            <h2>Why This Matters Now</h2>
+            <p>Cloud object storage combined with HTTP range reads means you can read only what you need &mdash; not entire rasters. Modern formats finally let geospatial behave like a lakehouse stack: fast filters, scalable compute, and portable metadata.</p>
+
+            <h2>The 4 Building Blocks</h2>
+
+            <h3>1. COG &mdash; Cloud Optimized GeoTIFF</h3>
+            <p>Best when your workflow is map or visualization plus window reads. Think: &ldquo;Give me this area at this zoom, fast.&rdquo; COG is the format for quick, targeted spatial queries without pulling entire files.</p>
+
+            <h3>2. Zarr</h3>
+            <p>Best when your raster is really a cube (time &times; bands &times; space). Think: climate grids, NDVI time-series, model outputs, and ML-ready arrays. Zarr lets you slice through multi-dimensional data efficiently in the cloud.</p>
+
+            <h3>3. GeoParquet</h3>
+            <p>Best when vectors are too big for &ldquo;desktop thinking&rdquo;. Think: analytics, filtering, grouping stats, joins &mdash; fast and columnar. It brings the power of the Parquet ecosystem to geospatial vector data.</p>
+
+            <h3>4. STAC</h3>
+            <p>Best when your real problem is finding the right asset by bbox, time, sensor, cloud-cover, or version. Think: discovery, indexing, and portability across systems. STAC is the catalog layer that makes everything else findable.</p>
+
+            <div class="rule-box">
+                <strong>Rule of thumb:</strong> Windows &rarr; COG &nbsp;|&nbsp; Cubes &rarr; Zarr &nbsp;|&nbsp; Analytics &rarr; GeoParquet &nbsp;|&nbsp; Search &rarr; STAC
+            </div>
+
+            <h2>Methodology: How to Implement This Stack</h2>
+
+            <h3>Step 1 &mdash; Start With Access Patterns, Not Formats</h3>
+            <p>Ask first: do users mostly browse maps (small windows), run time-series analytics (cubes), perform large vector queries and joins, or struggle to discover datasets across teams? The access pattern drives the format choice.</p>
+
+            <h3>Step 2 &mdash; Choose Formats That Match Your Reads</h3>
+            <p>Heavy window reads point to COG. Multi-temporal and multi-band stacks point to Zarr. Big vectors with analytics point to GeoParquet. And everything that needs search or governance points to STAC.</p>
+
+            <h3>Step 3 &mdash; Convert and Optimize Files</h3>
+            <ul>
+                <li><strong>COG:</strong> Build overviews, use internal tiling, choose sane compression</li>
+                <li><strong>Zarr:</strong> Choose chunk sizes based on your real query pattern (map vs. time slices)</li>
+                <li><strong>GeoParquet:</strong> Keep schema consistent; consider partitioning for very large datasets</li>
+            </ul>
+
+            <h3>Step 4 &mdash; Catalog Early (Don&rsquo;t Leave STAC for the End)</h3>
+            <p>Create Collections and Items when data lands. This gives you fast search, consistent metadata, and traceability &mdash; tracking which processing run created which output. Adding STAC retroactively is painful; doing it from the start is automatic.</p>
+
+            <h3>Step 5 &mdash; Query Without Moving Data</h3>
+            <ul>
+                <li><strong>COG:</strong> bbox reads directly from object storage</li>
+                <li><strong>Zarr:</strong> chunk-wise parallel processing</li>
+                <li><strong>GeoParquet:</strong> SQL-style analytics (filters, joins, group-bys)</li>
+            </ul>
+
+            <h3>Step 6 &mdash; Publish Like a Product</h3>
+            <p>Serve the same cloud-native assets to QGIS and ArcGIS Pro, notebooks, and web apps (tiles and API). This avoids maintaining three different copies of the same dataset for three different audiences.</p>
+
+            <h3>Step 7 &mdash; Monitor and Govern</h3>
+            <p>Validate metadata consistency, track processing versions, and keep lineage records (model, version, date). Governance is not optional &mdash; it is what keeps the stack usable at scale over time.</p>
+
+            <h2>A Practical Example: Sentinel-2 Vegetation Monitoring</h2>
+            <p>Here is how the four pieces work together in a real workflow:</p>
+            <ul>
+                <li>COG for fast preview, visualization, and window reads</li>
+                <li>Zarr for NDVI time-series cube analytics at scale</li>
+                <li>GeoParquet for field boundaries, admin layers, joins, and reporting</li>
+                <li>STAC to search by bbox, time, and cloud-cover &mdash; and keep everything portable</li>
+            </ul>
+
+            <h2>Reference Architecture</h2>
+            <div class="callout">
+                <strong>Object Storage (S3 / Azure / GCS)</strong><br>
+                &rarr; COG (imagery / DEM) + Zarr (cubes) + GeoParquet (vectors)<br>
+                &rarr; STAC Catalog (static or STAC API)<br>
+                &rarr; Compute (DuckDB / Dask / Spark / PostGIS)<br>
+                &rarr; Serve (Tiles / API)<br>
+                &rarr; Clients (QGIS / ArcGIS / Web / Notebooks)
+            </div>
+
+            <h2>Do This Today</h2>
+            <ul class="checklist">
+                <li>Decide your primary access pattern: windows, cubes, or analytics</li>
+                <li>Standardize naming and collections to avoid chaos later</li>
+                <li>Add STAC metadata early so search and governance become automatic</li>
+            </ul>
+
+        </div>
+
+        <div class="post-nav">
+            <a href="blog.html">&larr; All Posts</a>
+            <a href="blog-post-2.html">Next: STAC That Scales &rarr;</a>
+        </div>
+
+    </div>
+</section>
+
+<footer>
+    <div class="footer-main">
+        <div class="footer-brand">
+            <h3>Abhik Naskar</h3>
+            <p>Geospatial Developer &times; Business Growth Strategist. Transforming spatial intelligence into strategic business decisions.</p>
+            <div class="footer-social">
+                <a href="https://linkedin.com/in/abhik-naskar-134b691b2" target="_blank" class="footer-social-btn" title="LinkedIn">in</a>
+                <a href="https://github.com/Abhikn15" target="_blank" class="footer-social-btn" title="GitHub">{ }</a>
+                <a href="mailto:abhiknaskar1000@gmail.com" class="footer-social-btn" title="Email">@</a>
+                <a href="https://www.instagram.com/abhikofficial_1" target="_blank" class="footer-social-btn" title="Instagram">&#128247;</a>
+            </div>
+        </div>
+        <div class="footer-nav">
+            <h4>Portfolio</h4>
+            <ul>
+                <li><a href="about.html">About Me</a></li>
+                <li><a href="skill.html">Skills</a></li>
+                <li><a href="education.html">Education</a></li>
+                <li><a href="corporate.html">Experience</a></li>
+                <li><a href="certificate.html">Certifications</a></li>
+            </ul>
+        </div>
+        <div class="footer-nav">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="project.html">Projects</a></li>
+                <li><a href="academic.html">Academic Work</a></li>
+                <li><a href="connect.html">Contact</a></li>
+                <li><a href="Abhik_Resume.pdf">Download CV</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="footer-bottom-inner">
+            <p class="footer-copyright">&copy; 2026 Abhik Naskar. All rights reserved.</p>
+            <p class="footer-tagline">Built with <span>&hearts;</span> &middot; Geospatial Intelligence meets Design</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const navbar = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+        navbar.style.background = window.scrollY > 50
+            ? 'rgba(15,15,15,0.95)'
+            : 'rgba(15,15,15,0.8)';
+    });
+</script>
+
+</body>
+</html>

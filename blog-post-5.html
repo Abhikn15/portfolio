@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QGIS 4.0 Upgrade Playbook - Abhik Naskar</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #0f0f0f; color: #e0e0e0; overflow-x: hidden; }
+        nav { position: fixed; top: 0; width: 100%; padding: 1.5rem 5%; background: rgba(15,15,15,0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.08); z-index: 1000; transition: background 0.3s ease; }
+        .nav-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .back-btn { color: #a0a0a0; text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: all 0.3s ease; display: flex; align-items: center; gap: 0.5rem; }
+        .back-btn:hover { color: #ffffff; }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a { color: #a0a0a0; text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: all 0.3s ease; position: relative; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 1px; background: #ffffff; transition: width 0.3s ease; }
+        .nav-links a:hover { color: #ffffff; }
+        .nav-links a:hover::after { width: 100%; }
+        .post-section { min-height: 100vh; padding: 120px 5% 80px; }
+        .post-container { max-width: 760px; margin: 0 auto; animation: fadeSlideIn 0.8s ease both; }
+        .breadcrumb { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 2.5rem; font-size: 0.85rem; color: #606060; }
+        .breadcrumb a { color: #606060; text-decoration: none; transition: color 0.2s; }
+        .breadcrumb a:hover { color: #b0b0b0; }
+        .breadcrumb span { color: #404040; }
+        .post-header { margin-bottom: 3rem; }
+        .post-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .post-date { font-size: 0.85rem; color: #606060; font-weight: 500; }
+        .post-tag { font-size: 0.75rem; color: #888; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); padding: 0.25rem 0.7rem; border-radius: 4px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; }
+        .post-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; color: #ffffff; line-height: 1.2; letter-spacing: -1px; margin-bottom: 1.2rem; }
+        .post-subtitle { font-size: 1.1rem; color: #909090; line-height: 1.7; font-weight: 400; }
+        .post-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 2.5rem 0; }
+        .post-body { line-height: 1.85; }
+        .post-body p { color: #c0c0c0; font-size: 1rem; margin-bottom: 1.4rem; font-weight: 400; }
+        .post-body h2 { font-size: 1.35rem; font-weight: 700; color: #ffffff; margin: 2.5rem 0 1rem; letter-spacing: -0.3px; }
+        .post-body h3 { font-size: 1.1rem; font-weight: 700; color: #e0e0e0; margin: 2rem 0 0.8rem; letter-spacing: -0.2px; }
+        .post-body ul, .post-body ol { margin: 0 0 1.4rem 1.4rem; color: #c0c0c0; }
+        .post-body li { margin-bottom: 0.5rem; font-size: 1rem; line-height: 1.7; }
+        .post-body strong { color: #e8e8e8; font-weight: 600; }
+        .callout { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-left: 3px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 1.2rem 1.4rem; margin: 1.8rem 0; font-size: 0.95rem; color: #b0b0b0; line-height: 1.7; }
+        .callout strong { color: #e0e0e0; }
+        .warning-box { background: rgba(255, 200, 100, 0.04); border: 1px solid rgba(255, 200, 100, 0.12); border-left: 3px solid rgba(255, 200, 100, 0.35); border-radius: 8px; padding: 1.2rem 1.4rem; margin: 1.8rem 0; font-size: 0.95rem; color: #b0a070; line-height: 1.7; }
+        .warning-box strong { color: #c8b080; }
+        .step-card { border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 1.6rem; margin: 1.2rem 0; }
+        .step-number { font-size: 0.78rem; font-weight: 700; color: #505050; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 0.5rem; }
+        .step-title { font-size: 1.05rem; font-weight: 700; color: #e0e0e0; margin-bottom: 0.8rem; }
+        .step-body { font-size: 0.92rem; color: #909090; line-height: 1.7; }
+        .step-body ul { margin: 0.6rem 0 0 1.2rem; }
+        .step-body li { margin-bottom: 0.3rem; font-size: 0.9rem; }
+        .checklist { list-style: none; margin: 0 0 1.4rem 0 !important; }
+        .checklist li { padding-left: 1.6rem; position: relative; color: #c0c0c0; }
+        .checklist li::before { content: '→'; position: absolute; left: 0; color: #606060; font-size: 0.85rem; }
+        .post-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.08); gap: 1rem; flex-wrap: wrap; }
+        .post-nav a { color: #a0a0a0; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s ease; display: flex; align-items: center; gap: 0.4rem; }
+        .post-nav a:hover { color: #ffffff; }
+        footer { position: relative; z-index: 1; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 4rem; }
+        .footer-main { padding: 3.5rem 5% 2rem; max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 3rem; }
+        .footer-brand h3 { font-size: 1.3rem; font-weight: 800; color: #ffffff; margin-bottom: 0.6rem; letter-spacing: -0.5px; }
+        .footer-brand p { font-size: 0.88rem; color: #606060; line-height: 1.7; max-width: 300px; }
+        .footer-social { display: flex; gap: 0.6rem; margin-top: 1.2rem; }
+        .footer-social-btn { width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: #707070; text-decoration: none; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+        .footer-social-btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.25); color: #ffffff; transform: translateY(-2px); }
+        .footer-nav h4 { font-size: 0.78rem; font-weight: 700; color: #ffffff; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.2rem; }
+        .footer-nav ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+        .footer-nav a { color: #606060; text-decoration: none; font-size: 0.88rem; transition: color 0.3s ease; }
+        .footer-nav a:hover { color: #d0d0d0; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding: 1.5rem 5%; }
+        .footer-bottom-inner { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .footer-copyright { font-size: 0.82rem; color: #454545; }
+        .footer-tagline { font-size: 0.82rem; color: #454545; display: flex; align-items: center; gap: 0.4rem; }
+        @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 1024px) { .footer-main { grid-template-columns: 1fr; gap: 2rem; } }
+        @media (max-width: 768px) { .nav-links { display: none; } }
+        @media (max-width: 640px) { .post-section { padding: 100px 4% 60px; } }
+    </style>
+</head>
+<body>
+
+<nav id="mainNav">
+    <div class="nav-container">
+        <a href="blog.html" class="back-btn">&larr; Back to Blog</a>
+        <ul class="nav-links">
+            <li><a href="about.html">About</a></li>
+            <li><a href="corporate.html">Experience</a></li>
+            <li><a href="project.html">Projects</a></li>
+            <li><a href="connect.html">Connect</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="post-section">
+    <div class="post-container">
+
+        <div class="breadcrumb">
+            <a href="blog.html">Blog</a>
+            <span>/</span>
+            <span>QGIS</span>
+        </div>
+
+        <div class="post-header">
+            <div class="post-meta">
+                <span class="post-date">March 9, 2026</span>
+                <span class="post-tag">QGIS</span>
+            </div>
+            <h1 class="post-title">QGIS 4.0 Upgrade Playbook: Qt6 Migration &amp; Plugin Audit</h1>
+            <p class="post-subtitle">If your team upgrades QGIS the same way it installs a normal software update, you are creating avoidable risk.</p>
+        </div>
+
+        <div class="post-divider"></div>
+
+        <div class="post-body">
+
+            <h2>Why This Matters Now</h2>
+            <p>QGIS 4.0 was released on March 6, 2026, marking the completion of the project&rsquo;s long-planned Qt6 migration. The QGIS project has been explicit that this shift is about future maintainability, platform modernization, and a smoother long-term path for the ecosystem.</p>
+            <p>The plugin ecosystem is already adapting. The official QGIS plugin repository now includes a dedicated &ldquo;QGIS 4 Ready&rdquo; section so teams can quickly see which plugins are already aligned for QGIS 4 environments. The upgrade window is open &mdash; but readiness depends on workflow testing, not assumptions.</p>
+
+            <div class="warning-box">
+                <strong>The mistake most teams will make:</strong> Most upgrade failures will not happen because QGIS 4.0 cannot launch. They will happen because a key plugin is missing, a print layout behaves differently, a model breaks mid-process, or rollback was discussed but never actually prepared. A familiar interface can create false confidence.
+            </div>
+
+            <h2>A Practical Upgrade Playbook</h2>
+
+            <div class="step-card">
+                <div class="step-number">Step 1</div>
+                <div class="step-title">Build a Plugin Inventory First</div>
+                <div class="step-body">
+                    Before installing anything widely, list every plugin your team uses and classify it into four groups:
+                    <ul>
+                        <li>Mission-critical</li>
+                        <li>Frequently used</li>
+                        <li>Useful but replaceable</li>
+                        <li>No longer needed</li>
+                    </ul>
+                    Then check each one against the official plugin repository and see whether it appears in the QGIS 4 Ready list. Do not upgrade a production environment until you know which plugins truly matter.
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">Step 2</div>
+                <div class="step-title">Test Workflows, Not Features</div>
+                <div class="step-body">
+                    A plugin opening successfully does not mean the workflow is safe. Test full sequences such as:
+                    <ul>
+                        <li>Edit &rarr; validate &rarr; symbolize &rarr; layout &rarr; export</li>
+                        <li>Import &rarr; process &rarr; join &rarr; analyze &rarr; publish</li>
+                        <li>Connect &rarr; authenticate &rarr; query &rarr; style &rarr; share</li>
+                    </ul>
+                    The unit of success is not &ldquo;the plugin loaded.&rdquo; It is &ldquo;the team completed a real project task without failure.&rdquo;
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">Step 3</div>
+                <div class="step-title">Create a Role-Based Test Matrix</div>
+                <div class="step-body">
+                    Different users stress QGIS differently. Your testing should include analysts working with GeoPackage and PostGIS, editors modifying production layers, cartographers exporting layouts and atlases, advanced users running models and automation, and admins managing profiles and shared environments. One version can feel stable for analysts and still fail for layout-heavy or plugin-heavy teams.
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">Step 4</div>
+                <div class="step-title">Standardize Profiles Before Rollout</div>
+                <div class="step-body">
+                    Prepare a controlled QGIS 4 profile that includes:
+                    <ul>
+                        <li>Approved plugins only</li>
+                        <li>Standardized connections</li>
+                        <li>Default settings, templates, and styles</li>
+                        <li>Known-good startup configuration</li>
+                    </ul>
+                    A clean profile reduces support calls, improves onboarding, and makes it easier to separate software issues from local user customization.
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">Step 5</div>
+                <div class="step-title">Pilot With a Small Group First</div>
+                <div class="step-body">
+                    Begin with one admin or GIS lead, one power user, one cartography-heavy user, and one plugin-heavy user. A successful pilot should produce a compatibility list, a known issues list, a plugin approval list, a user guidance note, and a rollback checklist.
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">Step 6</div>
+                <div class="step-title">Keep Rollback as a Real Option</div>
+                <div class="step-body">
+                    Rollback only works if it is prepared in advance. That means keeping the current stable environment intact, preserving existing user profiles, documenting reinstall and restore steps, and knowing which projects must stay on the previous version temporarily.
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">Step 7</div>
+                <div class="step-title">Separate Early Adoption From Full Standardization</div>
+                <div class="step-body">
+                    Not every team needs to move at once. Pilot QGIS 4.0 now. Migrate low-risk workflows next. Move high-dependency teams after validation. Standardize later once compatibility is proven across your environment. This reduces operational noise and protects delivery timelines.
+                </div>
+            </div>
+
+            <h2>Simple Architecture for the Upgrade</h2>
+            <div class="callout">
+                Source Data &rarr; Shared Storage &rarr; QGIS 4 Test Environment &rarr; QA/QC &rarr; Production Rollout<br><br>
+                That is the mindset. <strong>Not:</strong> Download &rarr; Install &rarr; Hope
+            </div>
+
+            <h2>What Your Team Should Do Today</h2>
+            <ul class="checklist">
+                <li>Export and review your full plugin list</li>
+                <li>Identify all mission-critical workflows</li>
+                <li>Test one real project in QGIS 4.0 from start to finish</li>
+                <li>Build a standard profile for pilot users</li>
+                <li>Document rollback before wider rollout</li>
+            </ul>
+
+            <p>QGIS 4.0 is a strong step forward, but the success of your upgrade will depend less on the installer and more on your discipline. The teams that treat this as a workflow migration will move faster with fewer interruptions. The teams that treat it as a routine software update will spend time fixing plugin issues, layout surprises, and inconsistent user environments after the fact.</p>
+            <p>QGIS 4.0 is ready. The better question is whether your operational setup is ready.</p>
+
+        </div>
+
+        <div class="post-nav">
+            <a href="blog-post-4.html">&larr; Vector Tiles Without Drama</a>
+            <a href="blog-post-6.html">Next: Geospatial Is No Longer Just Mapping &rarr;</a>
+        </div>
+
+    </div>
+</section>
+
+<footer>
+    <div class="footer-main">
+        <div class="footer-brand">
+            <h3>Abhik Naskar</h3>
+            <p>Geospatial Developer &times; Business Growth Strategist. Transforming spatial intelligence into strategic business decisions.</p>
+            <div class="footer-social">
+                <a href="https://linkedin.com/in/abhik-naskar-134b691b2" target="_blank" class="footer-social-btn" title="LinkedIn">in</a>
+                <a href="https://github.com/Abhikn15" target="_blank" class="footer-social-btn" title="GitHub">{ }</a>
+                <a href="mailto:abhiknaskar1000@gmail.com" class="footer-social-btn" title="Email">@</a>
+                <a href="https://www.instagram.com/abhikofficial_1" target="_blank" class="footer-social-btn" title="Instagram">&#128247;</a>
+            </div>
+        </div>
+        <div class="footer-nav">
+            <h4>Portfolio</h4>
+            <ul>
+                <li><a href="about.html">About Me</a></li>
+                <li><a href="skill.html">Skills</a></li>
+                <li><a href="education.html">Education</a></li>
+                <li><a href="corporate.html">Experience</a></li>
+                <li><a href="certificate.html">Certifications</a></li>
+            </ul>
+        </div>
+        <div class="footer-nav">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="project.html">Projects</a></li>
+                <li><a href="academic.html">Academic Work</a></li>
+                <li><a href="connect.html">Contact</a></li>
+                <li><a href="Abhik_Resume.pdf">Download CV</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="footer-bottom-inner">
+            <p class="footer-copyright">&copy; 2026 Abhik Naskar. All rights reserved.</p>
+            <p class="footer-tagline">Built with <span>&hearts;</span> &middot; Geospatial Intelligence meets Design</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const navbar = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+        navbar.style.background = window.scrollY > 50 ? 'rgba(15,15,15,0.95)' : 'rgba(15,15,15,0.8)';
+    });
+</script>
+</body>
+</html>
